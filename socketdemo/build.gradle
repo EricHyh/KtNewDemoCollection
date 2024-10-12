@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.protobuf'
+apply from: rootProject.getRootDir().getAbsolutePath() + File.separator + 'common.gradle'
+
+
+android {
+    compileSdkVersion 32
+
+    defaultConfig {
+        applicationId "com.hyh.socketdemo"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude "DebugProbesKt.bin"
+
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/kotlinx-coroutines-core.kotlin_module'
+    }
+
+    sourceSets {
+        main {
+            proto{
+                srcDir 'src/main/protobuf'
+                include '**/*.proto'
+            }
+        }
+    }
+}
+
+protobuf {
+    generateProtoTasks {
+        all().forEach { task ->
+            task.plugins {
+                create("java")
+            }
+        }
+    }
+}
+
+dependencies {
+
+    implementation deps.constraint_layout
+    implementation deps.app_compat
+    implementation deps.fragment.runtime_ktx
+    implementation deps.recyclerview
+    implementation deps.cardview
+    implementation deps.material
+    implementation deps.room.runtime
+    implementation deps.room.ktx
+    implementation deps.lifecycle.livedata_ktx
+    implementation deps.lifecycle.runtime
+    implementation deps.paging_runtime
+    implementation deps.kotlin.stdlib
+    implementation deps.retrofit.runtime
+    implementation deps.retrofit.gson
+    implementation deps.okhttp_logging_interceptor
+    implementation deps.glide.runtime
+
+    implementation project(path: ':lib_tabs')
+
+    implementation "io.reactivex.rxjava2:rxjava:2.2.2"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
+
+
+    implementation(files("libs/protobuf-java-2.4.1.jar"))
+}

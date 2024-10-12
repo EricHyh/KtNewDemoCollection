@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#55FF0000">
+
+    <FrameLayout
+        android:id="@+id/title_container"
+        android:layout_width="match_parent"
+        android:minHeight="48dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="17dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:text="切换账户"
+            android:textColor="#ff3d3c3c"
+            android:textSize="18sp"/>
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/divide"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/title_container"
+        android:background="#000"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/divide"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
