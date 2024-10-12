@@ -62,7 +62,7 @@ public:
     virtual void onTest1(std::shared_ptr< SwigCallbackData > data1);
     virtual void onTest2(SwigCallbackData data2);
     virtual void onTest3(std::shared_ptr< InnerObserver > innerCallback);
-    virtual void onTest4(int gg);
+    virtual std::shared_ptr< SwigCallbackData > onTest4(int gg);
     virtual ~SwigDirector_SwigCallback();
 public:
     bool swig_overrides(int n) {

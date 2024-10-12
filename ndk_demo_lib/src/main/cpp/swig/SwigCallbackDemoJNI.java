@@ -27,7 +27,7 @@ public class SwigCallbackDemoJNI {
   public final static native void SwigCallback_onTest1(long jarg1, SwigCallback jarg1_, long jarg2, SwigCallbackData jarg2_);
   public final static native void SwigCallback_onTest2(long jarg1, SwigCallback jarg1_, long jarg2, SwigCallbackData jarg2_);
   public final static native void SwigCallback_onTest3(long jarg1, SwigCallback jarg1_, long jarg2, InnerObserver jarg2_);
-  public final static native void SwigCallback_onTest4(long jarg1, SwigCallback jarg1_, int jarg2);
+  public final static native long SwigCallback_onTest4(long jarg1, SwigCallback jarg1_, int jarg2);
   public final static native void delete_SwigCallback(long jarg1);
   public final static native long new_SwigCallback();
   public final static native void SwigCallback_director_connect(SwigCallback obj, long cptr, boolean mem_own, boolean weak_global);
@@ -74,8 +74,8 @@ public class SwigCallbackDemoJNI {
   public static void SwigDirector_SwigCallback_onTest3(SwigCallback jself, long innerCallback) {
     jself.onTest3((innerCallback == 0) ? null : new InnerObserver(innerCallback, true));
   }
-  public static void SwigDirector_SwigCallback_onTest4(SwigCallback jself, int gg) {
-    jself.onTest4(gg);
+  public static long SwigDirector_SwigCallback_onTest4(SwigCallback jself, int gg) {
+    return SwigCallbackData.getCPtr(jself.onTest4(gg));
   }
 
   private final static native void swig_module_init();

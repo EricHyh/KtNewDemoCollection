@@ -67,8 +67,9 @@ public class SwigCallback {
     SwigCallbackDemoJNI.SwigCallback_onTest3(swigCPtr, this, InnerObserver.getCPtr(innerCallback), innerCallback);
   }
 
-  public void onTest4(int gg) {
-    SwigCallbackDemoJNI.SwigCallback_onTest4(swigCPtr, this, gg);
+  public SwigCallbackData onTest4(int gg) {
+    long cPtr = SwigCallbackDemoJNI.SwigCallback_onTest4(swigCPtr, this, gg);
+    return (cPtr == 0) ? null : new SwigCallbackData(cPtr, true);
   }
 
   public SwigCallback() {
