@@ -18,7 +18,9 @@
 %shared_ptr(SwigCallbackData)
 %shared_ptr(SwigCallback)
 %shared_ptr(FINFeatureFlagVariant)
+%shared_ptr(InnerObserver)
 
+%feature("director") InnerObserver;
 %feature("director") SwigCallback;
 
 
@@ -41,6 +43,8 @@
 %shared_ptr_param_wrapper(SwigCallbackFunctionBridge)
 
 %shared_ptr_param_wrapper(SwigCallbackFunction1Bridge)
+
+%shared_ptr_param_wrapper(InnerObserver)
 
 
 

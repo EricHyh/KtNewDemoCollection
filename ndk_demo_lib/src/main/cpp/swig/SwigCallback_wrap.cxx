@@ -781,7 +781,7 @@ namespace Swig {
 namespace Swig {
   namespace {
     jclass jclass_SwigCallbackDemoJNI = NULL;
-    jmethodID director_method_ids[4];
+    jmethodID director_method_ids[7];
   }
 }
 
@@ -1043,6 +1043,63 @@ void SwigDirector_SwigCallbackFunction1Bridge::swig_connect_director(JNIEnv *jen
 }
 
 
+SwigDirector_InnerObserver::SwigDirector_InnerObserver(JNIEnv *jenv) : InnerObserver(), Swig::Director(jenv) {
+}
+
+SwigDirector_InnerObserver::~SwigDirector_InnerObserver() {
+  swig_disconnect_director_self("swigDirectorDisconnect");
+}
+
+
+void SwigDirector_InnerObserver::onTest1(std::shared_ptr< SwigCallbackData > data1) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jlong jdata1  ;
+  
+  if (!swig_override[0]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method InnerObserver::onTest1.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jdata1 = 0;
+    if (data1) {
+      *((std::shared_ptr<  SwigCallbackData > **)&jdata1) = new std::shared_ptr<  SwigCallbackData >(data1);
+    } 
+    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[2], swigjobj, jdata1);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in InnerObserver::onTest1 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+void SwigDirector_InnerObserver::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
+  static jclass baseclass = swig_new_global_ref(jenv, "com/example/ndk_demo_lib1/InnerObserver");
+  if (!baseclass) return;
+  static SwigDirectorMethod methods[] = {
+    SwigDirectorMethod(jenv, baseclass, "onTest1", "(Lcom/example/ndk_demo_lib1/SwigCallbackData;)V")
+  };
+  
+  if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
+    bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
+    for (int i = 0; i < 1; ++i) {
+      swig_override[i] = false;
+      if (derived) {
+        jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
+        swig_override[i] = methods[i].methid && (methid != methods[i].methid);
+        jenv->ExceptionClear();
+      }
+    }
+  }
+}
+
+
 SwigDirector_SwigCallback::SwigDirector_SwigCallback(JNIEnv *jenv) : SwigCallback(), Swig::Director(jenv) {
 }
 
@@ -1062,7 +1119,7 @@ void SwigDirector_SwigCallback::onTest1(std::shared_ptr< SwigCallbackData > data
     if (data1) {
       *((std::shared_ptr<  SwigCallbackData > **)&jdata1) = new std::shared_ptr<  SwigCallbackData >(data1);
     } 
-    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[2], swigjobj, jdata1);
+    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[3], swigjobj, jdata1);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1088,7 +1145,7 @@ void SwigDirector_SwigCallback::onTest2(SwigCallbackData data2) {
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
     jdata2 = 0;
     *((std::shared_ptr<  SwigCallbackData > **)&jdata2) = new std::shared_ptr<  SwigCallbackData > (new SwigCallbackData(SWIG_STD_MOVE(data2))); 
-    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[3], swigjobj, jdata2);
+    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[4], swigjobj, jdata2);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1096,6 +1153,59 @@ void SwigDirector_SwigCallback::onTest2(SwigCallbackData data2) {
     
   } else {
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in SwigCallback::onTest2 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+void SwigDirector_SwigCallback::onTest3(std::shared_ptr< InnerObserver > innerCallback) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jlong jinnerCallback  ;
+  
+  if (!swig_override[2]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method SwigCallback::onTest3.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jinnerCallback = 0;
+    if (innerCallback) {
+      *((std::shared_ptr<  InnerObserver > **)&jinnerCallback) = new std::shared_ptr<  InnerObserver >(innerCallback);
+    } 
+    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[5], swigjobj, jinnerCallback);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in SwigCallback::onTest3 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+void SwigDirector_SwigCallback::onTest4(int gg) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jint jgg  ;
+  
+  if (!swig_override[3]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method SwigCallback::onTest4.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jgg = (jint) gg;
+    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[6], swigjobj, jgg);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in SwigCallback::onTest4 ");
   }
   if (swigjobj) jenv->DeleteLocalRef(swigjobj);
 }
@@ -1110,12 +1220,14 @@ void SwigDirector_SwigCallback::swig_connect_director(JNIEnv *jenv, jobject jsel
   if (!baseclass) return;
   static SwigDirectorMethod methods[] = {
     SwigDirectorMethod(jenv, baseclass, "onTest1", "(Lcom/example/ndk_demo_lib1/SwigCallbackData;)V"),
-    SwigDirectorMethod(jenv, baseclass, "onTest2", "(Lcom/example/ndk_demo_lib1/SwigCallbackData;)V")
+    SwigDirectorMethod(jenv, baseclass, "onTest2", "(Lcom/example/ndk_demo_lib1/SwigCallbackData;)V"),
+    SwigDirectorMethod(jenv, baseclass, "onTest3", "(Lcom/example/ndk_demo_lib1/InnerObserver;)V"),
+    SwigDirectorMethod(jenv, baseclass, "onTest4", "(I)V")
   };
   
   if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
     bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; i < 4; ++i) {
       swig_override[i] = false;
       if (derived) {
         jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
@@ -1274,6 +1386,74 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Swi
 }
 
 
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1InnerObserver(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  InnerObserver *arg1 = (InnerObserver *) 0 ;
+  std::shared_ptr< InnerObserver > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  smartarg1 = *(std::shared_ptr<  InnerObserver > **)&jarg1;
+  arg1 = (InnerObserver *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_InnerObserver_1onTest1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  InnerObserver *arg1 = (InnerObserver *) 0 ;
+  std::shared_ptr< SwigCallbackData > arg2 ;
+  std::shared_ptr< InnerObserver > *smartarg1 = 0 ;
+  std::shared_ptr< SwigCallbackData > *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  
+  smartarg1 = *(std::shared_ptr<  InnerObserver > **)&jarg1;
+  arg1 = (InnerObserver *)(smartarg1 ? smartarg1->get() : 0); 
+  argp2 = *(std::shared_ptr< SwigCallbackData > **)&jarg2;
+  if (argp2) arg2 = *argp2; 
+  (arg1)->onTest1(arg2);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_new_1InnerObserver(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  InnerObserver *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (InnerObserver *)new SwigDirector_InnerObserver(jenv);
+  
+  *(std::shared_ptr<  InnerObserver > **)&jresult = result ? new std::shared_ptr<  InnerObserver >(result SWIG_NO_NULL_DELETER_1) : 0;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_InnerObserver_1director_1connect(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jswig_mem_own, jboolean jweak_global) {
+  std::shared_ptr< InnerObserver > *obj = *((std::shared_ptr< InnerObserver > **)&objarg);
+  (void)jcls;
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_InnerObserver *director = static_cast<SwigDirector_InnerObserver *>(obj->operator->());
+  director->swig_connect_director(jenv, jself, jenv->GetObjectClass(jself), (jswig_mem_own == JNI_TRUE), (jweak_global == JNI_TRUE));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_InnerObserver_1change_1ownership(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jtake_or_release) {
+  std::shared_ptr< InnerObserver > *obj = *((std::shared_ptr< InnerObserver > **)&objarg);
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_InnerObserver *director = dynamic_cast<SwigDirector_InnerObserver *>(obj->operator->());
+  (void)jcls;
+  if (director) {
+    director->swig_java_change_ownership(jenv, jself, jtake_or_release ? true : false);
+  }
+}
+
+
 SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallback_1onTest1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   SwigCallback *arg1 = (SwigCallback *) 0 ;
   std::shared_ptr< SwigCallbackData > arg2 ;
@@ -1314,6 +1494,52 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Swi
   }
   arg2 = *argp2; 
   (arg1)->onTest2(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallback_1onTest3(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  SwigCallback *arg1 = (SwigCallback *) 0 ;
+  std::shared_ptr< InnerObserver > arg2 ;
+  std::shared_ptr< SwigCallback > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallback > **)&jarg1;
+  arg1 = (SwigCallback *)(smartarg1 ? smartarg1->get() : 0); 
+  {
+    std::shared_ptr<InnerObserver> *argp2 = *(std::shared_ptr<InnerObserver> **)&jarg2;
+    if (argp2) {
+      // 创建全局引用
+      jobject globalRef = jenv->NewGlobalRef(jarg2_);
+      // 创建新的 shared_ptr，使用自定义删除器
+      arg2 = std::shared_ptr<InnerObserver>(argp2->get(), [globalRef](InnerObserver* ptr) {
+        JNIEnv *env = nullptr;
+          financial_sdk::JNIContext context(env);
+          // 删除全局引用
+          env->DeleteGlobalRef(globalRef);
+        });
+    }
+  }
+  (arg1)->onTest3(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallback_1onTest4(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  SwigCallback *arg1 = (SwigCallback *) 0 ;
+  int arg2 ;
+  std::shared_ptr< SwigCallback > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallback > **)&jarg1;
+  arg1 = (SwigCallback *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  (arg1)->onTest4(arg2);
 }
 
 
@@ -1783,7 +2009,7 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_swi
   static struct {
     const char *method;
     const char *signature;
-  } methods[4] = {
+  } methods[7] = {
     {
       "SwigDirector_SwigCallbackFunctionBridge_onCall", "(Lcom/example/ndk_demo_lib1/SwigCallbackFunctionBridge;J)V" 
     },
@@ -1791,10 +2017,19 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_swi
       "SwigDirector_SwigCallbackFunction1Bridge_onCall", "(Lcom/example/ndk_demo_lib1/SwigCallbackFunction1Bridge;J)V" 
     },
     {
+      "SwigDirector_InnerObserver_onTest1", "(Lcom/example/ndk_demo_lib1/InnerObserver;J)V" 
+    },
+    {
       "SwigDirector_SwigCallback_onTest1", "(Lcom/example/ndk_demo_lib1/SwigCallback;J)V" 
     },
     {
       "SwigDirector_SwigCallback_onTest2", "(Lcom/example/ndk_demo_lib1/SwigCallback;J)V" 
+    },
+    {
+      "SwigDirector_SwigCallback_onTest3", "(Lcom/example/ndk_demo_lib1/SwigCallback;J)V" 
+    },
+    {
+      "SwigDirector_SwigCallback_onTest4", "(Lcom/example/ndk_demo_lib1/SwigCallback;I)V" 
     }
   };
   Swig::jclass_SwigCallbackDemoJNI = (jclass) jenv->NewGlobalRef(jcls);

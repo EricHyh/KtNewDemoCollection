@@ -16,6 +16,7 @@ void TestSwigCallback::setCallback1(SwigCallback* swigCallback) {
         swigCallback->onTest1(sp);
 
         swigCallback->onTest2(SwigCallbackData(12));
+        swigCallback->onTest4(12);
     });
 
     t.join();

@@ -8,6 +8,14 @@
 #include <sstream>
 #include <iomanip>
 
+class InnerObserver {
+
+public:
+    virtual ~InnerObserver() = default;
+    virtual void onTest1(std::shared_ptr<SwigCallbackData> data1) = 0;
+
+};
+
 
 class SwigCallback {
 
@@ -16,6 +24,10 @@ public:
     virtual void onTest1(std::shared_ptr<SwigCallbackData> data1) = 0;
 
     virtual void onTest2(SwigCallbackData data2) = 0;
+
+    virtual void onTest3(std::shared_ptr<InnerObserver> innerCallback) = 0;
+
+    virtual void onTest4(int gg) = 0;
 
     virtual ~SwigCallback() {
         std::stringstream ss;
