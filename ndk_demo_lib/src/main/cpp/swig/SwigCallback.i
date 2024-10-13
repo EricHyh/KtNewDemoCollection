@@ -119,6 +119,7 @@
 //%};
 
 %function_type_bridge(InnerObserver2,(const SwigCallbackData &data), (data), com/example/ndk_demo_lib1);
+%function_type_bridge(InnerObserver3,(const SwigCallbackData &data), (data), com/example/ndk_demo_lib1);
 
 
 

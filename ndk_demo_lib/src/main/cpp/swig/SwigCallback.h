@@ -19,6 +19,8 @@ public:
 
 using InnerObserver2 = std::function<void(const SwigCallbackData &data)>;
 
+using InnerObserver3 = std::function<void(const SwigCallbackData &data)>;
+
 class SwigCallback {
 
 public:
@@ -31,7 +33,9 @@ public:
 
     virtual std::shared_ptr<SwigCallbackData> onTest4(int gg) = 0;
 
-    virtual void onTest5(InnerObserver2 innerCallback) = 0;
+    virtual void onTest5(int a, std::string b, InnerObserver2 innerCallback, int c) = 0;
+
+    virtual void onTest6(int a, std::string b, InnerObserver2 innerCallback2, InnerObserver3 innerCallback3, int c) = 0;
 
     virtual ~SwigCallback() {
         std::stringstream ss;

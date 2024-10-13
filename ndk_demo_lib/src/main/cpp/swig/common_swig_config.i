@@ -131,9 +131,9 @@ class Local##FUNCTION_TYPE##Bridge : public FUNCTION_TYPE##Bridge {
         FUNCTION_TYPE m_original;
 };
 
-FUNCTION_TYPE##Bridge *function_bridge = new Local##FUNCTION_TYPE##Bridge($1);
+FUNCTION_TYPE##Bridge *function_bridge$argnum = new Local##FUNCTION_TYPE##Bridge($1);
 
-*(std::shared_ptr<FUNCTION_TYPE##Bridge> **) &$input = function_bridge ? new std::shared_ptr<FUNCTION_TYPE##Bridge>(function_bridge) : 0;
+*(std::shared_ptr<FUNCTION_TYPE##Bridge> **) &$input = function_bridge$argnum ? new std::shared_ptr<FUNCTION_TYPE##Bridge>(function_bridge$argnum) : 0;
 %}
 
 %enddef //function_type_bridge

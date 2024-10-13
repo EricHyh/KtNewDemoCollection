@@ -72,8 +72,12 @@ public class SwigCallback {
     return (cPtr == 0) ? null : new SwigCallbackData(cPtr, true);
   }
 
-  public void onTest5(InnerObserver2Bridge innerCallback) {
-    SwigCallbackDemoJNI.SwigCallback_onTest5(swigCPtr, this, InnerObserver2Bridge.getCPtr(innerCallback), innerCallback);
+  public void onTest5(int a, String b, InnerObserver2Bridge innerCallback, int c) {
+    SwigCallbackDemoJNI.SwigCallback_onTest5(swigCPtr, this, a, b, InnerObserver2Bridge.getCPtr(innerCallback), innerCallback, c);
+  }
+
+  public void onTest6(int a, String b, InnerObserver2Bridge innerCallback2, InnerObserver3Bridge innerCallback3, int c) {
+    SwigCallbackDemoJNI.SwigCallback_onTest6(swigCPtr, this, a, b, InnerObserver2Bridge.getCPtr(innerCallback2), innerCallback2, InnerObserver3Bridge.getCPtr(innerCallback3), innerCallback3, c);
   }
 
   public SwigCallback() {
