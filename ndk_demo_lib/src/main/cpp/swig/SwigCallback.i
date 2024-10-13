@@ -83,14 +83,14 @@
 //
 //%ignore TestSwigCallback::setCallback4;
 //%shared_ptr(SwigCallbackFunctionBridge)
-%function_type_bridge(SwigCallbackFunction,(const SwigCallbackData &data), (data));
+%function_type_bridge(SwigCallbackFunction,(const SwigCallbackData &data), (data), com/example/ndk_demo_lib1);
 %function_param_bridge(SwigCallbackFunction, TestSwigCallback, setCallback4);
 %shared_ptr_param_wrapper(SwigCallbackFunctionBridge)
 
 
 
 //%shared_ptr(SwigCallbackFunction1Bridge)
-%function_type_bridge(SwigCallbackFunction1, (const SwigCallbackData &data), (data));
+%function_type_bridge(SwigCallbackFunction1, (const SwigCallbackData &data), (data), com/example/ndk_demo_lib1);
 %function_param_bridge(SwigCallbackFunction1, TestSwigCallback, setCallback5);
 %shared_ptr_param_wrapper(SwigCallbackFunction1Bridge)
 
@@ -118,7 +118,7 @@
 //
 //%};
 
-%function_type_bridge(InnerObserver2,(const SwigCallbackData &data), (data));
+%function_type_bridge(InnerObserver2,(const SwigCallbackData &data), (data), com/example/ndk_demo_lib1);
 
 
 

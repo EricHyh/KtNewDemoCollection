@@ -35,7 +35,7 @@
 
 
 // Function 类型桥接
-%define %function_type_bridge(FUNCTION_TYPE, CALL_PARAM_TYPE_AND_NAME, CALL_PARAM_NAME)   //function_type_bridge
+%define %function_type_bridge(FUNCTION_TYPE, CALL_PARAM_TYPE_AND_NAME, CALL_PARAM_NAME, PACKAGE)   //function_type_bridge
 
 %shared_ptr(FUNCTION_TYPE##Bridge)
 %feature("director") FUNCTION_TYPE##Bridge;
@@ -106,12 +106,17 @@ class FUNCTION_TYPE##Bridge {
 %typemap(jtype) FUNCTION_TYPE "long"
 %typemap(javain) FUNCTION_TYPE #FUNCTION_TYPE"Bridge.getCPtr($javainput)"
 
+
+
+
 %typemap(in) FUNCTION_TYPE %{
 std::shared_ptr<FUNCTION_TYPE##Bridge> *smartarg$argnum = *(std::shared_ptr<FUNCTION_TYPE##Bridge> **)&jarg$argnum;
 $1 = FUNCTION_TYPE##Bridge::obtainOriginal(jenv, *smartarg$argnum, jarg$argnum_);
 %}
 
-%typemap(directorin, descriptor="Lcom/example/ndk_demo_lib1/"#FUNCTION_TYPE"Bridge;") FUNCTION_TYPE %{
+
+
+%typemap(directorin, descriptor="L"#PACKAGE"/"#FUNCTION_TYPE"Bridge;") FUNCTION_TYPE %{
 class Local##FUNCTION_TYPE##Bridge : public FUNCTION_TYPE##Bridge {
         public:
         explicit Local##FUNCTION_TYPE##Bridge(FUNCTION_TYPE function) : m_original(std::move(function)) {}
