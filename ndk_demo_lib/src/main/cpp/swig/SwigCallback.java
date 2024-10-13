@@ -72,6 +72,10 @@ public class SwigCallback {
     return (cPtr == 0) ? null : new SwigCallbackData(cPtr, true);
   }
 
+  public void onTest5(InnerObserver2Bridge innerCallback) {
+    SwigCallbackDemoJNI.SwigCallback_onTest5(swigCPtr, this, InnerObserver2Bridge.getCPtr(innerCallback), innerCallback);
+  }
+
   public SwigCallback() {
     this(SwigCallbackDemoJNI.new_SwigCallback(), true);
     SwigCallbackDemoJNI.SwigCallback_director_connect(this, swigCPtr, true, true);

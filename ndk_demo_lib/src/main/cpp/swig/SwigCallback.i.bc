@@ -1,0 +1,48 @@
+%module SwigCallbackDemo
+
+
+%include "common_swig_config.i"
+%import "SwigCallbackxx.i"
+
+%{
+#include "SwigCallback.h"
+#include "SwigCallbackData.h"
+#include "TestSwigCallback.h"
+#include "../JNIContext.h"
+%}
+
+// 支持 shared_ptr
+%shared_ptr(SwigCallbackData)
+%shared_ptr(SwigCallback)
+%shared_ptr(FINFeatureFlagVariant)
+%shared_ptr(InnerObserver)
+
+
+%feature("director") SwigCallback;
+
+
+%feature("director") InnerObserver2Callback;
+
+%inline %{
+
+class InnerObserver2Callback {
+
+    public:
+        virtual ~InnerObserver2Callback() = default;
+        virtual void onCall(const SwigCallbackData &data) = 0;
+
+};
+
+%};
+
+
+%typemap(jtype) InnerObserver2 "InnerObserver2Callback"
+%typemap(jstype) InnerObserver2 "InnerObserver2Callback"
+
+
+%include "SwigCallback.h"
+%include "SwigCallbackData.h"
+%include "TestSwigCallback.h"
+
+
+// swig -c++ -java -package com.example.ndk_demo_lib1 -directors SwigCallback.i

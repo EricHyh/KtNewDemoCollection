@@ -32,19 +32,27 @@ void TestSwigCallback::setCallback2(std::shared_ptr<SwigCallback> swigCallback) 
 void TestSwigCallback::setCallback3(int num, std::shared_ptr<SwigCallback> swigCallback) {
 
 
-    std::thread t1([num, swigCallback]{
-        sleep(10);
-        std::shared_ptr<SwigCallbackData> sp = std::make_shared<SwigCallbackData>(100*num);
-        swigCallback->onTest1(sp);
-    });
-    t1.join();
+//    std::thread t1([num, swigCallback]{
+//        sleep(10);
+//        std::shared_ptr<SwigCallbackData> sp = std::make_shared<SwigCallbackData>(100*num);
+//        swigCallback->onTest1(sp);
+//    });
+//    t1.detach();
+//
+//    std::thread t2([num, swigCallback]{
+//        sleep(12);
+//        swigCallback->onTest2(SwigCallbackData(1000*num));
+//    });
+//    t2.detach();
 
-    std::thread t2([num, swigCallback]{
+    std::thread t3([num, swigCallback]{
         sleep(12);
-        swigCallback->onTest2(SwigCallbackData(1000*num));
+        //void(const SwigCallbackData &data)
+        swigCallback->onTest5([](const SwigCallbackData &data) {
+            __android_log_print(ANDROID_LOG_INFO, "SwigCallback", "from java %d", data.a);
+        });
     });
-    t2.join();
-
+    t3.detach();
 }
 
 
@@ -106,6 +114,9 @@ void TestSwigCallback::setCallback5(SwigCallbackFunction1 swigCallback) {
         __android_log_print(ANDROID_LOG_INFO, "SwigCallback", "About to call swigCallback");
         swigCallback(SwigCallbackData(8000));
         __android_log_print(ANDROID_LOG_INFO, "SwigCallback", "Thread finished");
+
+
+
 
         // 线程执行完毕后，释放自己的 shared_ptr
         if (auto holder = thread_holder.lock()) {

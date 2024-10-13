@@ -63,6 +63,19 @@ public class SwigCallback {
     SwigCallbackDemoJNI.SwigCallback_onTest2(swigCPtr, this, SwigCallbackData.getCPtr(data2), data2);
   }
 
+  public void onTest3(InnerObserver innerCallback) {
+    SwigCallbackDemoJNI.SwigCallback_onTest3(swigCPtr, this, InnerObserver.getCPtr(innerCallback), innerCallback);
+  }
+
+  public SwigCallbackData onTest4(int gg) {
+    long cPtr = SwigCallbackDemoJNI.SwigCallback_onTest4(swigCPtr, this, gg);
+    return (cPtr == 0) ? null : new SwigCallbackData(cPtr, true);
+  }
+
+  public void onTest5(InnerObserver2Callback innerCallback) {
+    SwigCallbackDemoJNI.SwigCallback_onTest5(swigCPtr, this, InnerObserver2Callback.getCPtr(innerCallback), innerCallback);
+  }
+
   public SwigCallback() {
     this(SwigCallbackDemoJNI.new_SwigCallback(), true);
     SwigCallbackDemoJNI.SwigCallback_director_connect(this, swigCPtr, true, true);

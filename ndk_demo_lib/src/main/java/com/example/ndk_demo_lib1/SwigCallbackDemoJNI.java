@@ -19,8 +19,21 @@ public class SwigCallbackDemoJNI {
   public final static native long new_SwigCallbackFunction1Bridge();
   public final static native void SwigCallbackFunction1Bridge_director_connect(SwigCallbackFunction1Bridge obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void SwigCallbackFunction1Bridge_change_ownership(SwigCallbackFunction1Bridge obj, long cptr, boolean take_or_release);
+  public final static native void delete_InnerObserver2Callback(long jarg1);
+  public final static native void InnerObserver2Callback_onCall(long jarg1, InnerObserver2Callback jarg1_, long jarg2, SwigCallbackData jarg2_);
+  public final static native long new_InnerObserver2Callback();
+  public final static native void InnerObserver2Callback_director_connect(InnerObserver2Callback obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void InnerObserver2Callback_change_ownership(InnerObserver2Callback obj, long cptr, boolean take_or_release);
+  public final static native void delete_InnerObserver(long jarg1);
+  public final static native void InnerObserver_onTest1(long jarg1, InnerObserver jarg1_, long jarg2, SwigCallbackData jarg2_);
+  public final static native long new_InnerObserver();
+  public final static native void InnerObserver_director_connect(InnerObserver obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void InnerObserver_change_ownership(InnerObserver obj, long cptr, boolean take_or_release);
   public final static native void SwigCallback_onTest1(long jarg1, SwigCallback jarg1_, long jarg2, SwigCallbackData jarg2_);
   public final static native void SwigCallback_onTest2(long jarg1, SwigCallback jarg1_, long jarg2, SwigCallbackData jarg2_);
+  public final static native void SwigCallback_onTest3(long jarg1, SwigCallback jarg1_, long jarg2, InnerObserver jarg2_);
+  public final static native long SwigCallback_onTest4(long jarg1, SwigCallback jarg1_, int jarg2);
+  public final static native void SwigCallback_onTest5(long jarg1, SwigCallback jarg1_, long jarg2, InnerObserver2Callback jarg2_);
   public final static native void delete_SwigCallback(long jarg1);
   public final static native long new_SwigCallback();
   public final static native void SwigCallback_director_connect(SwigCallback obj, long cptr, boolean mem_own, boolean weak_global);
@@ -55,11 +68,27 @@ public class SwigCallbackDemoJNI {
   public static void SwigDirector_SwigCallbackFunction1Bridge_onCall(SwigCallbackFunction1Bridge jself, long data) {
     jself.onCall((data == 0) ? null : new SwigCallbackData(data, true));
   }
+  public static void SwigDirector_InnerObserver2Callback_onCall(InnerObserver2Callback jself, long data) {
+    jself.onCall((data == 0) ? null : new SwigCallbackData(data, true));
+  }
+  public static void SwigDirector_InnerObserver_onTest1(InnerObserver jself, long data1) {
+    jself.onTest1((data1 == 0) ? null : new SwigCallbackData(data1, true));
+  }
   public static void SwigDirector_SwigCallback_onTest1(SwigCallback jself, long data1) {
     jself.onTest1((data1 == 0) ? null : new SwigCallbackData(data1, true));
   }
   public static void SwigDirector_SwigCallback_onTest2(SwigCallback jself, long data2) {
     jself.onTest2((data2 == 0) ? null : new SwigCallbackData(data2, true));
+  }
+  public static void SwigDirector_SwigCallback_onTest3(SwigCallback jself, long innerCallback) {
+    jself.onTest3((innerCallback == 0) ? null : new InnerObserver(innerCallback, true));
+  }
+  public static long SwigDirector_SwigCallback_onTest4(SwigCallback jself, int gg) {
+    return SwigCallbackData.getCPtr(jself.onTest4(gg));
+  }
+  public static void SwigDirector_SwigCallback_onTest5(SwigCallback jself, long innerCallback) {
+    jself.onTest5(
+        (innerCallback == 0) ? null : new InnerObserver2Callback(innerCallback, true));
   }
 
   private final static native void swig_module_init();

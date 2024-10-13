@@ -3,10 +3,12 @@ package com.example.ndkdemo
 import android.os.Build.VERSION_CODES.P
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import com.example.ndk_demo_lib.TestJNI
+import com.example.ndk_demo_lib1.InnerObserver2Callback
 import com.example.ndk_demo_lib1.SwigCallback
 import com.example.ndk_demo_lib1.SwigCallbackData
 import com.example.ndk_demo_lib1.SwigCallbackFunction1Bridge
@@ -77,10 +79,25 @@ class MainActivity : ComponentActivity() {
 //                }
 //            })
 //
-//            testSwigCallback.setCallback3(90, object : SwigCallback() {
-//                override fun onTest1(data1: SwigCallbackData?) {
-//                    Log.d(TAG, "onTest1: ${System.identityHashCode(this)} " + data1?.a)
-//                }
+            testSwigCallback.setCallback3(90, object : SwigCallback() {
+                override fun onTest1(data1: SwigCallbackData?) {
+                    Log.d(TAG, "onTest1: ${System.identityHashCode(this)} " + data1?.a)
+                }
+
+                override fun onTest5(innerCallback: InnerObserver2Callback?) {
+                    Log.d(TAG, "onTest5: ${System.identityHashCode(this)}")
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        Log.d(TAG, "innerCallback onCall:")
+                        innerCallback?.onCall(SwigCallbackData(110))
+                        System.gc()
+                        System.gc()
+                    }, 5000)
+
+                    System.gc()
+                    System.gc()
+                }
+            })
 //
 //                override fun onTest2(data2: SwigCallbackData?) {
 //                    Log.d(TAG, "onTest2: ${System.identityHashCode(this)} " + data2?.a)
@@ -93,14 +110,14 @@ class MainActivity : ComponentActivity() {
 //                }
 //            })
 
-            testSwigCallback.setCallback5(object : SwigCallbackFunction1Bridge() {
-                override fun onCall(param: SwigCallbackData?) {
-                    Log.d(TAG, "onCall: ${System.identityHashCode(this)} " + param?.a)
-                }
-            })
+//            testSwigCallback.setCallback5(object : SwigCallbackFunction1Bridge() {
+//                override fun onCall(param: SwigCallbackData?) {
+//                    Log.d(TAG, "onCall: ${System.identityHashCode(this)} " + param?.a)
+//                }
+//            })
 
-//            System.gc()
-//            System.gc()
+            System.gc()
+            System.gc()
         }, 1000L)
 
 

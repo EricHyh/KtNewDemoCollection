@@ -39,6 +39,21 @@ protected:
     Swig::BoolArray<1> swig_override;
 };
 
+class SwigDirector_InnerObserver2Bridge : public InnerObserver2Bridge, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_InnerObserver2Bridge(JNIEnv *jenv);
+    virtual ~SwigDirector_InnerObserver2Bridge();
+    virtual void onCall(SwigCallbackData const &data);
+public:
+    bool swig_overrides(int n) {
+      return (n < 1 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<1> swig_override;
+};
+
 class SwigDirector_InnerObserver : public InnerObserver, public Swig::Director {
 
 public:
@@ -63,13 +78,14 @@ public:
     virtual void onTest2(SwigCallbackData data2);
     virtual void onTest3(std::shared_ptr< InnerObserver > innerCallback);
     virtual std::shared_ptr< SwigCallbackData > onTest4(int gg);
+    virtual void onTest5(InnerObserver2 innerCallback);
     virtual ~SwigDirector_SwigCallback();
 public:
     bool swig_overrides(int n) {
-      return (n < 4 ? swig_override[n] : false);
+      return (n < 5 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<4> swig_override;
+    Swig::BoolArray<5> swig_override;
 };
 
 

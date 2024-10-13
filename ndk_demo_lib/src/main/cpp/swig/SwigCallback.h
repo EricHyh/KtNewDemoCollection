@@ -7,6 +7,7 @@
 #include <android/log.h>
 #include <sstream>
 #include <iomanip>
+#include <functional>
 
 class InnerObserver {
 
@@ -16,6 +17,7 @@ public:
 
 };
 
+using InnerObserver2 = std::function<void(const SwigCallbackData &data)>;
 
 class SwigCallback {
 
@@ -28,6 +30,8 @@ public:
     virtual void onTest3(std::shared_ptr<InnerObserver> innerCallback) = 0;
 
     virtual std::shared_ptr<SwigCallbackData> onTest4(int gg) = 0;
+
+    virtual void onTest5(InnerObserver2 innerCallback) = 0;
 
     virtual ~SwigCallback() {
         std::stringstream ss;
