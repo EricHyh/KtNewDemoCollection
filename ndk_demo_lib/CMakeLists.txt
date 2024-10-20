@@ -3,8 +3,9 @@
 
 # Sets the minimum version of CMake required to build the native library.
 
-cmake_minimum_required(VERSION 3.4.1)
-
+#cmake_minimum_required(VERSION 3.4.1)
+#cmake_minimum_required(VERSION 3.20.0)
+cmake_minimum_required(VERSION 3.10.2)
 
 
 # Creates and names a library, sets it as either STATIC
@@ -13,6 +14,7 @@ cmake_minimum_required(VERSION 3.4.1)
 # Gradle automatically packages shared libraries with your APK.
 
 aux_source_directory(../ndk_cpp_lib/. SRC_LIST) # 搜索当前目录下的所有.cpp文件
+
 
 
 file(GLOB_RECURSE ANDROID_SDK_CXX_FILES "./main/cpp/*.cxx")
@@ -27,6 +29,18 @@ add_library( # Sets the name of the library.
         # Provides a relative path to your source file(s).
         ${ANDROID_SDK_CXX_FILES}
         ${ANDROID_SDK_CPP_FILES}
+
+        src/main/cpp/date/chrono_io.h
+        src/main/cpp/date/date.h
+        src/main/cpp/date/islamic.h
+        src/main/cpp/date/iso_week.h
+        src/main/cpp/date/julian.h
+        src/main/cpp/date/solar_hijri.h
+        src/main/cpp/date/tz.h
+        src/main/cpp/date/tz_private.h
+        src/main/cpp/date/tz.cpp
+
+
 
         src/main/cpp/swig/SwigCallback_wrap.cxx
         src/main/cpp/swig/SwigCallbackData.cpp
@@ -63,3 +77,7 @@ target_link_libraries( # Specifies the target library.
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib} )
+
+
+# 为这个目标添加编译定义
+target_compile_definitions(native-lib PRIVATE USE_OS_TZDB=1 BUILD_TZ_LIB)

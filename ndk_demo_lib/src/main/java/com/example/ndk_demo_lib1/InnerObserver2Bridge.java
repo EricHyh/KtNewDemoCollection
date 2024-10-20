@@ -8,16 +8,16 @@
 
 package com.example.ndk_demo_lib1;
 
-public class SwigCallbackFunctionBridge {
+public class InnerObserver2Bridge {
   private transient long swigCPtr;
   private transient boolean swigCMemOwn;
 
-  public SwigCallbackFunctionBridge(long cPtr, boolean cMemoryOwn) {
+  public InnerObserver2Bridge(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
   }
 
-  public static long getCPtr(SwigCallbackFunctionBridge obj) {
+  public static long getCPtr(InnerObserver2Bridge obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
@@ -34,7 +34,7 @@ public class SwigCallbackFunctionBridge {
     if (swigCPtr != 0) {
       if (swigCMemOwn) {
         swigCMemOwn = false;
-        SwigCallbackDemoJNI.delete_SwigCallbackFunctionBridge(swigCPtr);
+        SwigCallbackDemoJNI.delete_InnerObserver2Bridge(swigCPtr);
       }
       swigCPtr = 0;
     }
@@ -47,21 +47,21 @@ public class SwigCallbackFunctionBridge {
 
   public void swigReleaseOwnership() {
     swigSetCMemOwn(false);
-    SwigCallbackDemoJNI.SwigCallbackFunctionBridge_change_ownership(this, swigCPtr, false);
+    SwigCallbackDemoJNI.InnerObserver2Bridge_change_ownership(this, swigCPtr, false);
   }
 
   public void swigTakeOwnership() {
     swigSetCMemOwn(true);
-    SwigCallbackDemoJNI.SwigCallbackFunctionBridge_change_ownership(this, swigCPtr, true);
+    SwigCallbackDemoJNI.InnerObserver2Bridge_change_ownership(this, swigCPtr, true);
   }
 
   public void onCall(SwigCallbackData data) {
-    SwigCallbackDemoJNI.SwigCallbackFunctionBridge_onCall(swigCPtr, this, SwigCallbackData.getCPtr(data), data);
+    SwigCallbackDemoJNI.InnerObserver2Bridge_onCall(swigCPtr, this, SwigCallbackData.getCPtr(data), data);
   }
 
-  public SwigCallbackFunctionBridge() {
-    this(SwigCallbackDemoJNI.new_SwigCallbackFunctionBridge(), true);
-    SwigCallbackDemoJNI.SwigCallbackFunctionBridge_director_connect(this, swigCPtr, true, true);
+  public InnerObserver2Bridge() {
+    this(SwigCallbackDemoJNI.new_InnerObserver2Bridge(), true);
+    SwigCallbackDemoJNI.InnerObserver2Bridge_director_connect(this, swigCPtr, true, true);
   }
 
 }

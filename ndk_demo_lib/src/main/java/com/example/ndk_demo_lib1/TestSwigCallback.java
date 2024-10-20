@@ -60,12 +60,12 @@ public class TestSwigCallback {
     SwigCallbackDemoJNI.TestSwigCallback_setCallback3(swigCPtr, this, num, SwigCallback.getCPtr(swigCallback), swigCallback);
   }
 
-  public void setCallback4(SwigCallbackFunctionBridge function_bridge) {
-    SwigCallbackDemoJNI.TestSwigCallback_setCallback4(swigCPtr, this, SwigCallbackFunctionBridge.getCPtr(function_bridge), function_bridge);
+  public void setCallback4(SwigCallbackFunctionBridge swigCallback) {
+    SwigCallbackDemoJNI.TestSwigCallback_setCallback4(swigCPtr, this, SwigCallbackFunctionBridge.getCPtr(swigCallback), swigCallback);
   }
 
-  public void setCallback5(SwigCallbackFunction1Bridge function_bridge) {
-    SwigCallbackDemoJNI.TestSwigCallback_setCallback5(swigCPtr, this, SwigCallbackFunction1Bridge.getCPtr(function_bridge), function_bridge);
+  public void setCallback5(SwigCallbackFunction1Bridge swigCallback) {
+    SwigCallbackDemoJNI.TestSwigCallback_setCallback5(swigCPtr, this, SwigCallbackFunction1Bridge.getCPtr(swigCallback), swigCallback);
   }
 
   public TestSwigCallback() {

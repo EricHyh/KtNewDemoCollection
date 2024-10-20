@@ -153,7 +153,7 @@ namespace reference_test
 
     void test()
     {
-        std::vector<ReferenceTest> r_vector(10);
+//        std::vector<ReferenceTest> r_vector(10);
 //        r_vector[0] = ReferenceTest();
     }
 

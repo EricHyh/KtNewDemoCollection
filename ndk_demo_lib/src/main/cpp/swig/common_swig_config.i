@@ -6,6 +6,7 @@
 #include <memory>
 #include <mutex>
 #include <list>
+#include <vector>
 #include <functional>
 %}
 
@@ -18,204 +19,23 @@
 // 智能指针参数包装
 %define %shared_ptr_param_wrapper(TYPE) //shared_ptr_param_wrapper
 %typemap(in) std::shared_ptr<TYPE> {
-    std::shared_ptr<TYPE> *argp$argnum = *(std::shared_ptr<TYPE> **)&jarg$argnum;
-    if (argp$argnum) {
-        // 创建全局引用
-        jobject globalRef = jenv->NewGlobalRef(jarg$argnum_);
-        // 创建新的 shared_ptr，使用自定义删除器
-        $1 = std::shared_ptr<TYPE>(argp$argnum->get(), [globalRef](TYPE* ptr) {
-            JNIEnv *env = nullptr;
-            financial_sdk::JNIContext context(env);
-            // 删除全局引用
-            env->DeleteGlobalRef(globalRef);
-        });
-    }
+std::shared_ptr<TYPE> *argp$argnum = *(std::shared_ptr<TYPE> **)&jarg$argnum;
+if (argp$argnum) {
+// 创建全局引用
+jobject globalRef = jenv->NewGlobalRef(jarg$argnum_);
+// 创建新的 shared_ptr，使用自定义删除器
+$1 = std::shared_ptr<TYPE>(argp$argnum->get(), [globalRef](TYPE* ptr) {
+    JNIEnv *env = nullptr;
+    JNIContext context(env);
+    // 删除全局引用
+    env->DeleteGlobalRef(globalRef);
+});
+}
 }
 %enddef //shared_ptr_param_wrapper
 
 
-// Function 类型桥接
-%define %function_type_bridge(FUNCTION_TYPE, CALL_PARAM_TYPE_AND_NAME, CALL_PARAM_NAME, PACKAGE)   //function_type_bridge
-
-%shared_ptr(FUNCTION_TYPE##Bridge)
-%feature("director") FUNCTION_TYPE##Bridge;
-%ignore FUNCTION_TYPE##Bridge::original;
-%ignore FUNCTION_TYPE##Bridge::m_mutex;
-%ignore FUNCTION_TYPE##Bridge::obtainOriginal;
-
-%inline %{
-class FUNCTION_TYPE##Bridge {
-
-        public:
-        virtual ~FUNCTION_TYPE##Bridge() {}
-
-        virtual
-        void onCall##CALL_PARAM_TYPE_AND_NAME = 0;
-
-        static const FUNCTION_TYPE obtainOriginal(std::shared_ptr< FUNCTION_TYPE##Bridge > function_bridge){
-            std::lock_guard<std::mutex> lock(function_bridge->m_mutex);
-            if (auto original_ptr = function_bridge->original.lock()) {
-                // 如果原始回调函数还存在，直接返回
-                return *original_ptr;
-            }
-
-            std::shared_ptr<FUNCTION_TYPE> p_function = std::make_shared<FUNCTION_TYPE>([function_bridge]##CALL_PARAM_TYPE_AND_NAME {
-                function_bridge->onCall##CALL_PARAM_NAME;
-            });
-
-            function_bridge->original = std::weak_ptr< FUNCTION_TYPE >(p_function);
-
-            return *p_function;
-        }
-
-        static const FUNCTION_TYPE obtainOriginal(JNIEnv *jenv, std::shared_ptr<FUNCTION_TYPE##Bridge> function_bridge, jobject j_function_bridge){
-            std::lock_guard<std::mutex> lock(function_bridge->m_mutex);
-            if (auto original_ptr = function_bridge->original.lock()) {
-                // 如果原始回调函数还存在，直接返回
-                return *original_ptr;
-            }
-
-            // 创建全局引用
-            jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
-            // 创建新的 shared_ptr，使用自定义删除器
-            std::shared_ptr<FUNCTION_TYPE##Bridge> new_function_bridge = std::shared_ptr<FUNCTION_TYPE##Bridge>(function_bridge.get(), [globalRef](FUNCTION_TYPE##Bridge* ptr) {
-                JNIEnv *env = nullptr;
-                financial_sdk::JNIContext context(env);
-                // 删除全局引用
-                env->DeleteGlobalRef(globalRef);
-            });
-
-            std::shared_ptr<FUNCTION_TYPE> p_function = std::make_shared<FUNCTION_TYPE>([new_function_bridge]##CALL_PARAM_TYPE_AND_NAME {
-                new_function_bridge->onCall##CALL_PARAM_NAME;
-            });
-
-            new_function_bridge->original = std::weak_ptr< FUNCTION_TYPE >(p_function);
-
-            return *p_function;
-        }
-
-        private:
-        std::mutex m_mutex;
-
-        std::weak_ptr <FUNCTION_TYPE> original;
-
-};
-%}
-
-%typemap(jstype) FUNCTION_TYPE #FUNCTION_TYPE"Bridge"
-%typemap(jtype) FUNCTION_TYPE "long"
-%typemap(javain) FUNCTION_TYPE #FUNCTION_TYPE"Bridge.getCPtr($javainput)"
-
-
-
-
-%typemap(in) FUNCTION_TYPE %{
-std::shared_ptr<FUNCTION_TYPE##Bridge> *smartarg$argnum = *(std::shared_ptr<FUNCTION_TYPE##Bridge> **)&jarg$argnum;
-$1 = FUNCTION_TYPE##Bridge::obtainOriginal(jenv, *smartarg$argnum, jarg$argnum_);
-%}
-
-
-
-%typemap(directorin, descriptor="L"#PACKAGE"/"#FUNCTION_TYPE"Bridge;") FUNCTION_TYPE %{
-class Local##FUNCTION_TYPE##Bridge : public FUNCTION_TYPE##Bridge {
-        public:
-        explicit Local##FUNCTION_TYPE##Bridge(FUNCTION_TYPE function) : m_original(std::move(function)) {}
-
-        void onCall##CALL_PARAM_TYPE_AND_NAME override {
-            if (m_original) {
-                m_original##CALL_PARAM_NAME;
-            }
-        }
-
-        private:
-        FUNCTION_TYPE m_original;
-};
-
-FUNCTION_TYPE##Bridge *function_bridge$argnum = new Local##FUNCTION_TYPE##Bridge($1);
-
-*(std::shared_ptr<FUNCTION_TYPE##Bridge> **) &$input = function_bridge$argnum ? new std::shared_ptr<FUNCTION_TYPE##Bridge>(function_bridge$argnum) : 0;
-%}
-
-%enddef //function_type_bridge
-
-// Function 类型桥接
-%define %template_function_type_bridge(FUNCTION_TYPE, FUNCTION_BRIDGE_TYPE, CALL_PARAM_TYPE_AND_NAME, CALL_PARAM_NAME)   //template_function_type_bridge
-
-%shared_ptr(FUNCTION_BRIDGE_TYPE##Bridge)
-%feature("director") FUNCTION_BRIDGE_TYPE##Bridge;
-%ignore FUNCTION_BRIDGE_TYPE##Bridge::original;
-%ignore FUNCTION_BRIDGE_TYPE##Bridge::m_mutex;
-%ignore FUNCTION_BRIDGE_TYPE##Bridge::obtainOriginal;
-
-%inline %{
-class FUNCTION_BRIDGE_TYPE##Bridge {
-
-        public:
-        virtual ~FUNCTION_BRIDGE_TYPE##Bridge() {}
-
-        virtual
-        void onCall##CALL_PARAM_TYPE_AND_NAME = 0;
-
-        static const FUNCTION_TYPE obtainOriginal(std::shared_ptr< FUNCTION_BRIDGE_TYPE##Bridge > function_bridge){
-            std::lock_guard<std::mutex> lock(function_bridge->m_mutex);
-            if (auto original_ptr = function_bridge->original.lock()) {
-                // 如果原始回调函数还存在，直接返回
-                return *original_ptr;
-            }
-
-            std::shared_ptr<FUNCTION_TYPE> p_function = std::make_shared<FUNCTION_TYPE>([function_bridge]##CALL_PARAM_TYPE_AND_NAME {
-                function_bridge->onCall##CALL_PARAM_NAME;
-            });
-
-            function_bridge->original = std::weak_ptr< FUNCTION_TYPE >(p_function);
-
-            return *p_function;
-        }
-
-        private:
-        std::mutex m_mutex;
-
-        std::weak_ptr <FUNCTION_TYPE> original;
-
-};
-%}
-
-%enddef //template_function_type_bridge
-
-// Function 类型的参数桥接
-%define %function_param_bridge(FUNCTION_BRIDGE_TYPE, RECEIVER_TYPE, METHOD_NAME) //function_param_bridge
-
-%extend RECEIVER_TYPE {
-
-        public:
-        void METHOD_NAME(std::shared_ptr<FUNCTION_BRIDGE_TYPE##Bridge> function_bridge) {
-            self->METHOD_NAME(FUNCTION_BRIDGE_TYPE##Bridge::obtainOriginal(function_bridge));
-        }
-};
-
-%ignore RECEIVER_TYPE::METHOD_NAME;
-
-%enddef //function_param_bridge
-
-%define %function_param_bridge_with_pre_params(FUNCTION_BRIDGE_TYPE, RECEIVER_TYPE, METHOD_NAME, PARAMS_EXP, PARAMS_NAME) //function_param_bridge
-
-// 辅助宏：去除括号
-#define REMOVE_PARENS(...) __VA_ARGS__
-
-%extend RECEIVER_TYPE {
-        public:
-        void METHOD_NAME(REMOVE_PARENS PARAMS_EXP, std::shared_ptr<FUNCTION_BRIDGE_TYPE##Bridge> function_bridge) {
-            self->METHOD_NAME(REMOVE_PARENS PARAMS_NAME, FUNCTION_BRIDGE_TYPE##Bridge::obtainOriginal(function_bridge));
-        }
-};
-
-%ignore RECEIVER_TYPE::METHOD_NAME;
-
-%enddef //function_param_bridge
-
-
 #endif // COMMON_SWIG_CONFIG
-
 
 
 // 源码位置：https://github.com/swig/swig/blob/master/Lib/java/java.swg
@@ -229,8 +49,8 @@ SWIG_SHARED_PTR_TYPEMAPS_IMPLEMENTATION(public, public, CONST, TYPE)
 %enddef
 
 
-
 %import "std_shared_ptr.i"
 %import "std_unique_ptr.i"
 %import "std_string.i"
 %import "std_vector.i"
+%import "functional_config.i"

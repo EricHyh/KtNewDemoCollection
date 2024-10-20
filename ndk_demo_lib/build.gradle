@@ -47,7 +47,8 @@ android {
         }
     }
 
-    ndkVersion '27.0.12077973'
+//    ndkVersion '27.0.12077973'
+    ndkVersion '21.3.6528147'
 }
 
 dependencies {

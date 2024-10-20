@@ -6,21 +6,17 @@
 
 #include <jni.h>
 
-namespace financial_sdk
-{
 
-	class JNIContext
-	{
-	public:
-		static void SetJVM(JavaVM *jvm);
+class JNIContext {
+public:
+    static void SetJVM(JavaVM *jvm);
 
-		JNIContext(JNIEnv *&env);
+    JNIContext(JNIEnv *&env);
 
-		~JNIContext();
+    ~JNIContext();
 
-	private:
-		static JavaVM *g_jvm_;
-		jboolean flag_;
-	};
+private:
+    static JavaVM *g_jvm_;
+    jboolean flag_;
+};
 
-} // namespace financial_sdk

@@ -8,11 +8,10 @@ import android.util.Log
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import com.example.ndk_demo_lib.TestJNI
-import com.example.ndk_demo_lib1.InnerObserver2Callback
+import com.example.ndk_demo_lib1.InnerObserver2Bridge
 import com.example.ndk_demo_lib1.SwigCallback
 import com.example.ndk_demo_lib1.SwigCallbackData
 import com.example.ndk_demo_lib1.SwigCallbackFunction1Bridge
-import com.example.ndk_demo_lib1.SwigCallbackFunctionBridge
 import com.example.ndk_demo_lib1.TestSwigCallback
 
 class MainActivity : ComponentActivity() {
@@ -84,7 +83,7 @@ class MainActivity : ComponentActivity() {
                     Log.d(TAG, "onTest1: ${System.identityHashCode(this)} " + data1?.a)
                 }
 
-                override fun onTest5(innerCallback: InnerObserver2Callback?) {
+                override fun onTest5(a: Int, b: String?, innerCallback: InnerObserver2Bridge?, c: Int) {
                     Log.d(TAG, "onTest5: ${System.identityHashCode(this)}")
 
                     Handler(Looper.getMainLooper()).postDelayed({
@@ -110,11 +109,11 @@ class MainActivity : ComponentActivity() {
 //                }
 //            })
 
-//            testSwigCallback.setCallback5(object : SwigCallbackFunction1Bridge() {
-//                override fun onCall(param: SwigCallbackData?) {
-//                    Log.d(TAG, "onCall: ${System.identityHashCode(this)} " + param?.a)
-//                }
-//            })
+            testSwigCallback.setCallback5(object : SwigCallbackFunction1Bridge(){
+                override fun onCall(data: SwigCallbackData?) {
+
+                }
+            })
 
             System.gc()
             System.gc()

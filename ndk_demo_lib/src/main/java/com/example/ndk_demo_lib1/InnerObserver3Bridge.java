@@ -8,18 +8,16 @@
 
 package com.example.ndk_demo_lib1;
 
-import android.util.Log;
-
-public class InnerObserver2Callback {
+public class InnerObserver3Bridge {
   private transient long swigCPtr;
   private transient boolean swigCMemOwn;
 
-  public InnerObserver2Callback(long cPtr, boolean cMemoryOwn) {
+  public InnerObserver3Bridge(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
   }
 
-  public static long getCPtr(InnerObserver2Callback obj) {
+  public static long getCPtr(InnerObserver3Bridge obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
@@ -30,14 +28,13 @@ public class InnerObserver2Callback {
   @SuppressWarnings({"deprecation", "removal"})
   protected void finalize() {
     delete();
-    Log.d("InnerObserver2Callback", "finalize: " + System.identityHashCode(this));
   }
 
   public synchronized void delete() {
     if (swigCPtr != 0) {
       if (swigCMemOwn) {
         swigCMemOwn = false;
-        SwigCallbackDemoJNI.delete_InnerObserver2Callback(swigCPtr);
+        SwigCallbackDemoJNI.delete_InnerObserver3Bridge(swigCPtr);
       }
       swigCPtr = 0;
     }
@@ -50,21 +47,21 @@ public class InnerObserver2Callback {
 
   public void swigReleaseOwnership() {
     swigSetCMemOwn(false);
-    SwigCallbackDemoJNI.InnerObserver2Callback_change_ownership(this, swigCPtr, false);
+    SwigCallbackDemoJNI.InnerObserver3Bridge_change_ownership(this, swigCPtr, false);
   }
 
   public void swigTakeOwnership() {
     swigSetCMemOwn(true);
-    SwigCallbackDemoJNI.InnerObserver2Callback_change_ownership(this, swigCPtr, true);
+    SwigCallbackDemoJNI.InnerObserver3Bridge_change_ownership(this, swigCPtr, true);
   }
 
   public void onCall(SwigCallbackData data) {
-    SwigCallbackDemoJNI.InnerObserver2Callback_onCall(swigCPtr, this, SwigCallbackData.getCPtr(data), data);
+    SwigCallbackDemoJNI.InnerObserver3Bridge_onCall(swigCPtr, this, SwigCallbackData.getCPtr(data), data);
   }
 
-  public InnerObserver2Callback() {
-    this(SwigCallbackDemoJNI.new_InnerObserver2Callback(), true);
-    SwigCallbackDemoJNI.InnerObserver2Callback_director_connect(this, swigCPtr, true, true);
+  public InnerObserver3Bridge() {
+    this(SwigCallbackDemoJNI.new_InnerObserver3Bridge(), true);
+    SwigCallbackDemoJNI.InnerObserver3Bridge_director_connect(this, swigCPtr, true, true);
   }
 
 }

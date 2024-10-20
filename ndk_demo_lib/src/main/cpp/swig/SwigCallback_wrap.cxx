@@ -837,6 +837,7 @@ template <typename T> T SwigValueInit() {
 #include <memory>
 #include <mutex>
 #include <list>
+#include <vector>
 #include <functional>
 
 
@@ -848,58 +849,42 @@ template <typename T> T SwigValueInit() {
 
 class SwigCallbackFunctionBridge {
 
-        public:
-        virtual ~SwigCallbackFunctionBridge() {}
+    public:
+    virtual ~SwigCallbackFunctionBridge() {}
 
-        virtual
-        void onCall(const SwigCallbackData &data) = 0;
+    virtual
+    void onCall(const SwigCallbackData &data) = 0;
 
-        static const SwigCallbackFunction obtainOriginal(std::shared_ptr< SwigCallbackFunctionBridge > function_bridge){
-            std::lock_guard<std::mutex> lock(function_bridge->m_mutex);
-            if (auto original_ptr = function_bridge->original.lock()) {
-                // 如果原始回调函数还存在，直接返回
-                return *original_ptr;
-            }
-
-            std::shared_ptr<SwigCallbackFunction> p_function = std::make_shared<SwigCallbackFunction>([function_bridge](const SwigCallbackData &data) {
-                function_bridge->onCall(data);
-            });
-
-            function_bridge->original = std::weak_ptr< SwigCallbackFunction >(p_function);
-
-            return *p_function;
+    static const SwigCallbackFunction obtainOriginal(JNIEnv *jenv, std::shared_ptr<SwigCallbackFunctionBridge> *function_bridge, jobject j_function_bridge){
+        std::lock_guard<std::mutex> lock(function_bridge->get()->m_mutex);
+        if (auto original_ptr = function_bridge->get()->original.lock()) {
+            // 如果原始回调函数还存在，直接返回
+            return *original_ptr;
         }
 
-        static const SwigCallbackFunction obtainOriginal(JNIEnv *jenv, std::shared_ptr<SwigCallbackFunctionBridge> function_bridge, jobject j_function_bridge){
-            std::lock_guard<std::mutex> lock(function_bridge->m_mutex);
-            if (auto original_ptr = function_bridge->original.lock()) {
-                // 如果原始回调函数还存在，直接返回
-                return *original_ptr;
-            }
+        // 创建全局引用
+        jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
+        // 创建新的 shared_ptr，使用自定义删除器
+        std::shared_ptr<SwigCallbackFunctionBridge> new_function_bridge = std::shared_ptr<SwigCallbackFunctionBridge>(function_bridge->get(), [globalRef](SwigCallbackFunctionBridge* ptr) {
+            JNIEnv *env = nullptr;
+            JNIContext context(env);
+            // 删除全局引用
+            env->DeleteGlobalRef(globalRef);
+        });
 
-            // 创建全局引用
-            jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
-            // 创建新的 shared_ptr，使用自定义删除器
-            std::shared_ptr<SwigCallbackFunctionBridge> new_function_bridge = std::shared_ptr<SwigCallbackFunctionBridge>(function_bridge.get(), [globalRef](SwigCallbackFunctionBridge* ptr) {
-                JNIEnv *env = nullptr;
-                financial_sdk::JNIContext context(env);
-                // 删除全局引用
-                env->DeleteGlobalRef(globalRef);
-            });
+        std::shared_ptr<SwigCallbackFunction> p_function = std::make_shared<SwigCallbackFunction>([new_function_bridge](const SwigCallbackData &data) {
+            new_function_bridge->onCall(data);
+        });
 
-            std::shared_ptr<SwigCallbackFunction> p_function = std::make_shared<SwigCallbackFunction>([new_function_bridge](const SwigCallbackData &data) {
-                new_function_bridge->onCall(data);
-            });
+        new_function_bridge->original = std::weak_ptr< SwigCallbackFunction >(p_function);
 
-            new_function_bridge->original = std::weak_ptr< SwigCallbackFunction >(p_function);
+        return *p_function;
+    }
 
-            return *p_function;
-        }
+    private:
+    std::mutex m_mutex;
 
-        private:
-        std::mutex m_mutex;
-
-        std::weak_ptr <SwigCallbackFunction> original;
+    std::weak_ptr <SwigCallbackFunction> original;
 
 };
 
@@ -916,183 +901,129 @@ struct SWIG_null_deleter {
 
 class SwigCallbackFunction1Bridge {
 
-        public:
-        virtual ~SwigCallbackFunction1Bridge() {}
+    public:
+    virtual ~SwigCallbackFunction1Bridge() {}
 
-        virtual
-        void onCall(const SwigCallbackData &data) = 0;
+    virtual
+    void onCall(const SwigCallbackData &data) = 0;
 
-        static const SwigCallbackFunction1 obtainOriginal(std::shared_ptr< SwigCallbackFunction1Bridge > function_bridge){
-            std::lock_guard<std::mutex> lock(function_bridge->m_mutex);
-            if (auto original_ptr = function_bridge->original.lock()) {
-                // 如果原始回调函数还存在，直接返回
-                return *original_ptr;
-            }
-
-            std::shared_ptr<SwigCallbackFunction1> p_function = std::make_shared<SwigCallbackFunction1>([function_bridge](const SwigCallbackData &data) {
-                function_bridge->onCall(data);
-            });
-
-            function_bridge->original = std::weak_ptr< SwigCallbackFunction1 >(p_function);
-
-            return *p_function;
+    static const SwigCallbackFunction1 obtainOriginal(JNIEnv *jenv, std::shared_ptr<SwigCallbackFunction1Bridge> *function_bridge, jobject j_function_bridge){
+        std::lock_guard<std::mutex> lock(function_bridge->get()->m_mutex);
+        if (auto original_ptr = function_bridge->get()->original.lock()) {
+            // 如果原始回调函数还存在，直接返回
+            return *original_ptr;
         }
 
-        static const SwigCallbackFunction1 obtainOriginal(JNIEnv *jenv, std::shared_ptr<SwigCallbackFunction1Bridge> function_bridge, jobject j_function_bridge){
-            std::lock_guard<std::mutex> lock(function_bridge->m_mutex);
-            if (auto original_ptr = function_bridge->original.lock()) {
-                // 如果原始回调函数还存在，直接返回
-                return *original_ptr;
-            }
+        // 创建全局引用
+        jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
+        // 创建新的 shared_ptr，使用自定义删除器
+        std::shared_ptr<SwigCallbackFunction1Bridge> new_function_bridge = std::shared_ptr<SwigCallbackFunction1Bridge>(function_bridge->get(), [globalRef](SwigCallbackFunction1Bridge* ptr) {
+            JNIEnv *env = nullptr;
+            JNIContext context(env);
+            // 删除全局引用
+            env->DeleteGlobalRef(globalRef);
+        });
 
-            // 创建全局引用
-            jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
-            // 创建新的 shared_ptr，使用自定义删除器
-            std::shared_ptr<SwigCallbackFunction1Bridge> new_function_bridge = std::shared_ptr<SwigCallbackFunction1Bridge>(function_bridge.get(), [globalRef](SwigCallbackFunction1Bridge* ptr) {
-                JNIEnv *env = nullptr;
-                financial_sdk::JNIContext context(env);
-                // 删除全局引用
-                env->DeleteGlobalRef(globalRef);
-            });
+        std::shared_ptr<SwigCallbackFunction1> p_function = std::make_shared<SwigCallbackFunction1>([new_function_bridge](const SwigCallbackData &data) {
+            new_function_bridge->onCall(data);
+        });
 
-            std::shared_ptr<SwigCallbackFunction1> p_function = std::make_shared<SwigCallbackFunction1>([new_function_bridge](const SwigCallbackData &data) {
-                new_function_bridge->onCall(data);
-            });
+        new_function_bridge->original = std::weak_ptr< SwigCallbackFunction1 >(p_function);
 
-            new_function_bridge->original = std::weak_ptr< SwigCallbackFunction1 >(p_function);
+        return *p_function;
+    }
 
-            return *p_function;
-        }
+    private:
+    std::mutex m_mutex;
 
-        private:
-        std::mutex m_mutex;
-
-        std::weak_ptr <SwigCallbackFunction1> original;
+    std::weak_ptr <SwigCallbackFunction1> original;
 
 };
 
 
 class InnerObserver2Bridge {
 
-        public:
-        virtual ~InnerObserver2Bridge() {}
+    public:
+    virtual ~InnerObserver2Bridge() {}
 
-        virtual
-        void onCall(const SwigCallbackData &data) = 0;
+    virtual
+    void onCall(const SwigCallbackData &data) = 0;
 
-        static const InnerObserver2 obtainOriginal(std::shared_ptr< InnerObserver2Bridge > function_bridge){
-            std::lock_guard<std::mutex> lock(function_bridge->m_mutex);
-            if (auto original_ptr = function_bridge->original.lock()) {
-                // 如果原始回调函数还存在，直接返回
-                return *original_ptr;
-            }
-
-            std::shared_ptr<InnerObserver2> p_function = std::make_shared<InnerObserver2>([function_bridge](const SwigCallbackData &data) {
-                function_bridge->onCall(data);
-            });
-
-            function_bridge->original = std::weak_ptr< InnerObserver2 >(p_function);
-
-            return *p_function;
+    static const InnerObserver2 obtainOriginal(JNIEnv *jenv, std::shared_ptr<InnerObserver2Bridge> *function_bridge, jobject j_function_bridge){
+        std::lock_guard<std::mutex> lock(function_bridge->get()->m_mutex);
+        if (auto original_ptr = function_bridge->get()->original.lock()) {
+            // 如果原始回调函数还存在，直接返回
+            return *original_ptr;
         }
 
-        static const InnerObserver2 obtainOriginal(JNIEnv *jenv, std::shared_ptr<InnerObserver2Bridge> function_bridge, jobject j_function_bridge){
-            std::lock_guard<std::mutex> lock(function_bridge->m_mutex);
-            if (auto original_ptr = function_bridge->original.lock()) {
-                // 如果原始回调函数还存在，直接返回
-                return *original_ptr;
-            }
+        // 创建全局引用
+        jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
+        // 创建新的 shared_ptr，使用自定义删除器
+        std::shared_ptr<InnerObserver2Bridge> new_function_bridge = std::shared_ptr<InnerObserver2Bridge>(function_bridge->get(), [globalRef](InnerObserver2Bridge* ptr) {
+            JNIEnv *env = nullptr;
+            JNIContext context(env);
+            // 删除全局引用
+            env->DeleteGlobalRef(globalRef);
+        });
 
-            // 创建全局引用
-            jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
-            // 创建新的 shared_ptr，使用自定义删除器
-            std::shared_ptr<InnerObserver2Bridge> new_function_bridge = std::shared_ptr<InnerObserver2Bridge>(function_bridge.get(), [globalRef](InnerObserver2Bridge* ptr) {
-                JNIEnv *env = nullptr;
-                financial_sdk::JNIContext context(env);
-                // 删除全局引用
-                env->DeleteGlobalRef(globalRef);
-            });
+        std::shared_ptr<InnerObserver2> p_function = std::make_shared<InnerObserver2>([new_function_bridge](const SwigCallbackData &data) {
+            new_function_bridge->onCall(data);
+        });
 
-            std::shared_ptr<InnerObserver2> p_function = std::make_shared<InnerObserver2>([new_function_bridge](const SwigCallbackData &data) {
-                new_function_bridge->onCall(data);
-            });
+        new_function_bridge->original = std::weak_ptr< InnerObserver2 >(p_function);
 
-            new_function_bridge->original = std::weak_ptr< InnerObserver2 >(p_function);
+        return *p_function;
+    }
 
-            return *p_function;
-        }
+    private:
+    std::mutex m_mutex;
 
-        private:
-        std::mutex m_mutex;
-
-        std::weak_ptr <InnerObserver2> original;
+    std::weak_ptr <InnerObserver2> original;
 
 };
 
 
 class InnerObserver3Bridge {
 
-        public:
-        virtual ~InnerObserver3Bridge() {}
+    public:
+    virtual ~InnerObserver3Bridge() {}
 
-        virtual
-        void onCall(const SwigCallbackData &data) = 0;
+    virtual
+    void onCall(const SwigCallbackData &data) = 0;
 
-        static const InnerObserver3 obtainOriginal(std::shared_ptr< InnerObserver3Bridge > function_bridge){
-            std::lock_guard<std::mutex> lock(function_bridge->m_mutex);
-            if (auto original_ptr = function_bridge->original.lock()) {
-                // 如果原始回调函数还存在，直接返回
-                return *original_ptr;
-            }
-
-            std::shared_ptr<InnerObserver3> p_function = std::make_shared<InnerObserver3>([function_bridge](const SwigCallbackData &data) {
-                function_bridge->onCall(data);
-            });
-
-            function_bridge->original = std::weak_ptr< InnerObserver3 >(p_function);
-
-            return *p_function;
+    static const InnerObserver3 obtainOriginal(JNIEnv *jenv, std::shared_ptr<InnerObserver3Bridge> *function_bridge, jobject j_function_bridge){
+        std::lock_guard<std::mutex> lock(function_bridge->get()->m_mutex);
+        if (auto original_ptr = function_bridge->get()->original.lock()) {
+            // 如果原始回调函数还存在，直接返回
+            return *original_ptr;
         }
 
-        static const InnerObserver3 obtainOriginal(JNIEnv *jenv, std::shared_ptr<InnerObserver3Bridge> function_bridge, jobject j_function_bridge){
-            std::lock_guard<std::mutex> lock(function_bridge->m_mutex);
-            if (auto original_ptr = function_bridge->original.lock()) {
-                // 如果原始回调函数还存在，直接返回
-                return *original_ptr;
-            }
+        // 创建全局引用
+        jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
+        // 创建新的 shared_ptr，使用自定义删除器
+        std::shared_ptr<InnerObserver3Bridge> new_function_bridge = std::shared_ptr<InnerObserver3Bridge>(function_bridge->get(), [globalRef](InnerObserver3Bridge* ptr) {
+            JNIEnv *env = nullptr;
+            JNIContext context(env);
+            // 删除全局引用
+            env->DeleteGlobalRef(globalRef);
+        });
 
-            // 创建全局引用
-            jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
-            // 创建新的 shared_ptr，使用自定义删除器
-            std::shared_ptr<InnerObserver3Bridge> new_function_bridge = std::shared_ptr<InnerObserver3Bridge>(function_bridge.get(), [globalRef](InnerObserver3Bridge* ptr) {
-                JNIEnv *env = nullptr;
-                financial_sdk::JNIContext context(env);
-                // 删除全局引用
-                env->DeleteGlobalRef(globalRef);
-            });
+        std::shared_ptr<InnerObserver3> p_function = std::make_shared<InnerObserver3>([new_function_bridge](const SwigCallbackData &data) {
+            new_function_bridge->onCall(data);
+        });
 
-            std::shared_ptr<InnerObserver3> p_function = std::make_shared<InnerObserver3>([new_function_bridge](const SwigCallbackData &data) {
-                new_function_bridge->onCall(data);
-            });
+        new_function_bridge->original = std::weak_ptr< InnerObserver3 >(p_function);
 
-            new_function_bridge->original = std::weak_ptr< InnerObserver3 >(p_function);
+        return *p_function;
+    }
 
-            return *p_function;
-        }
+    private:
+    std::mutex m_mutex;
 
-        private:
-        std::mutex m_mutex;
-
-        std::weak_ptr <InnerObserver3> original;
+    std::weak_ptr <InnerObserver3> original;
 
 };
 
-SWIGINTERN void TestSwigCallback_setCallback4(TestSwigCallback *self,std::shared_ptr< SwigCallbackFunctionBridge > function_bridge){
-            self->setCallback4(SwigCallbackFunctionBridge::obtainOriginal(function_bridge));
-        }
-SWIGINTERN void TestSwigCallback_setCallback5(TestSwigCallback *self,std::shared_ptr< SwigCallbackFunction1Bridge > function_bridge){
-            self->setCallback5(SwigCallbackFunction1Bridge::obtainOriginal(function_bridge));
-        }
 
 
 /* ---------------------------------------------------
@@ -1514,9 +1445,10 @@ void SwigDirector_SwigCallback::onTest5(int a,std::string b,InnerObserver2 inner
     jb = jenv->NewStringUTF((&b)->c_str());
     Swig::LocalRefGuard b_refguard(jenv, jb); 
     
-    class LocalInnerObserver2Bridge : public InnerObserver2Bridge {
+    
+    class LocalInnerObserver2Bridge_3 : public InnerObserver2Bridge {
     public:
-      explicit LocalInnerObserver2Bridge(InnerObserver2 function) : m_original(std::move(function)) {
+      explicit LocalInnerObserver2Bridge_3(InnerObserver2 function) : m_original(std::move(function)) {
         
       }
       
@@ -1530,9 +1462,10 @@ void SwigDirector_SwigCallback::onTest5(int a,std::string b,InnerObserver2 inner
       InnerObserver2 m_original;
     };
     
-    InnerObserver2Bridge *function_bridge3 = new LocalInnerObserver2Bridge(innerCallback);
+    InnerObserver2Bridge *function_bridge3 = new LocalInnerObserver2Bridge_3(innerCallback);
     
     *(std::shared_ptr<InnerObserver2Bridge> **) &jinnerCallback = function_bridge3 ? new std::shared_ptr<InnerObserver2Bridge>(function_bridge3) : 0;
+    
     
     jc = (jint) c;
     jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[9], swigjobj, ja, jb, jinnerCallback, jc);
@@ -1567,9 +1500,10 @@ void SwigDirector_SwigCallback::onTest6(int a,std::string b,InnerObserver2 inner
     jb = jenv->NewStringUTF((&b)->c_str());
     Swig::LocalRefGuard b_refguard(jenv, jb); 
     
-    class LocalInnerObserver2Bridge : public InnerObserver2Bridge {
+    
+    class LocalInnerObserver2Bridge_3 : public InnerObserver2Bridge {
     public:
-      explicit LocalInnerObserver2Bridge(InnerObserver2 function) : m_original(std::move(function)) {
+      explicit LocalInnerObserver2Bridge_3(InnerObserver2 function) : m_original(std::move(function)) {
         
       }
       
@@ -1583,14 +1517,16 @@ void SwigDirector_SwigCallback::onTest6(int a,std::string b,InnerObserver2 inner
       InnerObserver2 m_original;
     };
     
-    InnerObserver2Bridge *function_bridge3 = new LocalInnerObserver2Bridge(innerCallback2);
+    InnerObserver2Bridge *function_bridge3 = new LocalInnerObserver2Bridge_3(innerCallback2);
     
     *(std::shared_ptr<InnerObserver2Bridge> **) &jinnerCallback2 = function_bridge3 ? new std::shared_ptr<InnerObserver2Bridge>(function_bridge3) : 0;
     
     
-    class LocalInnerObserver3Bridge : public InnerObserver3Bridge {
+    
+    
+    class LocalInnerObserver3Bridge_4 : public InnerObserver3Bridge {
     public:
-      explicit LocalInnerObserver3Bridge(InnerObserver3 function) : m_original(std::move(function)) {
+      explicit LocalInnerObserver3Bridge_4(InnerObserver3 function) : m_original(std::move(function)) {
         
       }
       
@@ -1604,9 +1540,10 @@ void SwigDirector_SwigCallback::onTest6(int a,std::string b,InnerObserver2 inner
       InnerObserver3 m_original;
     };
     
-    InnerObserver3Bridge *function_bridge4 = new LocalInnerObserver3Bridge(innerCallback3);
+    InnerObserver3Bridge *function_bridge4 = new LocalInnerObserver3Bridge_4(innerCallback3);
     
     *(std::shared_ptr<InnerObserver3Bridge> **) &jinnerCallback3 = function_bridge4 ? new std::shared_ptr<InnerObserver3Bridge>(function_bridge4) : 0;
+    
     
     jc = (jint) c;
     jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[10], swigjobj, ja, jb, jinnerCallback2, jinnerCallback3, jc);
@@ -2072,7 +2009,7 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Swi
       // 创建新的 shared_ptr，使用自定义删除器
       arg2 = std::shared_ptr<InnerObserver>(argp2->get(), [globalRef](InnerObserver* ptr) {
         JNIEnv *env = nullptr;
-          financial_sdk::JNIContext context(env);
+          JNIContext context(env);
           // 删除全局引用
           env->DeleteGlobalRef(globalRef);
         });
@@ -2128,7 +2065,7 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Swi
   jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
   
   std::shared_ptr<InnerObserver2Bridge> *smartarg4 = *(std::shared_ptr<InnerObserver2Bridge> **)&jarg4;
-  arg4 = InnerObserver2Bridge::obtainOriginal(jenv, *smartarg4, jarg4_);
+  arg4 = InnerObserver2Bridge::obtainOriginal(jenv, smartarg4, jarg4_);
   
   arg5 = (int)jarg5; 
   (arg1)->onTest5(arg2,arg3,arg4,arg5);
@@ -2163,11 +2100,11 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Swi
   jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
   
   std::shared_ptr<InnerObserver2Bridge> *smartarg4 = *(std::shared_ptr<InnerObserver2Bridge> **)&jarg4;
-  arg4 = InnerObserver2Bridge::obtainOriginal(jenv, *smartarg4, jarg4_);
+  arg4 = InnerObserver2Bridge::obtainOriginal(jenv, smartarg4, jarg4_);
   
   
   std::shared_ptr<InnerObserver3Bridge> *smartarg5 = *(std::shared_ptr<InnerObserver3Bridge> **)&jarg5;
-  arg5 = InnerObserver3Bridge::obtainOriginal(jenv, *smartarg5, jarg5_);
+  arg5 = InnerObserver3Bridge::obtainOriginal(jenv, smartarg5, jarg5_);
   
   arg6 = (int)jarg6; 
   (arg1)->onTest6(arg2,arg3,arg4,arg5,arg6);
@@ -2519,7 +2456,7 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Tes
       // 创建新的 shared_ptr，使用自定义删除器
       arg2 = std::shared_ptr<SwigCallback>(argp2->get(), [globalRef](SwigCallback* ptr) {
         JNIEnv *env = nullptr;
-          financial_sdk::JNIContext context(env);
+          JNIContext context(env);
           // 删除全局引用
           env->DeleteGlobalRef(globalRef);
         });
@@ -2548,7 +2485,7 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Tes
       // 创建新的 shared_ptr，使用自定义删除器
       arg3 = std::shared_ptr<SwigCallback>(argp3->get(), [globalRef](SwigCallback* ptr) {
         JNIEnv *env = nullptr;
-          financial_sdk::JNIContext context(env);
+          JNIContext context(env);
           // 删除全局引用
           env->DeleteGlobalRef(globalRef);
         });
@@ -2560,55 +2497,35 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Tes
 
 SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_TestSwigCallback_1setCallback4(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   TestSwigCallback *arg1 = (TestSwigCallback *) 0 ;
-  std::shared_ptr< SwigCallbackFunctionBridge > arg2 ;
+  SwigValueWrapper< std::function< void (SwigCallbackData const &) > > arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(TestSwigCallback **)&jarg1; 
-  {
-    std::shared_ptr<SwigCallbackFunctionBridge> *argp2 = *(std::shared_ptr<SwigCallbackFunctionBridge> **)&jarg2;
-    if (argp2) {
-      // 创建全局引用
-      jobject globalRef = jenv->NewGlobalRef(jarg2_);
-      // 创建新的 shared_ptr，使用自定义删除器
-      arg2 = std::shared_ptr<SwigCallbackFunctionBridge>(argp2->get(), [globalRef](SwigCallbackFunctionBridge* ptr) {
-        JNIEnv *env = nullptr;
-          financial_sdk::JNIContext context(env);
-          // 删除全局引用
-          env->DeleteGlobalRef(globalRef);
-        });
-    }
-  }
-  TestSwigCallback_setCallback4(arg1,SWIG_STD_MOVE(arg2));
+  
+  std::shared_ptr<SwigCallbackFunctionBridge> *smartarg2 = *(std::shared_ptr<SwigCallbackFunctionBridge> **)&jarg2;
+  arg2 = SwigCallbackFunctionBridge::obtainOriginal(jenv, smartarg2, jarg2_);
+  
+  (arg1)->setCallback4(arg2);
 }
 
 
 SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_TestSwigCallback_1setCallback5(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   TestSwigCallback *arg1 = (TestSwigCallback *) 0 ;
-  std::shared_ptr< SwigCallbackFunction1Bridge > arg2 ;
+  SwigValueWrapper< std::function< void (SwigCallbackData const &) > > arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(TestSwigCallback **)&jarg1; 
-  {
-    std::shared_ptr<SwigCallbackFunction1Bridge> *argp2 = *(std::shared_ptr<SwigCallbackFunction1Bridge> **)&jarg2;
-    if (argp2) {
-      // 创建全局引用
-      jobject globalRef = jenv->NewGlobalRef(jarg2_);
-      // 创建新的 shared_ptr，使用自定义删除器
-      arg2 = std::shared_ptr<SwigCallbackFunction1Bridge>(argp2->get(), [globalRef](SwigCallbackFunction1Bridge* ptr) {
-        JNIEnv *env = nullptr;
-          financial_sdk::JNIContext context(env);
-          // 删除全局引用
-          env->DeleteGlobalRef(globalRef);
-        });
-    }
-  }
-  TestSwigCallback_setCallback5(arg1,SWIG_STD_MOVE(arg2));
+  
+  std::shared_ptr<SwigCallbackFunction1Bridge> *smartarg2 = *(std::shared_ptr<SwigCallbackFunction1Bridge> **)&jarg2;
+  arg2 = SwigCallbackFunction1Bridge::obtainOriginal(jenv, smartarg2, jarg2_);
+  
+  (arg1)->setCallback5(arg2);
 }
 
 
