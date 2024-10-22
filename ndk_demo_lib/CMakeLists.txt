@@ -81,3 +81,10 @@ target_link_libraries( # Specifies the target library.
 
 # 为这个目标添加编译定义
 target_compile_definitions(native-lib PRIVATE USE_OS_TZDB=1 BUILD_TZ_LIB)
+
+
+set_target_properties(native-lib PROPERTIES
+        CXX_STANDARD 17
+        CXX_EXTENSIONS OFF
+        POSITION_INDEPENDENT_CODE ON
+)

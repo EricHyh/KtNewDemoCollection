@@ -15,7 +15,7 @@ void TestSwigCallback::setCallback1(SwigCallback *swigCallback) {
 
     std::thread t([swigCallback] {
 //        sleep(20);
-        std::shared_ptr<SwigCallbackData> sp = std::make_shared<SwigCallbackData>(11);
+        std::shared_ptr <SwigCallbackData> sp = std::make_shared<SwigCallbackData>(11);
         swigCallback->onTest1(sp);
 
         swigCallback->onTest2(SwigCallbackData(12));
@@ -25,14 +25,14 @@ void TestSwigCallback::setCallback1(SwigCallback *swigCallback) {
     t.join();
 }
 
-void TestSwigCallback::setCallback2(std::shared_ptr<SwigCallback> swigCallback) {
-    std::shared_ptr<SwigCallbackData> sp = std::make_shared<SwigCallbackData>(100);
+void TestSwigCallback::setCallback2(std::shared_ptr <SwigCallback> swigCallback) {
+    std::shared_ptr <SwigCallbackData> sp = std::make_shared<SwigCallbackData>(100);
     swigCallback->onTest1(sp);
 
     swigCallback->onTest2(SwigCallbackData(1000));
 }
 
-void TestSwigCallback::setCallback3(int num, std::shared_ptr<SwigCallback> swigCallback) {
+void TestSwigCallback::setCallback3(int num, std::shared_ptr <SwigCallback> swigCallback) {
 
 
 //    std::thread t1([num, swigCallback]{
@@ -91,6 +91,44 @@ public:
     std::thread t_;
 };
 
+using AfterFormatter = std::function<std::string(const std::string &)>;
+
+//
+//AfterFormatter combine(AfterFormatter first, AfterFormatter formatter...) {
+//    return [](const std::string &string) {
+//        return string;
+//    };
+//}
+
+//// 基本情况：没有formatter
+//AfterFormatter combine() {
+//    return [](const std::string& s) { return s; };
+//}
+//
+// 基本情况：只有一个formatter
+//AfterFormatter combine(AfterFormatter formatter) {
+//    return formatter;
+//}
+//
+//// 递归情况：多个formatters
+//template<typename... Formatters>
+//AfterFormatter combine(AfterFormatter first, Formatters... rest) {
+//    return [=](const std::string& input) {
+//        return combine(rest...)(first(input));
+//    };
+//}
+
+// Alternative implementation using fold expressions (C++17 and later)
+template<typename... Formatters>
+AfterFormatter combine(Formatters... formatters) {
+    return [=](const std::string& input) {
+        std::string result = input;
+        ((result = formatters(result)), ...);
+        return result;
+    };
+}
+
+
 void TestSwigCallback::setCallback5(SwigCallbackFunction1 swigCallback) {
 
 //    __android_log_print(ANDROID_LOG_INFO, "SwigCallback", "real setCallback5 1");
@@ -144,7 +182,6 @@ void TestSwigCallback::setCallback5(SwigCallbackFunction1 swigCallback) {
     __android_log_print(ANDROID_LOG_INFO, "SwigCallback", "real setCallback5 2");
 
 
-
     for (const auto &name: Base::getSubclassNames()) {
         std::cout << "Subclass: " << name << std::endl;
         __android_log_print(ANDROID_LOG_INFO, "Created instance", "Subclass %s", name.c_str());
@@ -164,16 +201,16 @@ void TestSwigCallback::setCallback5(SwigCallbackFunction1 swigCallback) {
         std::ostringstream oss1;
         oss1 << date::format("%Y-%m-%d %H:%M:%S %Z", now);
         std::string now_str1 = oss1.str();
-        __android_log_print(ANDROID_LOG_INFO, "now1 ","now %s", now_str1.c_str());
+        __android_log_print(ANDROID_LOG_INFO, "now1 ", "now %s", now_str1.c_str());
 
-                // 转换到不同时区
+        // 转换到不同时区
         auto nyc = locate_zone("America/New_York");
         auto ny_time = make_zoned(nyc, system_clock::now());
         std::cout << "New York time: " << ny_time << std::endl;
         std::ostringstream oss2;
         oss2 << date::format("%Y-%m-%d %H:%M:%S %Z", ny_time);
         std::string now_str2 = oss2.str();
-        __android_log_print(ANDROID_LOG_INFO, "now2 ","now %s", now_str2.c_str());
+        __android_log_print(ANDROID_LOG_INFO, "now2 ", "now %s", now_str2.c_str());
 
         // 时区转换
         auto tokyo = locate_zone("Asia/Tokyo");
@@ -181,7 +218,7 @@ void TestSwigCallback::setCallback5(SwigCallbackFunction1 swigCallback) {
         std::ostringstream oss3;
         oss3 << date::format("%Y-%m-%d %H:%M:%S %Z", tokyo_time);
         std::string now_str3 = oss3.str();
-        __android_log_print(ANDROID_LOG_INFO, "now3 ","now %s", now_str3.c_str());
+        __android_log_print(ANDROID_LOG_INFO, "now3 ", "now %s", now_str3.c_str());
     }
 
     {
@@ -196,4 +233,13 @@ void TestSwigCallback::setCallback5(SwigCallbackFunction1 swigCallback) {
         ss >> parse("%F %T", tp);
         std::cout << "Parsed: " << tp << std::endl;
     }
+
+    AfterFormatter formatter1 = [](const std::string &string) {
+        return string + "1";
+    };
+    AfterFormatter formatter2 = [](const std::string &string) {
+        return string + "2";
+    };
+    AfterFormatter formatter = combine(formatter1, formatter2);
+    __android_log_print(ANDROID_LOG_INFO, "now3 ", "now %s", formatter("abc").c_str());
 }
