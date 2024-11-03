@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <future>
 #include <string>
+#include <any>
 #include "BaseTest.h"
 #include "../date/date.h"
 #include "../date/tz.h"
@@ -91,7 +92,11 @@ public:
     std::thread t_;
 };
 
-using AfterFormatter = std::function<std::string(const std::string &)>;
+using AfterFormatter = std::function<
+
+std::string(const std::string &)
+
+>;
 
 //
 //AfterFormatter combine(AfterFormatter first, AfterFormatter formatter...) {
@@ -121,13 +126,33 @@ using AfterFormatter = std::function<std::string(const std::string &)>;
 // Alternative implementation using fold expressions (C++17 and later)
 template<typename... Formatters>
 AfterFormatter combine(Formatters... formatters) {
-    return [=](const std::string& input) {
+    return [=](const std::string &input) {
         std::string result = input;
         ((result = formatters(result)), ...);
         return result;
     };
 }
 
+using TestFunc = std::function<void(const int &data)>;
+
+namespace {
+
+    void test1(std::shared_ptr<int> a) {
+        __android_log_print(ANDROID_LOG_INFO, "test1 ", "test11 %d", *a);
+    }
+
+    TestFunc testFunc;
+
+
+    class TestFuncTest{
+
+    public:
+        void addObserver(TestFunc func);
+        void removeObserver(TestFunc func);
+
+    };
+
+}
 
 void TestSwigCallback::setCallback5(SwigCallbackFunction1 swigCallback) {
 
@@ -242,4 +267,40 @@ void TestSwigCallback::setCallback5(SwigCallbackFunction1 swigCallback) {
     };
     AfterFormatter formatter = combine(formatter1, formatter2);
     __android_log_print(ANDROID_LOG_INFO, "now3 ", "now %s", formatter("abc").c_str());
+
+    TestFunc t1 = [](const int &data) {
+
+    };
+    TestFunc t2 = t1;
+
+    TestFunc t3 = [](const int &data) {
+
+    };
+
+    void* target1 = t1.target<void(*)()>();
+    void* target2 = t2.target<void(*)()>();
+    void* target3 = t3.target<void(*)()>();
+
+
+    __android_log_print(ANDROID_LOG_INFO, "TestFunc", "target1 %d", t1.target_type().name());
+    __android_log_print(ANDROID_LOG_INFO, "TestFunc", "target2 %d", t2.target_type().name());
+    __android_log_print(ANDROID_LOG_INFO, "TestFunc", "target3 %d", t3.target_type().name());
+
+    testFunc = t1;
+
+//    if (t.target<void(int &)>() == testFunc.target<void(int &)>()) {
+//        __android_log_print(ANDROID_LOG_INFO, "TestFunc ", "TestFunc1 %s", "==");
+//    }
+//    if (t.target<void(int &)>() == t2.target<void(int &)>()) {
+//        __android_log_print(ANDROID_LOG_INFO, "TestFunc ", "TestFunc2 %s", "==");
+//    }
+//    if (t == t2) {
+//        __android_log_print(ANDROID_LOG_INFO, "TestFunc ", "TestFunc3 %s", "==");
+//    }
+//    if (t == testFunc) {
+//        __android_log_print(ANDROID_LOG_INFO, "TestFunc ", "TestFunc4 %s", "==");
+//    }
+
+    std::any any1 = std::make_shared<int>(100);
+    test1(std::any_cast < std::shared_ptr < int >> (any1));
 }
