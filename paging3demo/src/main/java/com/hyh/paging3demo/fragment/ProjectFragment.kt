@@ -24,6 +24,7 @@ import com.hyh.paging3demo.adapter.ProjectAdapter
 import com.hyh.paging3demo.adapter.ProjectLoadStateAdapter
 import com.hyh.paging3demo.base.Global
 import com.hyh.paging3demo.bean.ProjectChapterBean
+import com.hyh.paging3demo.list.fragment.AccountCardItemSource.Companion.num
 import com.hyh.paging3demo.utils.DisplayUtil
 import com.hyh.paging3demo.viewmodel.ProjectListViewModel
 import kotlinx.coroutines.*
@@ -62,77 +63,30 @@ class ProjectFragment : CommonBaseFragment() {
     }
 
 
-    private var num = _num++
-
-    val job = SupervisorJob() + Dispatchers.Main.immediate
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d(TAG, "Attach：onAttach: $pageContext")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Log.d(TAG, "Attach：onDetach: $pageContext")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
 
-        Log.d(TAG, "onDestroyView: $pageContext")
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d(TAG, "onCreateView: $pageContext")
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        job.cancel()
-        Log.d(TAG, "onDestroy: $num cancel")
-
-        Log.d(TAG, "onDestroy: $pageContext")
     }
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Log.d(TAG, "onCreate: $pageContext")
-
-
-        GlobalScope.launch(job) {
-            parentFragment
-                ?.pageContext
-                ?.eventChannel
-                ?.getFlow()
-                ?.collect {
-                    Log.d(TAG, "collect $num : ${it.unwrapData<Int>()}")
-                }
-        }
-
-        if (num == 0) {
-            job.cancel()
-            Log.d(TAG, "onCreate: $num cancel")
-
-        }
-
-
-        /*lifecycleScope.launch {
-
-        }*/
-
-        parentFragment
-            ?.pageContext
-            ?.storage
-            ?.observe(this, ProjectStore.Num::class.java) {
-                Log.d(TAG, "storage: $it")
-            }
-
-
     }
 
 
@@ -180,21 +134,18 @@ class ProjectFragment : CommonBaseFragment() {
         }
         // FIXME: 2021/5/10  
 
-        /*lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenCreated {
             mProjectAdapter.loadStateFlow
                 // Only emit when REFRESH LoadState for RemoteMediator changes.
                 .distinctUntilChangedBy { it.refresh }
                 // Only react to cases where Remote REFRESH completes i.e., NotLoading.
                 .filter { it.refresh is LoadState.NotLoading }
                 .collect { mRecyclerView?.scrollToPosition(0) }
-        }*/
+        }
     }
 
     @ExperimentalPagingApi
     override fun initData() {
-        /*mProjectListViewModel?.projects?.asLiveData()?.observe(this) {
-            mProjectAdapter.submitData(lifecycle, it)
-        }*/
         lifecycleScope.launchWhenCreated {
             mProjectListViewModel?.projects?.collectLatest {
                 mProjectAdapter.submitData(it)

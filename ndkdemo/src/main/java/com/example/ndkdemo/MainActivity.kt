@@ -17,7 +17,7 @@ import com.example.ndk_demo_lib1.TestSwigCallback
 class MainActivity : ComponentActivity() {
 
 
-    companion object{
+    companion object {
 
         private const val TAG = "MainActivity_"
     }
@@ -27,105 +27,61 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
         val textView = findViewById<TextView>(R.id.tv_content)
         val testJNI = TestJNI<Int>()
-        TestGc()
-
-//        testSwig.testCallback(object : TestCallbackWrapper() {
-//            override fun call(value: Double) {
-//                Toast.makeText(applicationContext, "$value", Toast.LENGTH_LONG).show()
-//            }
-//        })
 
 
-//        val l = LegacyClass()
-//        l.set_property("Hello World!")
-//        Toast.makeText(applicationContext, "good:${l._property}", Toast.LENGTH_LONG).show()
-
-//        TestJavaCpp.TestJavaCppClass().test(object :TestJavaCpp.TestJavaCppCallback(){
-//            override fun call(value: Int): Boolean {
-//                Toast.makeText(applicationContext, "good:${value}", Toast.LENGTH_LONG).show()
-//                return true
-//            }
-//        })
-
-
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Handler().postDelayed({
-
-            val testSwigCallback = TestSwigCallback()
-
-
-//            testSwigCallback.setCallback1(object : SwigCallback() {
-//                override fun onTest1(data1: SwigCallbackData?) {
-//                    Log.d(TAG, "onTest1: ${System.identityHashCode(this)} " + data1?.a)
-//                }
-//
-//                override fun onTest2(data2: SwigCallbackData?) {
-//                    Log.d(TAG, "onTest2: ${System.identityHashCode(this)} " + data2?.a)
-//                }
-//            })
-
-//            testSwigCallback.setCallback2(object : SwigCallback() {
-//                override fun onTest1(data1: SwigCallbackData?) {
-//                    Log.d(TAG, "onTest1: ${System.identityHashCode(this)} " + data1?.a)
-//                }
-//
-//                override fun onTest2(data2: SwigCallbackData?) {
-//                    Log.d(TAG, "onTest2: ${System.identityHashCode(this)} " + data2?.a)
-//                }
-//            })
-//
-            testSwigCallback.setCallback3(90, object : SwigCallback() {
-                override fun onTest1(data1: SwigCallbackData?) {
-                    Log.d(TAG, "onTest1: ${System.identityHashCode(this)} " + data1?.a)
-                }
-
-                override fun onTest5(a: Int, b: String?, innerCallback: InnerObserver2Bridge?, c: Int) {
-                    Log.d(TAG, "onTest5: ${System.identityHashCode(this)}")
-
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        Log.d(TAG, "innerCallback onCall:")
-                        innerCallback?.onCall(SwigCallbackData(110))
-                        System.gc()
-                        System.gc()
-                    }, 5000)
-
-                    System.gc()
-                    System.gc()
-                }
-            })
-//
-//                override fun onTest2(data2: SwigCallbackData?) {
-//                    Log.d(TAG, "onTest2: ${System.identityHashCode(this)} " + data2?.a)
-//                }
-//            })
-//
-//            testSwigCallback.setCallback4(object : SwigCallbackFunctionBridge() {
-//                override fun onCall(param: SwigCallbackData?) {
-//                    Log.d(TAG, "onCall: ${System.identityHashCode(this)} " + param?.a)
-//                }
-//            })
-
-            testSwigCallback.setCallback5(object : SwigCallbackFunction1Bridge(){
-                override fun onCall(data: SwigCallbackData?) {
-
-                }
-            })
-
-            System.gc()
-            System.gc()
-        }, 1000L)
-
-
-        Handler().postDelayed({
-            System.gc()
-            System.gc()
+        Handler(Looper.getMainLooper()).postDelayed({
+            testJNI.test_sort()
         }, 2000)
+
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//        Handler().postDelayed({
+//
+//            val testSwigCallback = TestSwigCallback()
+//
+//            testSwigCallback.setCallback3(90, object : SwigCallback() {
+//                override fun onTest1(data1: SwigCallbackData?) {
+//                    Log.d(TAG, "onTest1: ${System.identityHashCode(this)} " + data1?.a)
+//                }
+//
+//                override fun onTest5(a: Int, b: String?, innerCallback: InnerObserver2Bridge?, c: Int) {
+//                    Log.d(TAG, "onTest5: ${System.identityHashCode(this)}")
+//
+//                    Handler(Looper.getMainLooper()).postDelayed({
+//                        Log.d(TAG, "innerCallback onCall:")
+//                        innerCallback?.onCall(SwigCallbackData(110))
+//                        System.gc()
+//                        System.gc()
+//                    }, 5000)
+//
+//                    System.gc()
+//                    System.gc()
+//                }
+//            })
+//
+//            testSwigCallback.setCallback5(object : SwigCallbackFunction1Bridge(){
+//                override fun onCall(data: SwigCallbackData?) {
+//
+//                }
+//            })
+//
+//            System.gc()
+//            System.gc()
+//        }, 1000L)
+//
+//
+//        Handler().postDelayed({
+//            System.gc()
+//            System.gc()
+//        }, 2000)
+//    }
+
+
+    private fun add(a: Int, b: Int): Int {
+        return a + b
+    }
 }
 
 class TestGc {

@@ -61,7 +61,7 @@ dependencies {
     kapt "com.android.databinding:compiler:1.4.20"
 
 
-    def paging_version = "2.1.2"
+    def paging_version = "3.1.1"
 
     implementation "androidx.paging:paging-runtime:$paging_version"
     // For Kotlin use paging-runtime-ktx

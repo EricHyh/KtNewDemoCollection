@@ -9,6 +9,20 @@
 #include <iomanip>
 #include <functional>
 #include <any>
+#include <optional>
+#include <vector>
+#include <map>
+#include <unordered_map>
+
+struct FINFeatureFlagVariant {
+    std::string name;                                                // 变体名称
+    std::string payload;                                             // 变体载荷
+};
+
+struct FINFeatureFlagModel {
+    std::string id;                                                  // feature的id
+    std::shared_ptr<FINFeatureFlagVariant> variant = nullptr;       // 变体（可以为空）
+};
 
 class InnerObserver {
 
@@ -38,6 +52,22 @@ public:
 
     virtual void onTest6(int a, std::string b, InnerObserver2 innerCallback2, InnerObserver3 innerCallback3, int c) = 0;
 
+    virtual void onTest7(std::string str) = 0;
+    virtual std::string onTest8() = 0;
+
+    virtual void onTest9(std::optional<std::string>& str) = 0;
+    virtual std::optional<std::string>& onTest10() = 0;
+    virtual void onTest11(std::shared_ptr<std::string>& str) = 0;
+
+
+    virtual void onTest12(std::map<std::string, std::string> str) = 0;
+    virtual void onTest13(std::unordered_map<std::string, std::string> str) = 0;
+
+    virtual void onTest14(std::unordered_map<std::shared_ptr<FINFeatureFlagVariant>, std::string> str) = 0;
+
+
+    virtual std::shared_ptr<std::string> onTest12() = 0;
+
     virtual ~SwigCallback() {
         std::stringstream ss;
         ss << std::hex << std::setfill('0') << std::setw(sizeof(void*) * 2)
@@ -46,14 +76,4 @@ public:
         __android_log_print(ANDROID_LOG_INFO, "SwigCallback", "~SwigCallback() - Object address: 0x%s", ss.str().c_str());
     };
 
-};
-
-struct FINFeatureFlagVariant {
-    std::string name;                                                // 变体名称
-    std::string payload;                                             // 变体载荷
-};
-
-struct FINFeatureFlagModel {
-    std::string id;                                                  // feature的id
-    std::shared_ptr<FINFeatureFlagVariant> variant = nullptr;       // 变体（可以为空）
 };

@@ -268,25 +268,6 @@ void TestSwigCallback::setCallback5(SwigCallbackFunction1 swigCallback) {
     AfterFormatter formatter = combine(formatter1, formatter2);
     __android_log_print(ANDROID_LOG_INFO, "now3 ", "now %s", formatter("abc").c_str());
 
-    TestFunc t1 = [](const int &data) {
-
-    };
-    TestFunc t2 = t1;
-
-    TestFunc t3 = [](const int &data) {
-
-    };
-
-    void* target1 = t1.target<void(*)()>();
-    void* target2 = t2.target<void(*)()>();
-    void* target3 = t3.target<void(*)()>();
-
-
-    __android_log_print(ANDROID_LOG_INFO, "TestFunc", "target1 %d", t1.target_type().name());
-    __android_log_print(ANDROID_LOG_INFO, "TestFunc", "target2 %d", t2.target_type().name());
-    __android_log_print(ANDROID_LOG_INFO, "TestFunc", "target3 %d", t3.target_type().name());
-
-    testFunc = t1;
 
 //    if (t.target<void(int &)>() == testFunc.target<void(int &)>()) {
 //        __android_log_print(ANDROID_LOG_INFO, "TestFunc ", "TestFunc1 %s", "==");

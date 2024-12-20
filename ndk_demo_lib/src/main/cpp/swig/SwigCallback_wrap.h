@@ -95,13 +95,22 @@ public:
     virtual std::shared_ptr< SwigCallbackData > onTest4(int gg);
     virtual void onTest5(int a,std::string b,InnerObserver2 innerCallback,int c);
     virtual void onTest6(int a,std::string b,InnerObserver2 innerCallback2,InnerObserver3 innerCallback3,int c);
+    virtual void onTest7(std::string str);
+    virtual std::string onTest8();
+    virtual void onTest9(std::optional< std::string > &str);
+    virtual std::optional< std::string > &onTest10();
+    virtual void onTest11(std::shared_ptr< std::string > &str);
+    virtual void onTest12(std::map< std::string,std::string,std::less< std::string > > str);
+    virtual void onTest13(std::unordered_map< std::string,std::string > str);
+    virtual void onTest14(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > str);
+    virtual std::shared_ptr< std::string > onTest12();
     virtual ~SwigDirector_SwigCallback();
 public:
     bool swig_overrides(int n) {
-      return (n < 6 ? swig_override[n] : false);
+      return (n < 15 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<6> swig_override;
+    Swig::BoolArray<15> swig_override;
 };
 
 

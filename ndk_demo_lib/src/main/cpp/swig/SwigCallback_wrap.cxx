@@ -781,7 +781,7 @@ namespace Swig {
 namespace Swig {
   namespace {
     jclass jclass_SwigCallbackDemoJNI = NULL;
-    jmethodID director_method_ids[11];
+    jmethodID director_method_ids[20];
   }
 }
 
@@ -831,6 +831,18 @@ template <typename T> T SwigValueInit() {
 #endif
 
 #endif
+
+
+#include <typeinfo>
+#include <stdexcept>
+
+
+#include <map>
+#include <stdexcept>
+
+
+#include <unordered_map>
+#include <stdexcept>
 
 
 #include <unordered_map>
@@ -1024,6 +1036,119 @@ class InnerObserver3Bridge {
 
 };
 
+SWIGINTERN std::map< std::string,std::string,std::less< std::string > >::iterator std_map_Sl_std_string_Sc_std_string_Sg__iterator_getNextUnchecked(std::map< std::string,std::string >::iterator *self){
+          std::map< std::string, std::string, std::less< std::string > >::iterator copy = (*self);
+          return ++copy;
+        }
+SWIGINTERN bool std_map_Sl_std_string_Sc_std_string_Sg__iterator_isNot(std::map< std::string,std::string >::iterator const *self,std::map< std::string,std::string >::iterator other){
+          return (*self != other);
+        }
+SWIGINTERN std::string std_map_Sl_std_string_Sc_std_string_Sg__iterator_getKey(std::map< std::string,std::string >::iterator const *self){
+          return (*self)->first;
+        }
+SWIGINTERN std::string std_map_Sl_std_string_Sc_std_string_Sg__iterator_getValue(std::map< std::string,std::string >::iterator const *self){
+          return (*self)->second;
+        }
+SWIGINTERN void std_map_Sl_std_string_Sc_std_string_Sg__iterator_setValue(std::map< std::string,std::string >::iterator *self,std::string const &newValue){
+          (*self)->second = newValue;
+        }
+
+/* Check for overflow converting to Java int (always signed 32-bit) from (unsigned variable-bit) size_t */
+SWIGINTERN jint SWIG_JavaIntFromSize_t(size_t size) {
+  static const jint JINT_MAX = 0x7FFFFFFF;
+  return (size > (size_t)JINT_MAX) ? -1 : (jint)size;
+}
+
+
+  SWIGINTERN jint SWIG_MapSize(size_t size) {
+    jint sz = SWIG_JavaIntFromSize_t(size);
+    if (sz == -1) {
+      throw std::out_of_range("map size is too large to fit into a Java int");
+    }
+
+    return sz;
+  }
+
+SWIGINTERN jint std_map_Sl_std_string_Sc_std_string_Sg__sizeImpl(std::map< std::string,std::string > const *self){
+        return SWIG_MapSize(self->size());
+      }
+SWIGINTERN bool std_map_Sl_std_string_Sc_std_string_Sg__containsImpl(std::map< std::string,std::string > *self,std::string const &key){
+        return (self->count(key) > 0);
+      }
+SWIGINTERN void std_map_Sl_std_string_Sc_std_string_Sg__putUnchecked(std::map< std::string,std::string > *self,std::string const &key,std::string const &value){
+#ifdef __cpp_lib_map_try_emplace
+        (*self).insert_or_assign(key, value);
+#else
+        (*self)[key] = value;
+#endif
+      }
+SWIGINTERN void std_map_Sl_std_string_Sc_std_string_Sg__removeUnchecked(std::map< std::string,std::string > *self,std::map< std::string,std::string,std::less< std::string > >::iterator const itr){
+        self->erase(itr);
+      }
+SWIGINTERN std::unordered_map< std::string,std::string >::iterator std_unordered_map_Sl_std_string_Sc_std_string_Sg__iterator_getNextUnchecked(std::unordered_map< std::string,std::string >::iterator *self){
+          std::unordered_map< std::string, std::string >::iterator copy = (*self);
+          return ++copy;
+        }
+SWIGINTERN bool std_unordered_map_Sl_std_string_Sc_std_string_Sg__iterator_isNot(std::unordered_map< std::string,std::string >::iterator const *self,std::unordered_map< std::string,std::string >::iterator other){
+          return (*self != other);
+        }
+SWIGINTERN std::string std_unordered_map_Sl_std_string_Sc_std_string_Sg__iterator_getKey(std::unordered_map< std::string,std::string >::iterator const *self){
+          return (*self)->first;
+        }
+SWIGINTERN std::string std_unordered_map_Sl_std_string_Sc_std_string_Sg__iterator_getValue(std::unordered_map< std::string,std::string >::iterator const *self){
+          return (*self)->second;
+        }
+SWIGINTERN void std_unordered_map_Sl_std_string_Sc_std_string_Sg__iterator_setValue(std::unordered_map< std::string,std::string >::iterator *self,std::string const &newValue){
+          (*self)->second = newValue;
+        }
+SWIGINTERN jint std_unordered_map_Sl_std_string_Sc_std_string_Sg__sizeImpl(std::unordered_map< std::string,std::string > const *self){
+        return SWIG_MapSize(self->size());
+      }
+SWIGINTERN bool std_unordered_map_Sl_std_string_Sc_std_string_Sg__containsImpl(std::unordered_map< std::string,std::string > *self,std::string const &key){
+        return (self->count(key) > 0);
+      }
+SWIGINTERN void std_unordered_map_Sl_std_string_Sc_std_string_Sg__putUnchecked(std::unordered_map< std::string,std::string > *self,std::string const &key,std::string const &value){
+#ifdef __cpp_lib_map_try_emplace
+        (*self).insert_or_assign(key, value);
+#else
+        (*self)[key] = value;
+#endif
+      }
+SWIGINTERN void std_unordered_map_Sl_std_string_Sc_std_string_Sg__removeUnchecked(std::unordered_map< std::string,std::string > *self,std::unordered_map< std::string,std::string >::iterator const itr){
+        self->erase(itr);
+      }
+SWIGINTERN std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__iterator_getNextUnchecked(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *self){
+          std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >, std::string >::iterator copy = (*self);
+          return ++copy;
+        }
+SWIGINTERN bool std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__iterator_isNot(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator const *self,std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator other){
+          return (*self != other);
+        }
+SWIGINTERN std::shared_ptr< FINFeatureFlagVariant > std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__iterator_getKey(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator const *self){
+          return (*self)->first;
+        }
+SWIGINTERN std::string std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__iterator_getValue(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator const *self){
+          return (*self)->second;
+        }
+SWIGINTERN void std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__iterator_setValue(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *self,std::string const &newValue){
+          (*self)->second = newValue;
+        }
+SWIGINTERN jint std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__sizeImpl(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > const *self){
+        return SWIG_MapSize(self->size());
+      }
+SWIGINTERN bool std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__containsImpl(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *self,std::shared_ptr< FINFeatureFlagVariant > const &key){
+        return (self->count(key) > 0);
+      }
+SWIGINTERN void std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__putUnchecked(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *self,std::shared_ptr< FINFeatureFlagVariant > const &key,std::string const &value){
+#ifdef __cpp_lib_map_try_emplace
+        (*self).insert_or_assign(key, value);
+#else
+        (*self)[key] = value;
+#endif
+      }
+SWIGINTERN void std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__removeUnchecked(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *self,std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator const itr){
+        self->erase(itr);
+      }
 
 
 /* ---------------------------------------------------
@@ -1558,6 +1683,283 @@ void SwigDirector_SwigCallback::onTest6(int a,std::string b,InnerObserver2 inner
   if (swigjobj) jenv->DeleteLocalRef(swigjobj);
 }
 
+void SwigDirector_SwigCallback::onTest7(std::string str) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jstring jstr  ;
+  
+  if (!swig_override[6]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method SwigCallback::onTest7.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jstr = jenv->NewStringUTF((&str)->c_str());
+    Swig::LocalRefGuard str_refguard(jenv, jstr); 
+    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[11], swigjobj, jstr);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in SwigCallback::onTest7 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+std::string SwigDirector_SwigCallback::onTest8() {
+  std::string c_result ;
+  jstring jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  
+  if (!swig_override[7]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method SwigCallback::onTest8.");
+    return c_result;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[12], swigjobj);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    if(!jresult) {
+      if (!jenv->ExceptionCheck()) {
+        SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+      }
+      return c_result;
+    } 
+    const char *c_result_pstr = (const char *)jenv->GetStringUTFChars(jresult, 0); 
+    if (!c_result_pstr) return c_result;
+    c_result.assign(c_result_pstr);
+    jenv->ReleaseStringUTFChars(jresult, c_result_pstr); 
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in SwigCallback::onTest8 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return c_result;
+}
+
+void SwigDirector_SwigCallback::onTest9(std::optional< std::string > &str) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jstring jstr = 0 ;
+  
+  if (!swig_override[8]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method SwigCallback::onTest9.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    if ((&str)->has_value()) {
+      jstr = jenv->NewStringUTF((&str)->value().c_str());
+    } else {
+      jstr = nullptr;
+    }
+    Swig::LocalRefGuard str_refguard(jenv, jstr);
+    
+    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[13], swigjobj, jstr);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in SwigCallback::onTest9 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+std::optional< std::string > &SwigDirector_SwigCallback::onTest10() {
+  static std::optional< std::string > result_default ;
+  std::optional< std::string > * c_result ;
+  jstring jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  
+  result_default = SwigValueInit< std::optional< std::string > >();
+  c_result = &result_default;
+  if (!swig_override[9]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method SwigCallback::onTest10.");
+    return *c_result;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[14], swigjobj);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    
+    if (jresult == nullptr) {
+      *c_result = std::nullopt;
+    } else {
+      const char *c_result_pstr = (const char *)jenv->GetStringUTFChars(jresult, 0);
+      if (!c_result_pstr) return *c_result;
+      *c_result = std::make_optional<std::string>(c_result_pstr);
+      jenv->ReleaseStringUTFChars(jresult, c_result_pstr);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in SwigCallback::onTest10 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return *c_result;
+}
+
+void SwigDirector_SwigCallback::onTest11(std::shared_ptr< std::string > &str) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jstring jstr = 0 ;
+  
+  if (!swig_override[10]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method SwigCallback::onTest11.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    if (str) {
+      jstr = jenv->NewStringUTF(str->c_str());
+    } else {
+      jstr = nullptr;
+    }
+    Swig::LocalRefGuard str_refguard(jenv, jstr);
+    
+    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[15], swigjobj, jstr);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in SwigCallback::onTest11 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+void SwigDirector_SwigCallback::onTest12(std::map< std::string,std::string,std::less< std::string > > str) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jlong jstr  ;
+  
+  if (!swig_override[11]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method SwigCallback::onTest12.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jstr = 0;
+    *((std::map< std::string,std::string,std::less< std::string > > **)&jstr) = new std::map< std::string,std::string,std::less< std::string > >(SWIG_STD_MOVE(str)); 
+    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[16], swigjobj, jstr);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in SwigCallback::onTest12 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+void SwigDirector_SwigCallback::onTest13(std::unordered_map< std::string,std::string > str) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jlong jstr  ;
+  
+  if (!swig_override[12]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method SwigCallback::onTest13.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jstr = 0;
+    *((std::unordered_map< std::string,std::string > **)&jstr) = new std::unordered_map< std::string,std::string >(SWIG_STD_MOVE(str)); 
+    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[17], swigjobj, jstr);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in SwigCallback::onTest13 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+void SwigDirector_SwigCallback::onTest14(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > str) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jlong jstr  ;
+  
+  if (!swig_override[13]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method SwigCallback::onTest14.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jstr = 0;
+    *((std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jstr) = new std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >(SWIG_STD_MOVE(str)); 
+    jenv->CallStaticVoidMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[18], swigjobj, jstr);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in SwigCallback::onTest14 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+std::shared_ptr< std::string > SwigDirector_SwigCallback::onTest12() {
+  SwigValueWrapper< std::shared_ptr< std::string > > c_result ;
+  jstring jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  
+  if (!swig_override[14]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method SwigCallback::onTest12.");
+    return c_result;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_SwigCallbackDemoJNI, Swig::director_method_ids[19], swigjobj);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    
+    if (jresult == nullptr) {
+      c_result = nullptr;
+    } else {
+      const char *c_result_pstr = (const char *)jenv->GetStringUTFChars(jresult, 0);
+      if (!c_result_pstr) return c_result;
+      c_result = std::make_shared<std::string>(c_result_pstr);
+      jenv->ReleaseStringUTFChars(jresult, c_result_pstr);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in SwigCallback::onTest12 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return c_result;
+}
+
 SwigDirector_SwigCallback::~SwigDirector_SwigCallback() {
   swig_disconnect_director_self("swigDirectorDisconnect");
 }
@@ -1572,12 +1974,21 @@ void SwigDirector_SwigCallback::swig_connect_director(JNIEnv *jenv, jobject jsel
     SwigDirectorMethod(jenv, baseclass, "onTest3", "(Lcom/example/ndk_demo_lib1/InnerObserver;)V"),
     SwigDirectorMethod(jenv, baseclass, "onTest4", "(I)Lcom/example/ndk_demo_lib1/SwigCallbackData;"),
     SwigDirectorMethod(jenv, baseclass, "onTest5", "(ILjava/lang/String;Lcom/example/ndk_demo_lib1/InnerObserver2Bridge;I)V"),
-    SwigDirectorMethod(jenv, baseclass, "onTest6", "(ILjava/lang/String;Lcom/example/ndk_demo_lib1/InnerObserver2Bridge;Lcom/example/ndk_demo_lib1/InnerObserver3Bridge;I)V")
+    SwigDirectorMethod(jenv, baseclass, "onTest6", "(ILjava/lang/String;Lcom/example/ndk_demo_lib1/InnerObserver2Bridge;Lcom/example/ndk_demo_lib1/InnerObserver3Bridge;I)V"),
+    SwigDirectorMethod(jenv, baseclass, "onTest7", "(Ljava/lang/String;)V"),
+    SwigDirectorMethod(jenv, baseclass, "onTest8", "()Ljava/lang/String;"),
+    SwigDirectorMethod(jenv, baseclass, "onTest9", "(Ljava/lang/String;)V"),
+    SwigDirectorMethod(jenv, baseclass, "onTest10", "()Ljava/lang/String;"),
+    SwigDirectorMethod(jenv, baseclass, "onTest11", "(Ljava/lang/String;)V"),
+    SwigDirectorMethod(jenv, baseclass, "onTest12", "(Lcom/example/ndk_demo_lib1/Str2StrMap;)V"),
+    SwigDirectorMethod(jenv, baseclass, "onTest13", "(Lcom/example/ndk_demo_lib1/UnorderedStr2StrMap;)V"),
+    SwigDirectorMethod(jenv, baseclass, "onTest14", "(Lcom/example/ndk_demo_lib1/FeatureFlagVariant2StrMap;)V"),
+    SwigDirectorMethod(jenv, baseclass, "onTest12", "()Ljava/lang/String;")
   };
   
   if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
     bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < 15; ++i) {
       swig_override[i] = false;
       if (derived) {
         jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
@@ -1878,6 +2289,1141 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Inn
 }
 
 
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_new_1Str2StrMap_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::map< std::string,std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::map< std::string,std::string > *)new std::map< std::string,std::string >();
+  *(std::map< std::string,std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_new_1Str2StrMap_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::map< std::string,std::string > *arg1 = 0 ;
+  std::map< std::string,std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string > **)&jarg1;
+  if (!arg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::map< std::string,std::string > const & is null");
+    return 0;
+  } 
+  result = (std::map< std::string,std::string > *)new std::map< std::string,std::string >((std::map< std::string,std::string > const &)*arg1);
+  *(std::map< std::string,std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1Iterator_1getNextUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::map< std::string,std::string >::iterator *arg1 = (std::map< std::string,std::string >::iterator *) 0 ;
+  std::map< std::string,std::string,std::less< std::string > >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string >::iterator **)&jarg1; 
+  result = std_map_Sl_std_string_Sc_std_string_Sg__iterator_getNextUnchecked(arg1);
+  *(std::map< std::string,std::string,std::less< std::string > >::iterator **)&jresult = new std::map< std::string,std::string,std::less< std::string > >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1Iterator_1isNot(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  std::map< std::string,std::string >::iterator *arg1 = (std::map< std::string,std::string >::iterator *) 0 ;
+  std::map< std::string,std::string >::iterator arg2 ;
+  std::map< std::string,std::string >::iterator *argp2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(std::map< std::string,std::string >::iterator **)&jarg1; 
+  argp2 = *(std::map< std::string,std::string >::iterator **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::map< std::string,std::string >::iterator");
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (bool)std_map_Sl_std_string_Sc_std_string_Sg__iterator_isNot((std::map< std::string,std::string >::iterator const *)arg1,SWIG_STD_MOVE(arg2));
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1Iterator_1getKey(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  std::map< std::string,std::string >::iterator *arg1 = (std::map< std::string,std::string >::iterator *) 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string >::iterator **)&jarg1; 
+  result = std_map_Sl_std_string_Sc_std_string_Sg__iterator_getKey((std::map< std::string,std::string >::iterator const *)arg1);
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1Iterator_1getValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  std::map< std::string,std::string >::iterator *arg1 = (std::map< std::string,std::string >::iterator *) 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string >::iterator **)&jarg1; 
+  result = std_map_Sl_std_string_Sc_std_string_Sg__iterator_getValue((std::map< std::string,std::string >::iterator const *)arg1);
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1Iterator_1setValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  std::map< std::string,std::string >::iterator *arg1 = (std::map< std::string,std::string >::iterator *) 0 ;
+  std::string *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string >::iterator **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  std_map_Sl_std_string_Sc_std_string_Sg__iterator_setValue(arg1,(std::string const &)*arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1Str2StrMap_1Iterator(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::map< std::string,std::string >::iterator *arg1 = (std::map< std::string,std::string >::iterator *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::map< std::string,std::string >::iterator **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string > **)&jarg1; 
+  result = (bool)((std::map< std::string,std::string > const *)arg1)->empty();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string > **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1find(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jlong jresult = 0 ;
+  std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
+  std::string *arg2 = 0 ;
+  std::map< std::string,std::string >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string > **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  result = (arg1)->find((std::string const &)*arg2);
+  *(std::map< std::string,std::string >::iterator **)&jresult = new std::map< std::string,std::string >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1begin(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
+  std::map< std::string,std::string >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string > **)&jarg1; 
+  result = (arg1)->begin();
+  *(std::map< std::string,std::string >::iterator **)&jresult = new std::map< std::string,std::string >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1end(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
+  std::map< std::string,std::string >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string > **)&jarg1; 
+  result = (arg1)->end();
+  *(std::map< std::string,std::string >::iterator **)&jresult = new std::map< std::string,std::string >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1sizeImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
+  jint result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string > **)&jarg1; 
+  try {
+    result = std_map_Sl_std_string_Sc_std_string_Sg__sizeImpl((std::map< std::string,std::string > const *)arg1);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1containsImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jboolean jresult = 0 ;
+  std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
+  std::string *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string > **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  result = (bool)std_map_Sl_std_string_Sc_std_string_Sg__containsImpl(arg1,(std::string const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1putUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jstring jarg3) {
+  std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::map< std::string,std::string > **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return ;
+  std::string arg3_str(arg3_pstr);
+  arg3 = &arg3_str;
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  std_map_Sl_std_string_Sc_std_string_Sg__putUnchecked(arg1,(std::string const &)*arg2,(std::string const &)*arg3);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Str2StrMap_1removeUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
+  std::map< std::string,std::string,std::less< std::string > >::iterator arg2 ;
+  std::map< std::string,std::string,std::less< std::string > >::iterator const *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(std::map< std::string,std::string > **)&jarg1; 
+  argp2 = *(std::map< std::string,std::string,std::less< std::string > >::iterator **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::map< std::string,std::string,std::less< std::string > >::iterator const");
+    return ;
+  }
+  arg2 = *argp2; 
+  std_map_Sl_std_string_Sc_std_string_Sg__removeUnchecked(arg1,SWIG_STD_MOVE(arg2));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1Str2StrMap(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::map< std::string,std::string > *arg1 = (std::map< std::string,std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::map< std::string,std::string > **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_new_1UnorderedStr2StrMap_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::string,std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::unordered_map< std::string,std::string > *)new std::unordered_map< std::string,std::string >();
+  *(std::unordered_map< std::string,std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_new_1UnorderedStr2StrMap_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::string,std::string > *arg1 = 0 ;
+  std::unordered_map< std::string,std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string > **)&jarg1;
+  if (!arg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::unordered_map< std::string,std::string > const & is null");
+    return 0;
+  } 
+  result = (std::unordered_map< std::string,std::string > *)new std::unordered_map< std::string,std::string >((std::unordered_map< std::string,std::string > const &)*arg1);
+  *(std::unordered_map< std::string,std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1Iterator_1getNextUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::string,std::string >::iterator *arg1 = (std::unordered_map< std::string,std::string >::iterator *) 0 ;
+  std::unordered_map< std::string,std::string >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string >::iterator **)&jarg1; 
+  result = std_unordered_map_Sl_std_string_Sc_std_string_Sg__iterator_getNextUnchecked(arg1);
+  *(std::unordered_map< std::string,std::string >::iterator **)&jresult = new std::unordered_map< std::string,std::string >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1Iterator_1isNot(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  std::unordered_map< std::string,std::string >::iterator *arg1 = (std::unordered_map< std::string,std::string >::iterator *) 0 ;
+  std::unordered_map< std::string,std::string >::iterator arg2 ;
+  std::unordered_map< std::string,std::string >::iterator *argp2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(std::unordered_map< std::string,std::string >::iterator **)&jarg1; 
+  argp2 = *(std::unordered_map< std::string,std::string >::iterator **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::unordered_map< std::string,std::string >::iterator");
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (bool)std_unordered_map_Sl_std_string_Sc_std_string_Sg__iterator_isNot((std::unordered_map< std::string,std::string >::iterator const *)arg1,SWIG_STD_MOVE(arg2));
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1Iterator_1getKey(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  std::unordered_map< std::string,std::string >::iterator *arg1 = (std::unordered_map< std::string,std::string >::iterator *) 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string >::iterator **)&jarg1; 
+  result = std_unordered_map_Sl_std_string_Sc_std_string_Sg__iterator_getKey((std::unordered_map< std::string,std::string >::iterator const *)arg1);
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1Iterator_1getValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  std::unordered_map< std::string,std::string >::iterator *arg1 = (std::unordered_map< std::string,std::string >::iterator *) 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string >::iterator **)&jarg1; 
+  result = std_unordered_map_Sl_std_string_Sc_std_string_Sg__iterator_getValue((std::unordered_map< std::string,std::string >::iterator const *)arg1);
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1Iterator_1setValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  std::unordered_map< std::string,std::string >::iterator *arg1 = (std::unordered_map< std::string,std::string >::iterator *) 0 ;
+  std::string *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string >::iterator **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  std_unordered_map_Sl_std_string_Sc_std_string_Sg__iterator_setValue(arg1,(std::string const &)*arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1UnorderedStr2StrMap_1Iterator(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::unordered_map< std::string,std::string >::iterator *arg1 = (std::unordered_map< std::string,std::string >::iterator *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::unordered_map< std::string,std::string >::iterator **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  std::unordered_map< std::string,std::string > *arg1 = (std::unordered_map< std::string,std::string > *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string > **)&jarg1; 
+  result = (bool)((std::unordered_map< std::string,std::string > const *)arg1)->empty();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::unordered_map< std::string,std::string > *arg1 = (std::unordered_map< std::string,std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string > **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1find(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::string,std::string > *arg1 = (std::unordered_map< std::string,std::string > *) 0 ;
+  std::string *arg2 = 0 ;
+  std::unordered_map< std::string,std::string >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string > **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  result = (arg1)->find((std::string const &)*arg2);
+  *(std::unordered_map< std::string,std::string >::iterator **)&jresult = new std::unordered_map< std::string,std::string >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1begin(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::string,std::string > *arg1 = (std::unordered_map< std::string,std::string > *) 0 ;
+  std::unordered_map< std::string,std::string >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string > **)&jarg1; 
+  result = (arg1)->begin();
+  *(std::unordered_map< std::string,std::string >::iterator **)&jresult = new std::unordered_map< std::string,std::string >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1end(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::string,std::string > *arg1 = (std::unordered_map< std::string,std::string > *) 0 ;
+  std::unordered_map< std::string,std::string >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string > **)&jarg1; 
+  result = (arg1)->end();
+  *(std::unordered_map< std::string,std::string >::iterator **)&jresult = new std::unordered_map< std::string,std::string >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1sizeImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  std::unordered_map< std::string,std::string > *arg1 = (std::unordered_map< std::string,std::string > *) 0 ;
+  jint result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string > **)&jarg1; 
+  try {
+    result = std_unordered_map_Sl_std_string_Sc_std_string_Sg__sizeImpl((std::unordered_map< std::string,std::string > const *)arg1);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1containsImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jboolean jresult = 0 ;
+  std::unordered_map< std::string,std::string > *arg1 = (std::unordered_map< std::string,std::string > *) 0 ;
+  std::string *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string > **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  result = (bool)std_unordered_map_Sl_std_string_Sc_std_string_Sg__containsImpl(arg1,(std::string const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1putUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jstring jarg3) {
+  std::unordered_map< std::string,std::string > *arg1 = (std::unordered_map< std::string,std::string > *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::string,std::string > **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return ;
+  std::string arg3_str(arg3_pstr);
+  arg3 = &arg3_str;
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  std_unordered_map_Sl_std_string_Sc_std_string_Sg__putUnchecked(arg1,(std::string const &)*arg2,(std::string const &)*arg3);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_UnorderedStr2StrMap_1removeUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  std::unordered_map< std::string,std::string > *arg1 = (std::unordered_map< std::string,std::string > *) 0 ;
+  std::unordered_map< std::string,std::string >::iterator arg2 ;
+  std::unordered_map< std::string,std::string >::iterator const *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(std::unordered_map< std::string,std::string > **)&jarg1; 
+  argp2 = *(std::unordered_map< std::string,std::string >::iterator **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::unordered_map< std::string,std::string >::iterator const");
+    return ;
+  }
+  arg2 = *argp2; 
+  std_unordered_map_Sl_std_string_Sc_std_string_Sg__removeUnchecked(arg1,SWIG_STD_MOVE(arg2));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1UnorderedStr2StrMap(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::unordered_map< std::string,std::string > *arg1 = (std::unordered_map< std::string,std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::unordered_map< std::string,std::string > **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_new_1FeatureFlagVariant2StrMap_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *)new std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >();
+  *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_new_1FeatureFlagVariant2StrMap_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *arg1 = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jarg1;
+  if (!arg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > const & is null");
+    return 0;
+  } 
+  result = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *)new std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >((std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > const &)*arg1);
+  *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1Iterator_1getNextUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *) 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator **)&jarg1; 
+  result = std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__iterator_getNextUnchecked(arg1);
+  *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator **)&jresult = new std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1Iterator_1isNot(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *) 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator arg2 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *argp2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator **)&jarg1; 
+  argp2 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator");
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (bool)std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__iterator_isNot((std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator const *)arg1,SWIG_STD_MOVE(arg2));
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1Iterator_1getKey(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *) 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator **)&jarg1; 
+  result = std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__iterator_getKey((std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator const *)arg1);
+  *(std::shared_ptr< FINFeatureFlagVariant > **)&jresult = result ? new std::shared_ptr< FINFeatureFlagVariant >(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1Iterator_1getValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *) 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator **)&jarg1; 
+  result = std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__iterator_getValue((std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator const *)arg1);
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1Iterator_1setValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *) 0 ;
+  std::string *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__iterator_setValue(arg1,(std::string const &)*arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1FeatureFlagVariant2StrMap_1Iterator(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jarg1; 
+  result = (bool)((std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > const *)arg1)->empty();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1find(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *) 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > *arg2 = 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > tempnull2 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jarg1; 
+  arg2 = jarg2 ? *(std::shared_ptr< FINFeatureFlagVariant > **)&jarg2 : &tempnull2; 
+  result = (arg1)->find((std::shared_ptr< FINFeatureFlagVariant > const &)*arg2);
+  *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator **)&jresult = new std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1begin(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *) 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jarg1; 
+  result = (arg1)->begin();
+  *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator **)&jresult = new std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1end(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *) 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jarg1; 
+  result = (arg1)->end();
+  *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator **)&jresult = new std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1sizeImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *) 0 ;
+  jint result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jarg1; 
+  try {
+    result = std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__sizeImpl((std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > const *)arg1);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1containsImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *) 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > *arg2 = 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > tempnull2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jarg1; 
+  arg2 = jarg2 ? *(std::shared_ptr< FINFeatureFlagVariant > **)&jarg2 : &tempnull2; 
+  result = (bool)std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__containsImpl(arg1,(std::shared_ptr< FINFeatureFlagVariant > const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1putUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jstring jarg3) {
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *) 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > *arg2 = 0 ;
+  std::string *arg3 = 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > tempnull2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jarg1; 
+  arg2 = jarg2 ? *(std::shared_ptr< FINFeatureFlagVariant > **)&jarg2 : &tempnull2; 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return ;
+  std::string arg3_str(arg3_pstr);
+  arg3 = &arg3_str;
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__putUnchecked(arg1,(std::shared_ptr< FINFeatureFlagVariant > const &)*arg2,(std::string const &)*arg3);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FeatureFlagVariant2StrMap_1removeUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *) 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator arg2 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator const *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jarg1; 
+  argp2 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >::iterator const");
+    return ;
+  }
+  arg2 = *argp2; 
+  std_unordered_map_Sl_std_shared_ptr_Sl_FINFeatureFlagVariant_Sg__Sc_std_string_Sg__removeUnchecked(arg1,SWIG_STD_MOVE(arg2));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1FeatureFlagVariant2StrMap(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *arg1 = (std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagVariant_1name_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  FINFeatureFlagVariant *arg1 = (FINFeatureFlagVariant *) 0 ;
+  std::string *arg2 = 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  FINFeatureFlagVariant > **)&jarg1;
+  arg1 = (FINFeatureFlagVariant *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  if (arg1) (arg1)->name = *arg2;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagVariant_1name_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  FINFeatureFlagVariant *arg1 = (FINFeatureFlagVariant *) 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > *smartarg1 = 0 ;
+  std::string *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  FINFeatureFlagVariant > **)&jarg1;
+  arg1 = (FINFeatureFlagVariant *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (std::string *) & ((arg1)->name);
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagVariant_1payload_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  FINFeatureFlagVariant *arg1 = (FINFeatureFlagVariant *) 0 ;
+  std::string *arg2 = 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  FINFeatureFlagVariant > **)&jarg1;
+  arg1 = (FINFeatureFlagVariant *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  if (arg1) (arg1)->payload = *arg2;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagVariant_1payload_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  FINFeatureFlagVariant *arg1 = (FINFeatureFlagVariant *) 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > *smartarg1 = 0 ;
+  std::string *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  FINFeatureFlagVariant > **)&jarg1;
+  arg1 = (FINFeatureFlagVariant *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (std::string *) & ((arg1)->payload);
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_new_1FINFeatureFlagVariant(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  FINFeatureFlagVariant *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (FINFeatureFlagVariant *)new FINFeatureFlagVariant();
+  
+  *(std::shared_ptr<  FINFeatureFlagVariant > **)&jresult = result ? new std::shared_ptr<  FINFeatureFlagVariant >(result SWIG_NO_NULL_DELETER_1) : 0;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1FINFeatureFlagVariant(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  FINFeatureFlagVariant *arg1 = (FINFeatureFlagVariant *) 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  smartarg1 = *(std::shared_ptr<  FINFeatureFlagVariant > **)&jarg1;
+  arg1 = (FINFeatureFlagVariant *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagModel_1id_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  FINFeatureFlagModel *arg1 = (FINFeatureFlagModel *) 0 ;
+  std::string *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(FINFeatureFlagModel **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  if (arg1) (arg1)->id = *arg2;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagModel_1id_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  FINFeatureFlagModel *arg1 = (FINFeatureFlagModel *) 0 ;
+  std::string *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(FINFeatureFlagModel **)&jarg1; 
+  result = (std::string *) & ((arg1)->id);
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagModel_1variant_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  FINFeatureFlagModel *arg1 = (FINFeatureFlagModel *) 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > *arg2 = 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > tempnull2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(FINFeatureFlagModel **)&jarg1; 
+  arg2 = jarg2 ? *(std::shared_ptr< FINFeatureFlagVariant > **)&jarg2 : &tempnull2; 
+  if (arg1) (arg1)->variant = *arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagModel_1variant_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  FINFeatureFlagModel *arg1 = (FINFeatureFlagModel *) 0 ;
+  std::shared_ptr< FINFeatureFlagVariant > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(FINFeatureFlagModel **)&jarg1; 
+  result = (std::shared_ptr< FINFeatureFlagVariant > *) & ((arg1)->variant);
+  *(std::shared_ptr< FINFeatureFlagVariant > **)&jresult = *result ? new std::shared_ptr< FINFeatureFlagVariant >(*result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_new_1FINFeatureFlagModel(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  FINFeatureFlagModel *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (FINFeatureFlagModel *)new FINFeatureFlagModel();
+  *(FINFeatureFlagModel **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1FINFeatureFlagModel(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  FINFeatureFlagModel *arg1 = (FINFeatureFlagModel *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(FINFeatureFlagModel **)&jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1InnerObserver(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   InnerObserver *arg1 = (InnerObserver *) 0 ;
   std::shared_ptr< InnerObserver > *smartarg1 = 0 ;
@@ -2111,6 +3657,204 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Swi
 }
 
 
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallback_1onTest7(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  SwigCallback *arg1 = (SwigCallback *) 0 ;
+  std::string arg2 ;
+  std::shared_ptr< SwigCallback > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallback > **)&jarg1;
+  arg1 = (SwigCallback *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  } 
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  (&arg2)->assign(arg2_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  (arg1)->onTest7(arg2);
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallback_1onTest8(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  SwigCallback *arg1 = (SwigCallback *) 0 ;
+  std::shared_ptr< SwigCallback > *smartarg1 = 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallback > **)&jarg1;
+  arg1 = (SwigCallback *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (arg1)->onTest8();
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallback_1onTest9(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  SwigCallback *arg1 = (SwigCallback *) 0 ;
+  std::optional< std::string > *arg2 = 0 ;
+  std::shared_ptr< SwigCallback > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallback > **)&jarg1;
+  arg1 = (SwigCallback *)(smartarg1 ? smartarg1->get() : 0); 
+  
+  const char* c_result_pstr = jenv->GetStringUTFChars(jarg2, nullptr);
+  *arg2 = std::make_optional<std::string>(c_result_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, c_result_pstr);
+  
+  (arg1)->onTest9(*arg2);
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallback_1onTest10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  SwigCallback *arg1 = (SwigCallback *) 0 ;
+  std::shared_ptr< SwigCallback > *smartarg1 = 0 ;
+  std::optional< std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallback > **)&jarg1;
+  arg1 = (SwigCallback *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (std::optional< std::string > *) &(arg1)->onTest10();
+  
+  if ((*result).has_value()) {
+    jresult = jenv->NewStringUTF((*result).value().c_str());
+  } else {
+    jresult = nullptr;
+  }
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallback_1onTest11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  SwigCallback *arg1 = (SwigCallback *) 0 ;
+  std::shared_ptr< std::string > *arg2 = 0 ;
+  std::shared_ptr< SwigCallback > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallback > **)&jarg1;
+  arg1 = (SwigCallback *)(smartarg1 ? smartarg1->get() : 0); 
+  
+  const char* c_result_pstr = jenv->GetStringUTFChars(jarg2, nullptr);
+  *arg2 = std::make_shared<std::string>(c_result_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, c_result_pstr);
+  
+  (arg1)->onTest11(*arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallback_1onTest12_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  SwigCallback *arg1 = (SwigCallback *) 0 ;
+  std::map< std::string,std::string,std::less< std::string > > arg2 ;
+  std::shared_ptr< SwigCallback > *smartarg1 = 0 ;
+  std::map< std::string,std::string,std::less< std::string > > *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallback > **)&jarg1;
+  arg1 = (SwigCallback *)(smartarg1 ? smartarg1->get() : 0); 
+  argp2 = *(std::map< std::string,std::string,std::less< std::string > > **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::map< std::string,std::string,std::less< std::string > >");
+    return ;
+  }
+  arg2 = *argp2; 
+  (arg1)->onTest12(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallback_1onTest13(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  SwigCallback *arg1 = (SwigCallback *) 0 ;
+  std::unordered_map< std::string,std::string > arg2 ;
+  std::shared_ptr< SwigCallback > *smartarg1 = 0 ;
+  std::unordered_map< std::string,std::string > *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallback > **)&jarg1;
+  arg1 = (SwigCallback *)(smartarg1 ? smartarg1->get() : 0); 
+  argp2 = *(std::unordered_map< std::string,std::string > **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::unordered_map< std::string,std::string >");
+    return ;
+  }
+  arg2 = *argp2; 
+  (arg1)->onTest13(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallback_1onTest14(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  SwigCallback *arg1 = (SwigCallback *) 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > arg2 ;
+  std::shared_ptr< SwigCallback > *smartarg1 = 0 ;
+  std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallback > **)&jarg1;
+  arg1 = (SwigCallback *)(smartarg1 ? smartarg1->get() : 0); 
+  argp2 = *(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string >");
+    return ;
+  }
+  arg2 = *argp2; 
+  (arg1)->onTest14(arg2);
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallback_1onTest12_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  SwigCallback *arg1 = (SwigCallback *) 0 ;
+  std::shared_ptr< SwigCallback > *smartarg1 = 0 ;
+  SwigValueWrapper< std::shared_ptr< std::string > > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallback > **)&jarg1;
+  arg1 = (SwigCallback *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (arg1)->onTest12();
+  
+  if (&result) {
+    jresult = jenv->NewStringUTF((&result)->get()->c_str());
+  } else {
+    jresult = nullptr;
+  }
+  
+  return jresult;
+}
+
+
 SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1SwigCallback(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   SwigCallback *arg1 = (SwigCallback *) 0 ;
   std::shared_ptr< SwigCallback > *smartarg1 = 0 ;
@@ -2157,205 +3901,6 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_Swi
   if (director) {
     director->swig_java_change_ownership(jenv, jself, jtake_or_release ? true : false);
   }
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagVariant_1name_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
-  FINFeatureFlagVariant *arg1 = (FINFeatureFlagVariant *) 0 ;
-  std::string *arg2 = 0 ;
-  std::shared_ptr< FINFeatureFlagVariant > *smartarg1 = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  
-  smartarg1 = *(std::shared_ptr<  FINFeatureFlagVariant > **)&jarg1;
-  arg1 = (FINFeatureFlagVariant *)(smartarg1 ? smartarg1->get() : 0); 
-  if(!jarg2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
-    return ;
-  }
-  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
-  if (!arg2_pstr) return ;
-  std::string arg2_str(arg2_pstr);
-  arg2 = &arg2_str;
-  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  if (arg1) (arg1)->name = *arg2;
-}
-
-
-SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagVariant_1name_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jstring jresult = 0 ;
-  FINFeatureFlagVariant *arg1 = (FINFeatureFlagVariant *) 0 ;
-  std::shared_ptr< FINFeatureFlagVariant > *smartarg1 = 0 ;
-  std::string *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  
-  smartarg1 = *(std::shared_ptr<  FINFeatureFlagVariant > **)&jarg1;
-  arg1 = (FINFeatureFlagVariant *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) & ((arg1)->name);
-  jresult = jenv->NewStringUTF(result->c_str()); 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagVariant_1payload_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
-  FINFeatureFlagVariant *arg1 = (FINFeatureFlagVariant *) 0 ;
-  std::string *arg2 = 0 ;
-  std::shared_ptr< FINFeatureFlagVariant > *smartarg1 = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  
-  smartarg1 = *(std::shared_ptr<  FINFeatureFlagVariant > **)&jarg1;
-  arg1 = (FINFeatureFlagVariant *)(smartarg1 ? smartarg1->get() : 0); 
-  if(!jarg2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
-    return ;
-  }
-  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
-  if (!arg2_pstr) return ;
-  std::string arg2_str(arg2_pstr);
-  arg2 = &arg2_str;
-  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  if (arg1) (arg1)->payload = *arg2;
-}
-
-
-SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagVariant_1payload_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jstring jresult = 0 ;
-  FINFeatureFlagVariant *arg1 = (FINFeatureFlagVariant *) 0 ;
-  std::shared_ptr< FINFeatureFlagVariant > *smartarg1 = 0 ;
-  std::string *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  
-  smartarg1 = *(std::shared_ptr<  FINFeatureFlagVariant > **)&jarg1;
-  arg1 = (FINFeatureFlagVariant *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) & ((arg1)->payload);
-  jresult = jenv->NewStringUTF(result->c_str()); 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_new_1FINFeatureFlagVariant(JNIEnv *jenv, jclass jcls) {
-  jlong jresult = 0 ;
-  FINFeatureFlagVariant *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  result = (FINFeatureFlagVariant *)new FINFeatureFlagVariant();
-  
-  *(std::shared_ptr<  FINFeatureFlagVariant > **)&jresult = result ? new std::shared_ptr<  FINFeatureFlagVariant >(result SWIG_NO_NULL_DELETER_1) : 0;
-  
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1FINFeatureFlagVariant(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  FINFeatureFlagVariant *arg1 = (FINFeatureFlagVariant *) 0 ;
-  std::shared_ptr< FINFeatureFlagVariant > *smartarg1 = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  
-  smartarg1 = *(std::shared_ptr<  FINFeatureFlagVariant > **)&jarg1;
-  arg1 = (FINFeatureFlagVariant *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagModel_1id_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
-  FINFeatureFlagModel *arg1 = (FINFeatureFlagModel *) 0 ;
-  std::string *arg2 = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(FINFeatureFlagModel **)&jarg1; 
-  if(!jarg2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
-    return ;
-  }
-  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
-  if (!arg2_pstr) return ;
-  std::string arg2_str(arg2_pstr);
-  arg2 = &arg2_str;
-  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  if (arg1) (arg1)->id = *arg2;
-}
-
-
-SWIGEXPORT jstring JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagModel_1id_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jstring jresult = 0 ;
-  FINFeatureFlagModel *arg1 = (FINFeatureFlagModel *) 0 ;
-  std::string *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(FINFeatureFlagModel **)&jarg1; 
-  result = (std::string *) & ((arg1)->id);
-  jresult = jenv->NewStringUTF(result->c_str()); 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagModel_1variant_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  FINFeatureFlagModel *arg1 = (FINFeatureFlagModel *) 0 ;
-  std::shared_ptr< FINFeatureFlagVariant > *arg2 = 0 ;
-  std::shared_ptr< FINFeatureFlagVariant > tempnull2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(FINFeatureFlagModel **)&jarg1; 
-  arg2 = jarg2 ? *(std::shared_ptr< FINFeatureFlagVariant > **)&jarg2 : &tempnull2; 
-  if (arg1) (arg1)->variant = *arg2;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_FINFeatureFlagModel_1variant_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  FINFeatureFlagModel *arg1 = (FINFeatureFlagModel *) 0 ;
-  std::shared_ptr< FINFeatureFlagVariant > *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(FINFeatureFlagModel **)&jarg1; 
-  result = (std::shared_ptr< FINFeatureFlagVariant > *) & ((arg1)->variant);
-  *(std::shared_ptr< FINFeatureFlagVariant > **)&jresult = *result ? new std::shared_ptr< FINFeatureFlagVariant >(*result) : 0; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_new_1FINFeatureFlagModel(JNIEnv *jenv, jclass jcls) {
-  jlong jresult = 0 ;
-  FINFeatureFlagModel *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  result = (FINFeatureFlagModel *)new FINFeatureFlagModel();
-  *(FINFeatureFlagModel **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_delete_1FINFeatureFlagModel(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  FINFeatureFlagModel *arg1 = (FINFeatureFlagModel *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(FINFeatureFlagModel **)&jarg1; 
-  delete arg1;
 }
 
 
@@ -2406,6 +3951,46 @@ SWIGEXPORT jlong JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_ne
   *(std::shared_ptr<  SwigCallbackData > **)&jresult = result ? new std::shared_ptr<  SwigCallbackData >(result SWIG_NO_NULL_DELETER_1) : 0;
   
   return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallbackData_1setStr(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  SwigCallbackData *arg1 = (SwigCallbackData *) 0 ;
+  SwigValueWrapper< std::shared_ptr< std::string > > arg2 ;
+  std::shared_ptr< SwigCallbackData > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallbackData > **)&jarg1;
+  arg1 = (SwigCallbackData *)(smartarg1 ? smartarg1->get() : 0); 
+  
+  const char* c_result_pstr = jenv->GetStringUTFChars(jarg2, nullptr);
+  arg2 = std::make_shared<std::string>(c_result_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, c_result_pstr);
+  
+  (arg1)->setStr(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_SwigCallbackData_1setStr2(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  SwigCallbackData *arg1 = (SwigCallbackData *) 0 ;
+  SwigValueWrapper< std::shared_ptr< std::string > > arg2 ;
+  std::shared_ptr< SwigCallbackData > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  SwigCallbackData > **)&jarg1;
+  arg1 = (SwigCallbackData *)(smartarg1 ? smartarg1->get() : 0); 
+  
+  const char* c_result_pstr = jenv->GetStringUTFChars(jarg2, nullptr);
+  arg2 = std::make_shared<std::string>(c_result_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, c_result_pstr);
+  
+  (arg1)->setStr2(arg2);
 }
 
 
@@ -2557,7 +4142,7 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_swi
   static struct {
     const char *method;
     const char *signature;
-  } methods[11] = {
+  } methods[20] = {
     {
       "SwigDirector_SwigCallbackFunctionBridge_onCall", "(Lcom/example/ndk_demo_lib1/SwigCallbackFunctionBridge;J)V" 
     },
@@ -2590,6 +4175,33 @@ SWIGEXPORT void JNICALL Java_com_example_ndk_1demo_1lib1_SwigCallbackDemoJNI_swi
     },
     {
       "SwigDirector_SwigCallback_onTest6", "(Lcom/example/ndk_demo_lib1/SwigCallback;ILjava/lang/String;JJI)V" 
+    },
+    {
+      "SwigDirector_SwigCallback_onTest7", "(Lcom/example/ndk_demo_lib1/SwigCallback;Ljava/lang/String;)V" 
+    },
+    {
+      "SwigDirector_SwigCallback_onTest8", "(Lcom/example/ndk_demo_lib1/SwigCallback;)Ljava/lang/String;" 
+    },
+    {
+      "SwigDirector_SwigCallback_onTest9", "(Lcom/example/ndk_demo_lib1/SwigCallback;Ljava/lang/String;)V" 
+    },
+    {
+      "SwigDirector_SwigCallback_onTest10", "(Lcom/example/ndk_demo_lib1/SwigCallback;)Ljava/lang/String;" 
+    },
+    {
+      "SwigDirector_SwigCallback_onTest11", "(Lcom/example/ndk_demo_lib1/SwigCallback;Ljava/lang/String;)V" 
+    },
+    {
+      "SwigDirector_SwigCallback_onTest12__SWIG_0", "(Lcom/example/ndk_demo_lib1/SwigCallback;J)V" 
+    },
+    {
+      "SwigDirector_SwigCallback_onTest13", "(Lcom/example/ndk_demo_lib1/SwigCallback;J)V" 
+    },
+    {
+      "SwigDirector_SwigCallback_onTest14", "(Lcom/example/ndk_demo_lib1/SwigCallback;J)V" 
+    },
+    {
+      "SwigDirector_SwigCallback_onTest12__SWIG_1", "(Lcom/example/ndk_demo_lib1/SwigCallback;)Ljava/lang/String;" 
     }
   };
   Swig::jclass_SwigCallbackDemoJNI = (jclass) jenv->NewGlobalRef(jcls);

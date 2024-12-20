@@ -1,7 +1,12 @@
 %module SwigCallbackDemo
 
 
+%include <std_map.i>
+%include <std_unordered_map.i>
 %include "common_swig_config.i"
+%include "string_config.i"
+%include <std_string.i>
+
 
 %{
 #include "SwigCallback.h"
@@ -34,6 +39,14 @@
 %function_type_bridge(InnerObserver2,(const SwigCallbackData &data), (data), com/example/ndk_demo_lib1);
 %function_type_bridge(InnerObserver3,(const SwigCallbackData &data), (data), com/example/ndk_demo_lib1);
 
+
+%template(Str2StrMap) std::map<std::string, std::string>;
+%template(UnorderedStr2StrMap) std::unordered_map<std::string, std::string>;
+%template(FeatureFlagVariant2StrMap) std::unordered_map<std::shared_ptr<FINFeatureFlagVariant>, std::string>;
+
+//%feature("nspace") TestNamespace;
+//%nspace TestNamespace;
+//%rename(TestNamespaceClass) TestNamespace;
 
 %include "SwigCallback.h"
 %include "SwigCallbackData.h"
