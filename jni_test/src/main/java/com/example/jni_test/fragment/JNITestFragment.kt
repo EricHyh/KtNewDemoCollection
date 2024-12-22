@@ -17,7 +17,7 @@ import com.example.jni_test.R
 import com.example.jni_test.fragment.adapter.JNITestTabAdapter
 import com.example.jni_test.fragment.adapter.JNITestTabLoadStateAdapter
 import com.example.jni_test.fragment.vm.JNITestTabViewModel
-import com.example.jni_test.model.JNITabInfo
+import com.example.jni_test.model.wrapper.JNITabInfo
 import com.example.jni_test.utils.DisplayUtil
 import kotlinx.coroutines.flow.*
 

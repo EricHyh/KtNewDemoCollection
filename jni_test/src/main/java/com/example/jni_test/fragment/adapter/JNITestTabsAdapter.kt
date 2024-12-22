@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.jni_test.fragment.JNITestFragment
-import com.example.jni_test.model.JNITabInfo
+import com.example.jni_test.model.wrapper.JNITabInfo
 
 class JNITestTabsAdapter(private val context: Context, fm: FragmentManager) :
     FragmentStatePagerAdapter(fm) {

@@ -1,5 +1,10 @@
 package com.example.jni_test
 
+import com.example.jni_test.model.C2NTestItemFactory
+import com.example.jni_test.model.IC2NTestItemFactory
+import com.example.jni_test.model.ITestItem
+import com.example.jni_test.model.wrapper.NativeTestItem
+
 /**
  * TODO: Add Description
  *
@@ -11,5 +16,13 @@ object JNITest {
         System.loadLibrary("JNITest");
     }
 
-    fun load() = Unit
+    private val factory = object : IC2NTestItemFactory() {
+        override fun create(index: Int): ITestItem {
+            return NativeTestItem(index)
+        }
+    }
+
+    fun load() {
+        C2NTestItemFactory.init(factory)
+    }
 }

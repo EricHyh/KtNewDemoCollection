@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="itemIcon"
+            type="com.example.jni_test.model.IItemIcon" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{itemIcon.icon}" />
+
+        <com.example.jni_test.widget.text.FixAutoSizeTextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="@{itemIcon.name}"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:maxLines="1"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="6sp"
+            tools:text="这是Icon的Title"/>
+
+    </LinearLayout>
+
+
+</layout>

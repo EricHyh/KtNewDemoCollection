@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.example.jni_test.R
 import com.example.jni_test.fragment.adapter.JNITestTabsAdapter
 import com.example.jni_test.fragment.vm.JNITestTabsViewModel
+import com.example.jni_test.model.wrapper.DataSource
 import com.google.android.material.tabs.TabLayout
 
 class JNITestTabsFragment : CommonBaseFragment() {
@@ -19,10 +21,17 @@ class JNITestTabsFragment : CommonBaseFragment() {
 
     private var viewPager: ViewPager? = null
 
-
+    @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tabsViewModel = ViewModelProvider(this)[JNITestTabsViewModel::class.java]
+        tabsViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                val dataSource: DataSource = arguments!!.getSerializable("DataSource") as DataSource
+                return JNITestTabsViewModel(dataSource) as T
+            }
+
+        })[JNITestTabsViewModel::class.java]
     }
 
     override fun getContentView(inflater: LayoutInflater, container: ViewGroup?): View {

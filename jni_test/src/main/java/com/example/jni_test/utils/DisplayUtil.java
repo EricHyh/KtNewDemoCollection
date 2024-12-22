@@ -23,6 +23,21 @@ import java.lang.reflect.Method;
 
 public class DisplayUtil {
 
+
+    public static int getInverseColor(int color) {
+        int r = (color >> 16) & 0xff;
+        int g = (color >> 8) & 0xff;
+        int b = (color) & 0xff;
+
+        r = 255 - r;
+        g = 255 - g;
+        b = 255 - b;
+
+        return (0xff << 24) | (r << 16) | (g << 8) | b;
+
+    }
+
+
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);

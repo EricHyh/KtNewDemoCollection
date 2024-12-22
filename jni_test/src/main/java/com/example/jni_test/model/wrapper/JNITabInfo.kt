@@ -1,4 +1,4 @@
-package com.example.jni_test.model
+package com.example.jni_test.model.wrapper
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -23,5 +23,6 @@ enum class DataSource {
 @Parcelize
 data class JNITabInfo(
     val name: String,
-    val dataSource: DataSource
+    val dataSource: DataSource,
+    val count: Int
 ) : Parcelable

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -9,7 +8,7 @@
 
         <variable
             name="testData"
-            type="com.example.jni_test.model.ItemTest" />
+            type="com.example.jni_test.model.ITestItem" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -31,7 +30,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:imageUrl="@{testData.envelopePic}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="618:1000"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -99,6 +97,17 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_share_date"
                 app:layout_constraintLeft_toRightOf="@id/tv_share_date"
                 tools:text="Eric" />
+
+            <!--<com.example.jni_test.widget.horizontal.RecyclerViewScrollLayout
+                android:id="@+id/scroll_icons_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:fixed_min_width="100dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_project_image"
+                app:scrollIcons="@{testData.icons}" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
