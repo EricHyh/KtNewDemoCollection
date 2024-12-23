@@ -1459,12 +1459,12 @@ std::shared_ptr< ITestItem > SwigDirector_IC2NTestItemFactory::create(int index)
     if (!jresult) {
       c_result = nullptr;
     } else {
-      std::shared_ptr< ITestItem > * smartarg = *(std::shared_ptr<  ITestItem > **)&jresult;
-      auto *item_ptr = dynamic_cast<SwigDirector_ITestItem*>(smartarg->get());
-      jobject item_jobject = item_ptr->swig_get_self(jenv);
+      std::shared_ptr<ITestItem> * jresult_smartPtr = *(std::shared_ptr<ITestItem> **)&jresult;
+      auto *jresult_ptr = dynamic_cast<SwigDirector_ITestItem*>(jresult_smartPtr->get());
+      jobject jobj = jresult_ptr->swig_get_self(jenv);
       // 创建全局引用
-      jobject globalRef = jenv->NewGlobalRef(item_jobject);
-      c_result = std::shared_ptr<ITestItem>(smartarg->get(), [globalRef](ITestItem* ptr) {
+      jobject globalRef = jenv->NewGlobalRef(jobj);
+      c_result = std::shared_ptr<ITestItem>(jresult_smartPtr->get(), [globalRef](ITestItem* ptr) {
         JNIEnv *env = nullptr;
           JNIContext context(env);
           // 删除全局引用

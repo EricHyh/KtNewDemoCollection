@@ -25,36 +25,13 @@
 %feature("director") IC2NTestItemFactory;
 %feature("director") IItemIcon;
 
+%shared_ptr_wrapper(ITestItem);
+%shared_ptr_wrapper(IItemIcon);
 
-%shared_ptr_param_wrapper(ITestItem)
-%shared_ptr_param_wrapper(IItemIcon)
-
-
-%typemap(directorout, descriptor="Lcom/example/jni_test/model/ITestItem;") std::shared_ptr<ITestItem> %{
-    if (!$input) {
-        $1 = nullptr;
-    } else {
-        std::shared_ptr< ITestItem > * smartarg = *(std::shared_ptr<  ITestItem > **)&$input;
-        auto *item_ptr = dynamic_cast<SwigDirector_ITestItem*>(smartarg->get());
-        jobject item_jobject = item_ptr->swig_get_self(jenv);
-        // 创建全局引用
-        jobject globalRef = jenv->NewGlobalRef(item_jobject);
-        $1 = std::shared_ptr<ITestItem>(smartarg->get(), [globalRef](ITestItem* ptr) {
-            JNIEnv *env = nullptr;
-            JNIContext context(env);
-            // 删除全局引用
-            env->DeleteGlobalRef(globalRef);
-        });
-    }
-%}
-
+%director_shared_ptr_wrapper(ITestItem, com/example/jni_test/model/ITestItem);
 
 %template(StringVector) std::vector<std::string>;
 %template(IItemIconVector) std::vector<std::shared_ptr<IItemIcon>>;
-
-
-
-
 
 
 %include "model/ItemIcon.h"
