@@ -1,6 +1,7 @@
 package com.example.jni_test.fragment.vm
 
 import android.graphics.Color
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
@@ -50,7 +51,13 @@ class JNITestTabViewModel(
 }
 
 
-class JNITestTabPagingSource(private val tabInfo: JNITabInfo) : PagingSource<Int, TestItemDataWrapper>() {
+class JNITestTabPagingSource(private val tabInfo: JNITabInfo) :
+    PagingSource<Int, TestItemDataWrapper>() {
+
+    companion object {
+        private const val TAG = "JNITestTabViewModel"
+    }
+
 
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
     private val random = Random()
@@ -64,6 +71,7 @@ class JNITestTabPagingSource(private val tabInfo: JNITabInfo) : PagingSource<Int
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TestItemDataWrapper> {
         val pageIndex = params.key ?: 1
+        Log.d(TAG, "load: $pageIndex")
         return withContext(dispatcher) {
             delay(100)
             val items = when (tabInfo.dataSource) {
@@ -71,8 +79,8 @@ class JNITestTabPagingSource(private val tabInfo: JNITabInfo) : PagingSource<Int
                 DataSource.NATIVE_TO_CPP -> getNative2CPPList(pageIndex, tabInfo.count)
                 DataSource.CPP_TO_NATIVE -> getCPP2NativeList(pageIndex, tabInfo.count)
             }
-            val prevKey = if (pageIndex <= 1) null else pageIndex - 1
-            val nextKey = pageIndex + 1
+            val prevKey = if (pageIndex <= 1) null else pageIndex - 50
+            val nextKey = pageIndex + 50
             LoadResult.Page(
                 items,
                 prevKey,
@@ -82,7 +90,7 @@ class JNITestTabPagingSource(private val tabInfo: JNITabInfo) : PagingSource<Int
     }
 
     private fun getNativeList(pageIndex: Int, count: Int): List<TestItemDataWrapper> {
-        val intRange = pageIndex..pageIndex + 50
+        val intRange = pageIndex until pageIndex + 50
         return intRange.map { index ->
             TestItemWithCount(NativeTestItem(index), count)
         }.flatMapIndexed { index, item ->
@@ -125,14 +133,14 @@ class JNITestTabPagingSource(private val tabInfo: JNITabInfo) : PagingSource<Int
             0,
             item
         )
-        val originalIcons = item.icons
-        jniTestTabPagingSource.splitList(originalIcons, 10).forEach { icons ->
-            testItemDataWrappers += TestItemDataWrapper(
-                1, ItemIcons(
-                    index, icons.map { ItemIconWithCount(it, count) }
-                )
-            )
-        }
+//        val originalIcons = item.icons
+//        jniTestTabPagingSource.splitList(originalIcons, 10).forEach { icons ->
+//            testItemDataWrappers += TestItemDataWrapper(
+//                1, ItemIcons(
+//                    index, icons.map { ItemIconWithCount(it, count) }
+//                )
+//            )
+//        }
 //        testItemDataWrappers += TestItemDataWrapper(
 //            2, ItemTags(
 //                index, item.tags.map {
