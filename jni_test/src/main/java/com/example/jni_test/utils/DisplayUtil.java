@@ -16,6 +16,7 @@ import android.view.WindowManager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Random;
 
 /**
  * Created by Eric_He on 2016/10/3.
@@ -35,6 +36,13 @@ public class DisplayUtil {
 
         return (0xff << 24) | (r << 16) | (g << 8) | b;
 
+    }
+
+    public static int getRandomColor(Random random) {
+        int r = random.nextInt(256);
+        int g = random.nextInt(256);
+        int b = random.nextInt(256);
+        return (0xff << 24) | (r << 16) | (g << 8) | b;
     }
 
 

@@ -3,6 +3,8 @@ package com.example.jni_test
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.example.jni_test.fragment.AnimTestFragment
+import com.example.jni_test.fragment.FunctionTestFragment
 import com.example.jni_test.fragment.JNITestTabsFragment
 import com.example.jni_test.model.wrapper.DataSource
 
@@ -51,6 +53,30 @@ class MainActivity : AppCompatActivity() {
                 Bundle().apply {
                     putSerializable("DataSource", DataSource.CPP_TO_NATIVE)
                 }
+            )
+            .addToBackStack(null)
+            .commitAllowingStateLoss()
+    }
+
+    fun onClickAnim(view: View) {
+        supportFragmentManager
+            .beginTransaction()
+            .add(
+                android.R.id.content,
+                AnimTestFragment::class.java,
+                Bundle()
+            )
+            .addToBackStack(null)
+            .commitAllowingStateLoss()
+    }
+
+    fun onClickTest(view: View) {
+        supportFragmentManager
+            .beginTransaction()
+            .add(
+                android.R.id.content,
+                FunctionTestFragment::class.java,
+                Bundle()
             )
             .addToBackStack(null)
             .commitAllowingStateLoss()

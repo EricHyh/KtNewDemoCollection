@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="one">1</integer>
+    <integer name="ten">10</integer>
+    <integer name="one_hundred">100</integer>
+    <integer name="two_hundred">200</integer>
+    <integer name="five_hundred">500</integer>
+    <integer name="one_thousand">1000</integer>
+
+
+</resources>

@@ -1,6 +1,7 @@
 package com.example.jni_test.fragment.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -120,7 +121,6 @@ class JNITestTabAdapter() :
             scrollIconsLayout.bindHorizontalScrollSyncHelper(horizontalScrollSyncHelper)
             scrollIconsLayout.setGrid(
                 ItemIconTitleGrid(
-                    testData.index,
                     "图标个数：${testData.icons.size}"
                 ),
                 testData.icons.mapIndexed { index, itemIcon ->

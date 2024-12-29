@@ -3,6 +3,8 @@ package com.example.jni_test
 import com.example.jni_test.model.C2NTestItemFactory
 import com.example.jni_test.model.IC2NTestItemFactory
 import com.example.jni_test.model.ITestItem
+import com.example.jni_test.model.TestColorFactory
+import com.example.jni_test.model.wrapper.NativeTestColor
 import com.example.jni_test.model.wrapper.NativeTestItem
 
 /**
@@ -22,7 +24,10 @@ object JNITest {
         }
     }
 
+    private val testColor = NativeTestColor()
+
     fun load() {
         C2NTestItemFactory.init(factory)
+        TestColorFactory.init(testColor)
     }
 }

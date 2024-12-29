@@ -55,6 +55,10 @@ class JNITestFragment : CommonBaseFragment() {
         refreshLayout = contentView.findViewById(R.id.swipe_refresh_layout)
         recyclerView = contentView.findViewById(R.id.recycler_view)
         recyclerView?.apply {
+            setItemViewCacheSize(10)
+            recycledViewPool.setMaxRecycledViews(0, 10)
+            recycledViewPool.setMaxRecycledViews(1, 10)
+            recycledViewPool.setMaxRecycledViews(2, 10)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             addItemDecoration(object : RecyclerView.ItemDecoration() {
                 override fun getItemOffsets(

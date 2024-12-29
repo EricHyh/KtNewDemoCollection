@@ -1,6 +1,5 @@
 package com.example.jni_test.fragment.vm
 
-import android.graphics.Color
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -141,6 +140,7 @@ class JNITestTabPagingSource(private val tabInfo: JNITabInfo) :
 //                )
 //            )
 //        }
+
 //        testItemDataWrappers += TestItemDataWrapper(
 //            2, ItemTags(
 //                index, item.tags.map {

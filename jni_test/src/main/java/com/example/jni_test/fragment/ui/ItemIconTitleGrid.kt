@@ -19,11 +19,10 @@ import com.example.jni_test.widget.horizontal.IGrid
  * @author eriche 2024/12/22
  */
 class ItemIconTitleGrid(
-    private val index: Int,
     private val title: String,
 ) : IGrid<ItemIconTitleGridHolder> {
 
-    override val gridId: Int = index
+    override val gridId: Int = -1
     override val gridViewType: Int
         get() = 1
 
@@ -58,7 +57,7 @@ class ItemIconTitleGrid(
 
     override fun areContentsTheSame(other: IGrid<*>): Boolean {
         if (other !is ItemIconTitleGrid) return false
-        return index == other.index && title == other.title
+        return title == other.title
     }
 
     override fun render(holder: ItemIconTitleGridHolder) {

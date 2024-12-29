@@ -781,7 +781,7 @@ namespace Swig {
 namespace Swig {
   namespace {
     jclass jclass_JNIItemTestJNI = NULL;
-    jmethodID director_method_ids[21];
+    jmethodID director_method_ids[25];
   }
 }
 
@@ -846,6 +846,8 @@ template <typename T> T SwigValueInit() {
 
 #include "model/TestItem.h"
 #include "model/ItemIcon.h"
+
+#include "color/TestColor.h"
 
 #include "JNIContext.h"
 
@@ -1894,6 +1896,202 @@ void SwigDirector_N2CItemIcon::swig_connect_director(JNIEnv *jenv, jobject jself
   static SwigDirectorMethod methods[] = {
     SwigDirectorMethod(jenv, baseclass, "getName", "()Ljava/lang/String;"),
     SwigDirectorMethod(jenv, baseclass, "getIcon", "()Ljava/lang/String;")
+  };
+  
+  if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
+    bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
+    for (int i = 0; i < 2; ++i) {
+      swig_override[i] = false;
+      if (derived) {
+        jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
+        swig_override[i] = methods[i].methid && (methid != methods[i].methid);
+        jenv->ExceptionClear();
+      }
+    }
+  }
+}
+
+
+SwigDirector_ITestColor::SwigDirector_ITestColor(JNIEnv *jenv) : ITestColor(), Swig::Director(jenv) {
+}
+
+SwigDirector_ITestColor::~SwigDirector_ITestColor() {
+  swig_disconnect_director_self("swigDirectorDisconnect");
+}
+
+
+int SwigDirector_ITestColor::getRandomColor() {
+  int c_result = SwigValueInit< int >() ;
+  jint jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  
+  if (!swig_override[0]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method ITestColor::getRandomColor.");
+    return c_result;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[21], swigjobj);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    c_result = (int)jresult; 
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in ITestColor::getRandomColor ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return c_result;
+}
+
+std::string SwigDirector_ITestColor::add(std::string a,std::string b) {
+  std::string c_result ;
+  jstring jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jstring ja  ;
+  jstring jb  ;
+  
+  if (!swig_override[1]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method ITestColor::add.");
+    return c_result;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    ja = jenv->NewStringUTF((&a)->c_str());
+    Swig::LocalRefGuard a_refguard(jenv, ja); 
+    jb = jenv->NewStringUTF((&b)->c_str());
+    Swig::LocalRefGuard b_refguard(jenv, jb); 
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[22], swigjobj, ja, jb);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    if(!jresult) {
+      if (!jenv->ExceptionCheck()) {
+        SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+      }
+      return c_result;
+    } 
+    const char *c_result_pstr = (const char *)jenv->GetStringUTFChars(jresult, 0); 
+    if (!c_result_pstr) return c_result;
+    c_result.assign(c_result_pstr);
+    jenv->ReleaseStringUTFChars(jresult, c_result_pstr); 
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in ITestColor::add ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return c_result;
+}
+
+void SwigDirector_ITestColor::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
+  static jclass baseclass = swig_new_global_ref(jenv, "com/example/jni_test/model/ITestColor");
+  if (!baseclass) return;
+  static SwigDirectorMethod methods[] = {
+    SwigDirectorMethod(jenv, baseclass, "getRandomColor", "()I"),
+    SwigDirectorMethod(jenv, baseclass, "add", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;")
+  };
+  
+  if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
+    bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
+    for (int i = 0; i < 2; ++i) {
+      swig_override[i] = false;
+      if (derived) {
+        jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
+        swig_override[i] = methods[i].methid && (methid != methods[i].methid);
+        jenv->ExceptionClear();
+      }
+    }
+  }
+}
+
+
+SwigDirector_N2CTestColor::SwigDirector_N2CTestColor(JNIEnv *jenv) : N2CTestColor(), Swig::Director(jenv) {
+}
+
+SwigDirector_N2CTestColor::~SwigDirector_N2CTestColor() {
+  swig_disconnect_director_self("swigDirectorDisconnect");
+}
+
+
+int SwigDirector_N2CTestColor::getRandomColor() {
+  int c_result = SwigValueInit< int >() ;
+  jint jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  
+  if (!swig_override[0]) {
+    return N2CTestColor::getRandomColor();
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[23], swigjobj);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    c_result = (int)jresult; 
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in N2CTestColor::getRandomColor ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return c_result;
+}
+
+std::string SwigDirector_N2CTestColor::add(std::string a,std::string b) {
+  std::string c_result ;
+  jstring jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jstring ja  ;
+  jstring jb  ;
+  
+  if (!swig_override[1]) {
+    return N2CTestColor::add(a,b);
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    ja = jenv->NewStringUTF((&a)->c_str());
+    Swig::LocalRefGuard a_refguard(jenv, ja); 
+    jb = jenv->NewStringUTF((&b)->c_str());
+    Swig::LocalRefGuard b_refguard(jenv, jb); 
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[24], swigjobj, ja, jb);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    if(!jresult) {
+      if (!jenv->ExceptionCheck()) {
+        SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+      }
+      return c_result;
+    } 
+    const char *c_result_pstr = (const char *)jenv->GetStringUTFChars(jresult, 0); 
+    if (!c_result_pstr) return c_result;
+    c_result.assign(c_result_pstr);
+    jenv->ReleaseStringUTFChars(jresult, c_result_pstr); 
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in N2CTestColor::add ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return c_result;
+}
+
+void SwigDirector_N2CTestColor::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
+  static jclass baseclass = swig_new_global_ref(jenv, "com/example/jni_test/model/N2CTestColor");
+  if (!baseclass) return;
+  static SwigDirectorMethod methods[] = {
+    SwigDirectorMethod(jenv, baseclass, "getRandomColor", "()I"),
+    SwigDirectorMethod(jenv, baseclass, "add", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;")
   };
   
   if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
@@ -3395,6 +3593,316 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_N2CItemI
 }
 
 
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1ITestColor(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  ITestColor *arg1 = (ITestColor *) 0 ;
+  std::shared_ptr< ITestColor > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  smartarg1 = *(std::shared_ptr<  ITestColor > **)&jarg1;
+  arg1 = (ITestColor *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ITestColor_1getRandomColor(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  ITestColor *arg1 = (ITestColor *) 0 ;
+  std::shared_ptr< ITestColor > *smartarg1 = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ITestColor > **)&jarg1;
+  arg1 = (ITestColor *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (int)(arg1)->getRandomColor();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ITestColor_1add(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jstring jarg3) {
+  jstring jresult = 0 ;
+  ITestColor *arg1 = (ITestColor *) 0 ;
+  std::string arg2 ;
+  std::string arg3 ;
+  std::shared_ptr< ITestColor > *smartarg1 = 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ITestColor > **)&jarg1;
+  arg1 = (ITestColor *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  } 
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  (&arg2)->assign(arg2_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  } 
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return 0;
+  (&arg3)->assign(arg3_pstr);
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  result = (arg1)->add(arg2,arg3);
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1ITestColor(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  ITestColor *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (ITestColor *)new SwigDirector_ITestColor(jenv);
+  
+  *(std::shared_ptr<  ITestColor > **)&jresult = result ? new std::shared_ptr<  ITestColor >(result SWIG_NO_NULL_DELETER_1) : 0;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ITestColor_1director_1connect(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jswig_mem_own, jboolean jweak_global) {
+  std::shared_ptr< ITestColor > *obj = *((std::shared_ptr< ITestColor > **)&objarg);
+  (void)jcls;
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_ITestColor *director = static_cast<SwigDirector_ITestColor *>(obj->operator->());
+  director->swig_connect_director(jenv, jself, jenv->GetObjectClass(jself), (jswig_mem_own == JNI_TRUE), (jweak_global == JNI_TRUE));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ITestColor_1change_1ownership(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jtake_or_release) {
+  std::shared_ptr< ITestColor > *obj = *((std::shared_ptr< ITestColor > **)&objarg);
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_ITestColor *director = dynamic_cast<SwigDirector_ITestColor *>(obj->operator->());
+  (void)jcls;
+  if (director) {
+    director->swig_java_change_ownership(jenv, jself, jtake_or_release ? true : false);
+  }
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_N2CTestColor_1getRandomColor(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  N2CTestColor *arg1 = (N2CTestColor *) 0 ;
+  std::shared_ptr< N2CTestColor > *smartarg1 = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  N2CTestColor > **)&jarg1;
+  arg1 = (N2CTestColor *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (int)(arg1)->getRandomColor();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_N2CTestColor_1getRandomColorSwigExplicitN2CTestColor(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  N2CTestColor *arg1 = (N2CTestColor *) 0 ;
+  std::shared_ptr< N2CTestColor > *smartarg1 = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  N2CTestColor > **)&jarg1;
+  arg1 = (N2CTestColor *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (int)(arg1)->N2CTestColor::getRandomColor();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_N2CTestColor_1add(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jstring jarg3) {
+  jstring jresult = 0 ;
+  N2CTestColor *arg1 = (N2CTestColor *) 0 ;
+  std::string arg2 ;
+  std::string arg3 ;
+  std::shared_ptr< N2CTestColor > *smartarg1 = 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  N2CTestColor > **)&jarg1;
+  arg1 = (N2CTestColor *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  } 
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  (&arg2)->assign(arg2_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  } 
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return 0;
+  (&arg3)->assign(arg3_pstr);
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  result = (arg1)->add(arg2,arg3);
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_N2CTestColor_1addSwigExplicitN2CTestColor(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jstring jarg3) {
+  jstring jresult = 0 ;
+  N2CTestColor *arg1 = (N2CTestColor *) 0 ;
+  std::string arg2 ;
+  std::string arg3 ;
+  std::shared_ptr< N2CTestColor > *smartarg1 = 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  N2CTestColor > **)&jarg1;
+  arg1 = (N2CTestColor *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  } 
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  (&arg2)->assign(arg2_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  } 
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return 0;
+  (&arg3)->assign(arg3_pstr);
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  result = (arg1)->N2CTestColor::add(arg2,arg3);
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1N2CTestColor(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  N2CTestColor *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (N2CTestColor *)new SwigDirector_N2CTestColor(jenv);
+  
+  *(std::shared_ptr<  N2CTestColor > **)&jresult = result ? new std::shared_ptr<  N2CTestColor >(result SWIG_NO_NULL_DELETER_1) : 0;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1N2CTestColor(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  N2CTestColor *arg1 = (N2CTestColor *) 0 ;
+  std::shared_ptr< N2CTestColor > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  smartarg1 = *(std::shared_ptr<  N2CTestColor > **)&jarg1;
+  arg1 = (N2CTestColor *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_N2CTestColor_1director_1connect(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jswig_mem_own, jboolean jweak_global) {
+  std::shared_ptr< N2CTestColor > *obj = *((std::shared_ptr< N2CTestColor > **)&objarg);
+  (void)jcls;
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_N2CTestColor *director = static_cast<SwigDirector_N2CTestColor *>(obj->operator->());
+  director->swig_connect_director(jenv, jself, jenv->GetObjectClass(jself), (jswig_mem_own == JNI_TRUE), (jweak_global == JNI_TRUE));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_N2CTestColor_1change_1ownership(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jtake_or_release) {
+  std::shared_ptr< N2CTestColor > *obj = *((std::shared_ptr< N2CTestColor > **)&objarg);
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_N2CTestColor *director = dynamic_cast<SwigDirector_N2CTestColor *>(obj->operator->());
+  (void)jcls;
+  if (director) {
+    director->swig_java_change_ownership(jenv, jself, jtake_or_release ? true : false);
+  }
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestColorFactory_1init(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  ITestColor *arg1 = (ITestColor *) 0 ;
+  std::shared_ptr< ITestColor > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ITestColor > **)&jarg1;
+  arg1 = (ITestColor *)(smartarg1 ? smartarg1->get() : 0); 
+  TestColorFactory::init(arg1);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestColorFactory_1create(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  ITestColor *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (ITestColor *)TestColorFactory::create();
+  
+  *(std::shared_ptr<  ITestColor > **)&jresult = result ? new std::shared_ptr<  ITestColor >(result SWIG_NO_NULL_DELETER_0) : 0;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1TestColorFactory(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  TestColorFactory *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (TestColorFactory *)new TestColorFactory();
+  *(TestColorFactory **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1TestColorFactory(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  TestColorFactory *arg1 = (TestColorFactory *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(TestColorFactory **)&jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_N2CTestItem_1SWIGSmartPtrUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
     jlong baseptr = 0;
     std::shared_ptr< N2CTestItem > *argp1;
@@ -3415,13 +3923,23 @@ SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_N2CItem
     return baseptr;
 }
 
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_N2CTestColor_1SWIGSmartPtrUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    std::shared_ptr< N2CTestColor > *argp1;
+    (void)jenv;
+    (void)jcls;
+    argp1 = *(std::shared_ptr< N2CTestColor > **)&jarg1;
+    *(std::shared_ptr< ITestColor > **)&baseptr = argp1 ? new std::shared_ptr< ITestColor >(*argp1) : 0;
+    return baseptr;
+}
+
 SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_swig_1module_1init(JNIEnv *jenv, jclass jcls) {
   int i;
   
   static struct {
     const char *method;
     const char *signature;
-  } methods[21] = {
+  } methods[25] = {
     {
       "SwigDirector_IItemIcon_getName", "(Lcom/example/jni_test/model/IItemIcon;)Ljava/lang/String;" 
     },
@@ -3484,6 +4002,18 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_swig_1mo
     },
     {
       "SwigDirector_N2CItemIcon_getIcon", "(Lcom/example/jni_test/model/N2CItemIcon;)Ljava/lang/String;" 
+    },
+    {
+      "SwigDirector_ITestColor_getRandomColor", "(Lcom/example/jni_test/model/ITestColor;)I" 
+    },
+    {
+      "SwigDirector_ITestColor_add", "(Lcom/example/jni_test/model/ITestColor;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;" 
+    },
+    {
+      "SwigDirector_N2CTestColor_getRandomColor", "(Lcom/example/jni_test/model/N2CTestColor;)I" 
+    },
+    {
+      "SwigDirector_N2CTestColor_add", "(Lcom/example/jni_test/model/N2CTestColor;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;" 
     }
   };
   Swig::jclass_JNIItemTestJNI = (jclass) jenv->NewGlobalRef(jcls);

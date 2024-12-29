@@ -25,4 +25,18 @@
         android:text="Java 调用 C++ 调用 Java"
         android:textAllCaps="false" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickAnim"
+        android:text="动画测试"
+        android:textAllCaps="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickTest"
+        android:text="函数执行测试"
+        android:textAllCaps="false" />
+
 </LinearLayout>

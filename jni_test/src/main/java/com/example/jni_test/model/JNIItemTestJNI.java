@@ -94,8 +94,27 @@ public class JNIItemTestJNI {
   public final static native void delete_N2CItemIcon(long jarg1);
   public final static native void N2CItemIcon_director_connect(N2CItemIcon obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void N2CItemIcon_change_ownership(N2CItemIcon obj, long cptr, boolean take_or_release);
+  public final static native void delete_ITestColor(long jarg1);
+  public final static native int ITestColor_getRandomColor(long jarg1, ITestColor jarg1_);
+  public final static native String ITestColor_add(long jarg1, ITestColor jarg1_, String jarg2, String jarg3);
+  public final static native long new_ITestColor();
+  public final static native void ITestColor_director_connect(ITestColor obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void ITestColor_change_ownership(ITestColor obj, long cptr, boolean take_or_release);
+  public final static native int N2CTestColor_getRandomColor(long jarg1, N2CTestColor jarg1_);
+  public final static native int N2CTestColor_getRandomColorSwigExplicitN2CTestColor(long jarg1, N2CTestColor jarg1_);
+  public final static native String N2CTestColor_add(long jarg1, N2CTestColor jarg1_, String jarg2, String jarg3);
+  public final static native String N2CTestColor_addSwigExplicitN2CTestColor(long jarg1, N2CTestColor jarg1_, String jarg2, String jarg3);
+  public final static native long new_N2CTestColor();
+  public final static native void delete_N2CTestColor(long jarg1);
+  public final static native void N2CTestColor_director_connect(N2CTestColor obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void N2CTestColor_change_ownership(N2CTestColor obj, long cptr, boolean take_or_release);
+  public final static native void TestColorFactory_init(long jarg1, ITestColor jarg1_);
+  public final static native long TestColorFactory_create();
+  public final static native long new_TestColorFactory();
+  public final static native void delete_TestColorFactory(long jarg1);
   public final static native long N2CTestItem_SWIGSmartPtrUpcast(long jarg1);
   public final static native long N2CItemIcon_SWIGSmartPtrUpcast(long jarg1);
+  public final static native long N2CTestColor_SWIGSmartPtrUpcast(long jarg1);
 
   public static String SwigDirector_IItemIcon_getName(IItemIcon jself) {
     return jself.getName();
@@ -159,6 +178,18 @@ public class JNIItemTestJNI {
   }
   public static String SwigDirector_N2CItemIcon_getIcon(N2CItemIcon jself) {
     return jself.getIcon();
+  }
+  public static int SwigDirector_ITestColor_getRandomColor(ITestColor jself) {
+    return jself.getRandomColor();
+  }
+  public static String SwigDirector_ITestColor_add(ITestColor jself, String a, String b) {
+    return jself.add(a, b);
+  }
+  public static int SwigDirector_N2CTestColor_getRandomColor(N2CTestColor jself) {
+    return jself.getRandomColor();
+  }
+  public static String SwigDirector_N2CTestColor_add(N2CTestColor jself, String a, String b) {
+    return jself.add(a, b);
   }
 
   private final static native void swig_module_init();

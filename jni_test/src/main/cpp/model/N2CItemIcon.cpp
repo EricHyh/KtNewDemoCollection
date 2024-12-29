@@ -5,7 +5,6 @@
 #include "N2CItemIcon.h"
 #include "TestUtil.h"
 
-
 N2CItemIcon::N2CItemIcon(int index) {
     const std::pair<std::string, std::string> &pair = test_util::createIcon(index);
     this->name = pair.first;

@@ -12,6 +12,8 @@
 #include "model/TestItem.h"
 #include "model/ItemIcon.h"
 
+#include "color/TestColor.h"
+
 #include "JNIContext.h"
 %}
 
@@ -19,11 +21,14 @@
 %shared_ptr(IItemIcon)
 %shared_ptr(N2CTestItem)
 %shared_ptr(N2CItemIcon)
+%shared_ptr(ITestColor)
+%shared_ptr(N2CTestColor)
 
 
 %feature("director") ITestItem;
 %feature("director") IC2NTestItemFactory;
 %feature("director") IItemIcon;
+%feature("director") ITestColor;
 
 %shared_ptr_wrapper(ITestItem);
 %shared_ptr_wrapper(IItemIcon);
@@ -39,6 +44,7 @@
 
 %include "model/N2CTestItem.h"
 %include "model/N2CItemIcon.h"
+%include "color/TestColor.h"
 
 
 

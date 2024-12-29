@@ -100,5 +100,37 @@ protected:
     Swig::BoolArray<2> swig_override;
 };
 
+class SwigDirector_ITestColor : public ITestColor, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_ITestColor(JNIEnv *jenv);
+    virtual ~SwigDirector_ITestColor();
+    virtual int getRandomColor();
+    virtual std::string add(std::string a,std::string b);
+public:
+    bool swig_overrides(int n) {
+      return (n < 2 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<2> swig_override;
+};
+
+class SwigDirector_N2CTestColor : public N2CTestColor, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_N2CTestColor(JNIEnv *jenv);
+    virtual ~SwigDirector_N2CTestColor();
+    virtual int getRandomColor();
+    virtual std::string add(std::string a,std::string b);
+public:
+    bool swig_overrides(int n) {
+      return (n < 2 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<2> swig_override;
+};
+
 
 #endif
