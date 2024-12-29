@@ -132,6 +132,7 @@ class JNITestTabPagingSource(private val tabInfo: JNITabInfo) :
             0,
             item
         )
+
 //        val originalIcons = item.icons
 //        jniTestTabPagingSource.splitList(originalIcons, 10).forEach { icons ->
 //            testItemDataWrappers += TestItemDataWrapper(
