@@ -12,7 +12,7 @@ class JNITestTabsViewModel(private val dataSource: DataSource) : ViewModel() {
     fun loadData() {
         mutableLiveData.postValue(
             listOf(
-                JNITabInfo("对照组", dataSource, 0),
+                JNITabInfo("1倍", dataSource, 0),
                 JNITabInfo("10倍", dataSource, 10),
                 JNITabInfo("100倍", dataSource, 100),
                 JNITabInfo("200倍", dataSource, 200),

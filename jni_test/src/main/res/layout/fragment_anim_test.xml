@@ -6,77 +6,12 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <RadioGroup
-        android:id="@+id/rg_type"
+    <Button
+        android:id="@+id/btn_stop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rb_type_native"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-            android:paddingVertical="8dp"
-            android:text="原生" />
-
-        <RadioButton
-            android:id="@+id/rb_type_native2cpp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingVertical="8dp"
-            android:text="原生调用C++" />
-
-        <RadioButton
-            android:id="@+id/rb_type_cpp2native"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingVertical="8dp"
-            android:text="C++调用原生" />
-
-    </RadioGroup>
-
-    <LinearLayout
-        android:id="@+id/ll_btn_container1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rg_type"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_bg"
-            android:tag="1"
-            android:text="对照" />
-
-        <Button
-            android:id="@+id/btn_10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_bg"
-            android:tag="10"
-            android:text="10倍" />
-
-        <Button
-            android:id="@+id/btn_100"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_bg"
-            android:tag="100"
-            android:text="100倍" />
-
-    </LinearLayout>
+        android:layout_below="@+id/ll_btn_container2"
+        android:text="停止" />
 
     <LinearLayout
         android:id="@+id/ll_btn_container2"
@@ -117,11 +52,76 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_stop"
+    <LinearLayout
+        android:id="@+id/ll_btn_container1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_btn_container2"
-        android:text="停止" />
+        android:layout_below="@+id/rg_type"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg"
+            android:tag="1"
+            android:text="1倍" />
+
+        <Button
+            android:id="@+id/btn_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg"
+            android:tag="10"
+            android:text="10倍" />
+
+        <Button
+            android:id="@+id/btn_100"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg"
+            android:tag="100"
+            android:text="100倍" />
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/rg_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_type_native"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:paddingVertical="8dp"
+            android:text="原生" />
+
+        <RadioButton
+            android:id="@+id/rb_type_native2cpp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingVertical="8dp"
+            android:text="原生调用C++" />
+
+        <RadioButton
+            android:id="@+id/rb_type_cpp2native"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingVertical="8dp"
+            android:text="C++调用原生" />
+
+    </RadioGroup>
 
 </RelativeLayout>

@@ -3,6 +3,9 @@ package com.example.jni_test
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import com.example.jni_test.fragment.AnimTestFragment
 import com.example.jni_test.fragment.FunctionTestFragment
 import com.example.jni_test.fragment.JNITestTabsFragment
@@ -14,6 +17,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.act_main)
+        supportFragmentManager.registerFragmentLifecycleCallbacks(
+            object : FragmentLifecycleCallbacks() {
+                override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
+                    super.onFragmentDetached(fm, f)
+                    if (fm.backStackEntryCount == 0) {
+                        setTitle(R.string.app_name)
+                    }
+                }
+            }, true
+        )
     }
 
     fun onClickNative(view: View) {

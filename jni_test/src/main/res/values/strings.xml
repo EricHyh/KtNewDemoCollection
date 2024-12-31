@@ -3,4 +3,9 @@
     <string name="list_demo">ListDemo</string>
     <string name="multi_tabs_list_demo">多Tab</string>
     <string name="tab_demo">TabDemo</string>
+
+    <string name="java_native">Java 原生</string>
+    <string name="java_2_cpp">Java 调用 C++</string>
+    <string name="cpp_2_java">Java 调用 C++ 调用 Java</string>
+
 </resources>

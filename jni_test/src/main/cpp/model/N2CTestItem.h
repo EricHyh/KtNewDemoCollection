@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "TestUtil.h"
+#include "../TestUtil.h"
 #include "ItemIcon.h"
 #include "TestItem.h"
 

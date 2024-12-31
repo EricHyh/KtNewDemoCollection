@@ -13,6 +13,8 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
+#include <set>
+#include <unordered_set>
 
 struct FINFeatureFlagVariant {
     std::string name;                                                // 变体名称
@@ -64,6 +66,8 @@ public:
     virtual void onTest13(std::unordered_map<std::string, std::string> str) = 0;
 
     virtual void onTest14(std::unordered_map<std::shared_ptr<FINFeatureFlagVariant>, std::string> str) = 0;
+
+    virtual void onTest15(std::string str...) = 0;
 
 
     virtual std::shared_ptr<std::string> onTest12() = 0;

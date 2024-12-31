@@ -24,14 +24,22 @@ class JNITestTabsFragment : CommonBaseFragment() {
     @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val dataSource: DataSource = arguments!!.getSerializable("DataSource") as DataSource
         tabsViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
 
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                val dataSource: DataSource = arguments!!.getSerializable("DataSource") as DataSource
                 return JNITestTabsViewModel(dataSource) as T
             }
 
         })[JNITestTabsViewModel::class.java]
+
+        activity?.setTitle(
+            when (dataSource) {
+                DataSource.NATIVE -> R.string.java_native
+                DataSource.NATIVE_TO_CPP -> R.string.java_2_cpp
+                DataSource.CPP_TO_NATIVE -> R.string.cpp_2_java
+            }
+        )
     }
 
     override fun getContentView(inflater: LayoutInflater, container: ViewGroup?): View {

@@ -29,6 +29,7 @@ public:
 private:
     std::random_device rd;
     std::uniform_int_distribution<int> dist = std::uniform_int_distribution<int>(0, 256);
+    std::minstd_rand generator = std::minstd_rand();
 };
 
 class TestColorFactory {

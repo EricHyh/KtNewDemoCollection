@@ -8,21 +8,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickNative"
-        android:text="Java原生"
+        android:text="@string/java_native"
         android:textAllCaps="false" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickJ2C"
-        android:text="Java 调用 C++"
+        android:text="@string/java_2_cpp"
         android:textAllCaps="false" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickJ2C2J"
-        android:text="Java 调用 C++ 调用 Java"
+        android:text="@string/cpp_2_java"
         android:textAllCaps="false" />
 
     <Button

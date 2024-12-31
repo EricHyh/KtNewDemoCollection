@@ -5,9 +5,9 @@
 #include "TestColor.h"
 
 int N2CTestColor::getRandomColor() {
-    int r = dist(rd);
-    int g = dist(rd);
-    int b = dist(rd);
+    int r = generator() % 256;
+    int g = generator() % 256;
+    int b = generator() % 256;
     return (0xff << 24) | (r << 16) | (g << 8) | b;
 }
 
