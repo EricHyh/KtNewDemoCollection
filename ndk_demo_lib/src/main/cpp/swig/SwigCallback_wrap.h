@@ -76,41 +76,16 @@ public:
     SwigDirector_InnerObserver(JNIEnv *jenv);
     virtual ~SwigDirector_InnerObserver();
     virtual void onTest1(std::shared_ptr< SwigCallbackData > data1);
+    virtual void setOptional(std::optional< FINFeatureFlagVariant > opt);
+    virtual void setOptional2(std::optional< FINFeatureFlagVariant > &opt);
+    virtual std::optional< FINFeatureFlagVariant > getOptional();
+    virtual std::optional< FINFeatureFlagVariant > getOptional2();
 public:
     bool swig_overrides(int n) {
-      return (n < 1 ? swig_override[n] : false);
+      return (n < 5 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<1> swig_override;
-};
-
-class SwigDirector_SwigCallback : public SwigCallback, public Swig::Director {
-
-public:
-    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
-    SwigDirector_SwigCallback(JNIEnv *jenv);
-    virtual void onTest1(std::shared_ptr< SwigCallbackData > data1);
-    virtual void onTest2(SwigCallbackData data2);
-    virtual void onTest3(std::shared_ptr< InnerObserver > innerCallback);
-    virtual std::shared_ptr< SwigCallbackData > onTest4(int gg);
-    virtual void onTest5(int a,std::string b,InnerObserver2 innerCallback,int c);
-    virtual void onTest6(int a,std::string b,InnerObserver2 innerCallback2,InnerObserver3 innerCallback3,int c);
-    virtual void onTest7(std::string str);
-    virtual std::string onTest8();
-    virtual void onTest9(std::optional< std::string > &str);
-    virtual std::optional< std::string > &onTest10();
-    virtual void onTest11(std::shared_ptr< std::string > &str);
-    virtual void onTest12(std::map< std::string,std::string,std::less< std::string > > str);
-    virtual void onTest13(std::unordered_map< std::string,std::string > str);
-    virtual void onTest14(std::unordered_map< std::shared_ptr< FINFeatureFlagVariant >,std::string > str);
-    virtual std::shared_ptr< std::string > onTest12();
-    virtual ~SwigDirector_SwigCallback();
-public:
-    bool swig_overrides(int n) {
-      return (n < 15 ? swig_override[n] : false);
-    }
-protected:
-    Swig::BoolArray<15> swig_override;
+    Swig::BoolArray<5> swig_override;
 };
 
 

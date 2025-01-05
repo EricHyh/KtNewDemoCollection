@@ -5,7 +5,9 @@
 %include <std_unordered_map.i>
 %include "common_swig_config.i"
 %include "string_config.i"
+%include "optional_config.i"
 %include <std_string.i>
+
 
 
 %{
@@ -23,12 +25,13 @@
 %shared_ptr(FINFeatureFlagVariant)
 %shared_ptr(InnerObserver)
 
-
 %feature("director") SwigCallback;
 
 %shared_ptr_param_wrapper(SwigCallback)
 
 %shared_ptr_param_wrapper(InnerObserver)
+
+%simple_optional(FINFeatureFlagVariant, FINFeatureFlagVariant)
 
 //%shared_ptr_param_wrapper(SwigCallbackFunctionBridge)
 //%shared_ptr_param_wrapper(SwigCallbackFunction1Bridge)

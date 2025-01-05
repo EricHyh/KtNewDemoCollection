@@ -48,9 +48,12 @@ SWIG_JAVABODY_METHODS(public, public, SWIGTYPE)
 SWIG_SHARED_PTR_TYPEMAPS_IMPLEMENTATION(public, public, CONST, TYPE)
 %enddef
 
-
+// https://www.swig.org/Doc4.3/SWIGDocumentation.pdf
+// https://www.swig.org/Doc4.3/SWIGDocumentation.html
 %import "std_shared_ptr.i"
 %import "std_unique_ptr.i"
 %import "std_string.i"
 %import "std_vector.i"
 %import "functional_config.i"
+
+%naturalvar;    //一律将成员变量转成 set/get 函数

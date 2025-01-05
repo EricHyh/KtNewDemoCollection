@@ -11,7 +11,7 @@ package com.example.ndk_demo_lib
 data class ModuleConfig(
     val module_name: String,
     val path_dir: String,
-    val classes: List<ClassConfig>,
+    val type_configs: List<TypeConfig>,
 )
 
 data class TypeConfig(
@@ -34,7 +34,7 @@ data class ClassConfig(
     val shared_ptr: Boolean,
     val detector: Boolean,
 
-    val dependent_modules: List<String>,
+    val dependent_types: List<String>,
 )
 
 data class EnumClassConfig(
@@ -48,7 +48,7 @@ data class NamespaceConfig(
     val original_type: String,
     val target_type: String,
 
-    val dependent_modules: List<String>
+    val dependent_types: List<String>
 )
 
 data class FunctionConfig(
@@ -60,5 +60,5 @@ data class FunctionConfig(
     //val template_name: String,
     val params: Pair<String, String>,
 
-    val dependent_modules: List<String>
+    val dependent_types: List<String>
 )
