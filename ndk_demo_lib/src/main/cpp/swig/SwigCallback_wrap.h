@@ -93,15 +93,18 @@ class SwigDirector_SwigCallback : public SwigCallback, public Swig::Director {
 public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
     SwigDirector_SwigCallback(JNIEnv *jenv);
+    virtual void onTestVariant1(TestVariant variant);
+    virtual void onTestVariant2(TestVariant const &variant);
+    virtual TestVariant onTestVariant3();
     virtual ~SwigDirector_SwigCallback();
     virtual void onTest2(InnerObserver2 &observer2);
     virtual void onTest22(std::shared_ptr< InnerObserver2 > observer2);
 public:
     bool swig_overrides(int n) {
-      return (n < 2 ? swig_override[n] : false);
+      return (n < 5 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<2> swig_override;
+    Swig::BoolArray<5> swig_override;
 };
 
 

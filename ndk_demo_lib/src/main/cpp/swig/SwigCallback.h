@@ -6,6 +6,7 @@
 #include <memory>
 #include <android/log.h>
 #include <sstream>
+#include <variant>
 #include <iomanip>
 #include <functional>
 #include <any>
@@ -52,9 +53,17 @@ using InnerObserver2 = std::function<void(const SwigCallbackData &data)>;
 
 using InnerObserver3 = std::function<int(const SwigCallbackData &data)>;
 
+using TestVariant = std::variant<int, double, long long, std::string>;
+
 class SwigCallback {
 
 public:
+
+    virtual void onTestVariant1(TestVariant variant) = 0;
+
+    virtual void onTestVariant2(const TestVariant& variant) = 0;
+
+    virtual TestVariant onTestVariant3() = 0;
 
     virtual ~SwigCallback() = default;
 

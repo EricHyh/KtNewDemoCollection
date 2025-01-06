@@ -10,7 +10,6 @@ using namespace std;
 class SwigCallbackData {
 
 public:
-    int a;
     SwigCallbackData(const int a);
 
     void setStr(std::shared_ptr<std::string> str);

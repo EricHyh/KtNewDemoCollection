@@ -1,7 +1,7 @@
 #ifndef OPTIONAL_CONFIG
 #define OPTIONAL_CONFIG
 
-%define %simple_optional(original_type, target_type)
+%define %simple_shared_optional(original_type, target_type)
 
 %typemap(jstype) std::optional<original_type>, std::optional<original_type>& "target_type"  //Java层 Java函数类型
 %typemap(jtype) std::optional<original_type>, std::optional<original_type>& "long"   //Java层 JNI函数参数类型
