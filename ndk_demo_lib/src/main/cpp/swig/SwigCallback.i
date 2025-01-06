@@ -35,12 +35,12 @@
 
 //%shared_ptr_param_wrapper(SwigCallbackFunctionBridge)
 //%shared_ptr_param_wrapper(SwigCallbackFunction1Bridge)
-%function_type_bridge(SwigCallbackFunction,(const SwigCallbackData &data), (data), com/example/ndk_demo_lib1);
-%function_type_bridge(SwigCallbackFunction1,(const SwigCallbackData &data), (data), com/example/ndk_demo_lib1);
+%functional_bridge(SwigCallbackFunction, SwigCallbackFunctionBridge, void, (const SwigCallbackData &data), (data));
+%functional_bridge(SwigCallbackFunction1, SwigCallbackFunction1Bridge, void, (const SwigCallbackData &data), (data));
 
 
-%function_type_bridge(InnerObserver2,(const SwigCallbackData &data), (data), com/example/ndk_demo_lib1);
-%function_type_bridge(InnerObserver3,(const SwigCallbackData &data), (data), com/example/ndk_demo_lib1);
+%functional_bridge(InnerObserver2, InnerObserver2Bridge, void, (const SwigCallbackData &data), (data));
+%functional_bridge(InnerObserver3, InnerObserver3Bridge, int, (const SwigCallbackData &data), (data));
 
 
 %template(Str2StrMap) std::map<std::string, std::string>;

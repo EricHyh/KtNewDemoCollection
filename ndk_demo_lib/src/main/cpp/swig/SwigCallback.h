@@ -50,11 +50,18 @@ public:
 
 using InnerObserver2 = std::function<void(const SwigCallbackData &data)>;
 
-using InnerObserver3 = std::function<void(const SwigCallbackData &data)>;
+using InnerObserver3 = std::function<int(const SwigCallbackData &data)>;
 
 class SwigCallback {
 
 public:
+
+    virtual ~SwigCallback() = default;
+
+    virtual void onTest2(InnerObserver2 &observer2) = 0;
+
+    virtual void onTest22(std::shared_ptr<InnerObserver2> observer2) = 0;
+
 
 //    virtual void onTest1(std::shared_ptr<SwigCallbackData> data1) = 0;
 //

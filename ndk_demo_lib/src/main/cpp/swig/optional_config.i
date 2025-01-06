@@ -1,21 +1,6 @@
 #ifndef OPTIONAL_CONFIG
 #define OPTIONAL_CONFIG
 
-//%{
-//#include <optional>
-//
-//template<typename T>
-//struct OptionalWrapper {
-//    OptionalWrapper() : opt(std::nullopt) {}
-//    OptionalWrapper(T val) : opt(std::move(val)) {}
-//
-//    bool has_value() const { return opt.has_value(); }
-//    const T& value() const { return opt.value(); }
-//
-//    std::optional<T> opt;
-//};
-//%}
-
 %define %simple_optional(original_type, target_type)
 
 %typemap(jstype) std::optional<original_type>, std::optional<original_type>& "target_type"  //Java层 Java函数类型
@@ -23,7 +8,6 @@
 %typemap(jni) std::optional<original_type>, std::optional<original_type>& "jlong"    //C++层  JNI函数参数类型
 
 //Java层，Java调用JNI函数时，对函数参数的转换
-//%typemap(javain) std::optional<original_type>, std::optional<original_type>& "$javainput"
 %typemap(javain) std::optional<original_type>, std::optional<original_type>& "$typemap(jstype, original_type).getCPtr($javainput)"
 
 //Java层，Java调用JNI函数时，对返回值的转换
