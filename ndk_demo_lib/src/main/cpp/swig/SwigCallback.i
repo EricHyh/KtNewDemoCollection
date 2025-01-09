@@ -1,9 +1,8 @@
 %module SwigCallbackDemo
 
-//%include <std_map.i>
+%include <std_map.i>
 //%include <std_unordered_map.i>
 
-%include "xxx.i"
 
 %include "common_swig_config.i"
 %include "string_config.i"
@@ -11,7 +10,7 @@
 %include "variant_config.i"
 %include <std_string.i>
 
-
+%import "basic_type_config.i"
 
 %{
 #include "SwigCallback.h"
@@ -77,6 +76,7 @@
 //%apply long int { int64_t }
 
 //typedef long int		int64_t;
+
 
 %template(Str2Int64Map) std::map<std::string, int64_t>;
 
