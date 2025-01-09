@@ -96,15 +96,16 @@ public:
     virtual void onTestVariant1(TestVariant variant);
     virtual void onTestVariant2(TestVariant const &variant);
     virtual TestVariant onTestVariant3();
+    virtual void onTestVariant4(std::map< std::string,TestVariant,std::less< std::string > > variants);
     virtual ~SwigDirector_SwigCallback();
     virtual void onTest2(InnerObserver2 &observer2);
     virtual void onTest22(std::shared_ptr< InnerObserver2 > observer2);
 public:
     bool swig_overrides(int n) {
-      return (n < 5 ? swig_override[n] : false);
+      return (n < 6 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<5> swig_override;
+    Swig::BoolArray<6> swig_override;
 };
 
 

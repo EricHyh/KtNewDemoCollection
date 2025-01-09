@@ -34,7 +34,6 @@ $1 = std::shared_ptr<TYPE>(argp$argnum->get(), [globalRef](TYPE* ptr) {
 }
 %enddef //shared_ptr_param_wrapper
 
-
 #endif // COMMON_SWIG_CONFIG
 
 
@@ -57,3 +56,7 @@ SWIG_SHARED_PTR_TYPEMAPS_IMPLEMENTATION(public, public, CONST, TYPE)
 %import "functional_config.i"
 
 %naturalvar;    //一律将成员变量转成 set/get 函数
+
+#ifndef __COMMA__
+#define __COMMA__ ,
+#endif

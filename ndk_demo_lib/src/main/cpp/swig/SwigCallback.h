@@ -53,7 +53,9 @@ using InnerObserver2 = std::function<void(const SwigCallbackData &data)>;
 
 using InnerObserver3 = std::function<int(const SwigCallbackData &data)>;
 
-using TestVariant = std::variant<int, double, long long, std::string>;
+
+using TestVariant = std::variant<int, double, std::string, bool, int64_t, long long>;
+
 
 class SwigCallback {
 
@@ -64,6 +66,12 @@ public:
     virtual void onTestVariant2(const TestVariant& variant) = 0;
 
     virtual TestVariant onTestVariant3() = 0;
+
+    void testMap(const std::map<std::string, TestVariant, std::less<std::string>>::iterator itr) {
+
+    }
+
+    virtual void onTestVariant4(std::map<std::string, TestVariant> variants) = 0;
 
     virtual ~SwigCallback() = default;
 

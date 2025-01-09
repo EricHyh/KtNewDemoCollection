@@ -3,7 +3,27 @@
 
 %import "normal_type_config.i"
 
-%define %target_type_class_2(original_type, target_type, t1, t2)
+%define type_expand(target_type, c_t, nice_t)
+
+    target_type(const c_t& value){
+        this->m_original = value;
+    }
+
+    bool Is##nice_t(){
+        return std::holds_alternative<c_t>(m_original);
+    }
+
+    c_t Get##nice_t(){
+        return std::get<c_t>(m_original);
+    }
+
+    %enddef
+
+%define %target_type_class_2(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2)
+
+%ignore target_type::m_original;
+%ignore target_type::target_type(const original_type& value);
+
 %inline %{
 class target_type {
 
@@ -12,13 +32,9 @@ public:
 
     target_type(const original_type& value) : m_original(value) {}
 
-    target_type(const t1& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t1, nice_t1)
 
-    target_type(const t2& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t2, nice_t2)
 
     original_type m_original;
 };
@@ -27,7 +43,11 @@ public:
 
 %enddef
 
-%define %target_type_class_3(original_type, target_type, t1, t2, t3)
+%define %target_type_class_3(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2, c_t3, nice_t3)
+
+%ignore target_type::m_original;
+%ignore target_type::target_type(const original_type& value);
+
 %inline %{
 class target_type {
 
@@ -36,17 +56,11 @@ public:
 
     target_type(const original_type& value) : m_original(value) {}
 
-    target_type(const t1& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t1, nice_t1)
 
-    target_type(const t2& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t2, nice_t2)
 
-    target_type(const t3& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t3, nice_t3)
 
     original_type m_original;
 };
@@ -55,7 +69,11 @@ public:
 
 %enddef
 
-%define %target_type_class_4(original_type, target_type, t1, t2, t3, t4)
+%define %target_type_class_4(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2, c_t3, nice_t3, c_t4, nice_t4)
+
+%ignore target_type::m_original;
+%ignore target_type::target_type(const original_type& value);
+
 %inline %{
 class target_type {
 
@@ -64,21 +82,13 @@ public:
 
     target_type(const original_type& value) : m_original(value) {}
 
-    target_type(const t1& value){
-        this->m_original = value;
-    }
+    type_expand(original_type, target_type, c_t1, nice_t1)
 
-    target_type(const t2& value){
-        this->m_original = value;
-    }
+    type_expand(original_type, target_type, c_t2, nice_t2)
 
-    target_type(const t3& value){
-        this->m_original = value;
-    }
+    type_expand(original_type, target_type, c_t3, nice_t3)
 
-    target_type(const t4& value){
-        this->m_original = value;
-    }
+    type_expand(original_type, target_type, c_t4, nice_t4)
 
     original_type m_original;
 };
@@ -87,7 +97,11 @@ public:
 
 %enddef
 
-%define %target_type_class_5(original_type, target_type, t1, t2, t3, t4, t5)
+%define %target_type_class_5(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2, c_t3, nice_t3, c_t4, nice_t4, c_t5, nice_t5)
+
+%ignore target_type::m_original;
+%ignore target_type::target_type(const original_type& value);
+
 %inline %{
 class target_type {
 
@@ -96,25 +110,15 @@ public:
 
     target_type(const original_type& value) : m_original(value) {}
 
-    target_type(const t1& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t1, nice_t1)
 
-    target_type(const t2& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t2, nice_t2)
 
-    target_type(const t3& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t3, nice_t3)
 
-    target_type(const t4& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t4, nice_t4)
 
-    target_type(const t5& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t5, nice_t5)
 
     original_type m_original;
 };
@@ -123,7 +127,17 @@ public:
 
 %enddef
 
-%define %target_type_class_6(original_type, target_type, t1, t2, t3, t4, t5, t6)
+%define %target_type_class_6(original_type, target_type,
+                             c_t1, nice_t1,
+                             c_t2, nice_t2,
+                             c_t3, nice_t3,
+                             c_t4, nice_t4,
+                             c_t5, nice_t5,
+                             c_t6, nice_t6)
+
+%ignore target_type::m_original;
+%ignore target_type::target_type(const original_type& value);
+
 %inline %{
 class target_type {
 
@@ -132,29 +146,17 @@ public:
 
     target_type(const original_type& value) : m_original(value) {}
 
-    target_type(const t1& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t1, nice_t1)
 
-    target_type(const t2& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t2, nice_t2)
 
-    target_type(const t3& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t3, nice_t3)
 
-    target_type(const t4& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t4, nice_t4)
 
-    target_type(const t5& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t5, nice_t5)
 
-    target_type(const t6& value){
-        this->m_original = value;
-    }
+    type_expand(target_type, c_t6, nice_t6)
 
     original_type m_original;
 };
@@ -165,66 +167,40 @@ public:
 
 //------------------------------------------------------------------
 
-%define %variant_bridge_2(original_type, target_type, t1, t2)
+%define %variant_bridge_2(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2)
 
-%ignore target_type::m_original;
-%ignore target_type::target_type(const original_type& value);
-
-%target_type_class_2(original_type, target_type, t1, t2)
-
-%shared_type_bridge(original_type, target_type, target_type)
+%target_type_class_2(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2)
 
 %enddef
 
 //------------------------------------------------------------------
 
-%define %variant_bridge_3(original_type, target_type, t1, t2, t3)
+%define %variant_bridge_3(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2, c_t3, nice_t3)
 
-%ignore target_type::m_original;
-%ignore target_type::target_type(const original_type& value);
+%target_type_class_3(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2, c_t3, nice_t3)
 
-%target_type_class_3(original_type, target_type, t1, t2, t3)
+%enddef
 
-%shared_type_bridge(original_type, target_type, target_type)
+//------------------------------------------------------------------
+%define %variant_bridge_4(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2, c_t3, nice_t3, c_t4, nice_t4)
+
+%target_type_class_4(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2, c_t3, nice_t3, c_t4, nice_t4)
 
 %enddef
 
 //------------------------------------------------------------------
 
-%define %variant_bridge_4(original_type, target_type, t1, t2, t3, t4)
+%define %variant_bridge_5(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2, c_t3, nice_t3, c_t4, nice_t4, c_t5, nice_t5)
 
-%ignore target_type::m_original;
-%ignore target_type::target_type(const original_type& value);
-
-%target_type_class_4(original_type, target_type, t1, t2, t3, t4)
-
-%shared_type_bridge(original_type, target_type, target_type)
+%target_type_class_5(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2, c_t3, nice_t3, c_t4, nice_t4, c_t5, nice_t5)
 
 %enddef
 
 //------------------------------------------------------------------
 
-%define %variant_bridge_5(original_type, target_type, t1, t2, t3, t4, t5)
+%define %variant_bridge_6(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2, c_t3, nice_t3, c_t4, nice_t4, c_t5, nice_t5, c_t6, nice_t6)
 
-%ignore target_type::m_original;
-%ignore target_type::target_type(const original_type& value);
-
-%target_type_class_5(original_type, target_type, t1, t2, t3, t4, t5)
-
-%shared_type_bridge(original_type, target_type, target_type)
-
-%enddef
-
-//------------------------------------------------------------------
-
-%define %variant_bridge_6(original_type, target_type, t1, t2, t3, t4, t5, t6)
-
-%ignore target_type::m_original;
-%ignore target_type::target_type(const original_type& value);
-
-%target_type_class_6(original_type, target_type, t1, t2, t3, t4, t5, t6)
-
-%shared_type_bridge(original_type, target_type, target_type)
+%target_type_class_6(original_type, target_type, c_t1, nice_t1, c_t2, nice_t2, c_t3, nice_t3, c_t4, nice_t4, c_t5, nice_t5, c_t6, nice_t6)
 
 %enddef
 
