@@ -54,30 +54,43 @@ using InnerObserver2 = std::function<void(const SwigCallbackData &data)>;
 using InnerObserver3 = std::function<int(const SwigCallbackData &data)>;
 
 
-using TestVariant = std::variant<int, double, std::string, bool, int64_t, long long>;
+using TestVariant = std::variant<int, double, std::string, bool, int64_t>;
 
 
 class SwigCallback {
 
 public:
-
-    virtual void onTestVariant1(TestVariant variant) = 0;
-
-    virtual void onTestVariant2(const TestVariant& variant) = 0;
-
-    virtual TestVariant onTestVariant3() = 0;
-
-    void testMap(const std::map<std::string, TestVariant, std::less<std::string>>::iterator itr) {
-
-    }
-
-    virtual void onTestVariant4(std::map<std::string, TestVariant> variants) = 0;
-
     virtual ~SwigCallback() = default;
 
-    virtual void onTest2(InnerObserver2 &observer2) = 0;
+    virtual void onTestLong1(long long value) = 0;
 
-    virtual void onTest22(std::shared_ptr<InnerObserver2> observer2) = 0;
+    virtual long long onTestLong11(const long long &value) = 0;
+
+    virtual void onTestLong2(int64_t value) = 0;
+
+    virtual int64_t onTestLong22(const int64_t &value) = 0;
+
+    virtual void onTestLong3(uint64_t value) = 0;
+
+    virtual int64_t onTestLong33(const uint64_t &value) = 0;
+
+//    virtual void onTestVariant1(TestVariant variant) = 0;
+//
+//    virtual void onTestVariant2(const TestVariant& variant) = 0;
+//
+//    virtual TestVariant onTestVariant3() = 0;
+//
+//    void testMap(const std::map<std::string, TestVariant, std::less<std::string>>::iterator itr) {
+//
+//    }
+//
+//    virtual void onTestVariant4(std::map<std::string, TestVariant> variants) = 0;
+//
+//    virtual ~SwigCallback() = default;
+//
+//    virtual void onTest2(InnerObserver2 &observer2) = 0;
+//
+//    virtual void onTest22(std::shared_ptr<InnerObserver2> observer2) = 0;
 
 
 //    virtual void onTest1(std::shared_ptr<SwigCallbackData> data1) = 0;

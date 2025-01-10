@@ -10,7 +10,12 @@
 %include "variant_config.i"
 %include <std_string.i>
 
+//typedef uint64_t jlong;
 %import "basic_type_config.i"
+
+
+////typedef uint64_t jlong;
+//%apply jlong { uint64_t, uint64_t& };
 
 %{
 #include "SwigCallback.h"
@@ -57,32 +62,35 @@
 //                  long long, Long,
 //                  std::string, String);
 
-%variant_bridge_6(TestVariant, TestVariantBridge,
+%variant_bridge_5(TestVariant, TestVariantBridge,
                     int, Int,
                     double, Double,
                     std::string, String,
                     bool, Bool,
-                    int64_t, Int64,
-                    long long, Long);
+                    int64_t, Long);
 
-%java_package(std::variant<int __COMMA__ double __COMMA__ std::string __COMMA__ bool __COMMA__ int64_t __COMMA__ long long>, com.example.ndk_demo_lib2)
+%java_package(std::variant<int __COMMA__ double __COMMA__ std::string __COMMA__ bool __COMMA__ int64_t>, com.example.ndk_demo_lib2)
+
+%shared_type_bridge(std::variant<int __COMMA__ double __COMMA__ std::string __COMMA__ bool __COMMA__ int64_t>, TestVariantBridge, TestVariantBridge)
+
+%template(Str2TestVariantMap) std::map<std::string, std::variant<int __COMMA__ double __COMMA__ std::string __COMMA__ bool __COMMA__ int64_t>>;
+//%apply TestVariantBridge { std::variant<int, double, std::string, bool, int64_t> };
+//%apply TestVariant { std::variant<int, double, std::string, bool, int64_t> };
+//%template(Str2TestVariantMap) std::map<std::string, TestVariant>;
 
 
-%shared_type_bridge(std::variant<int __COMMA__ double __COMMA__ std::string __COMMA__ bool __COMMA__ int64_t __COMMA__ long long>, TestVariantBridge, TestVariantBridge)
 
-%template(Str2TestVariantMap) std::map<std::string, std::variant<int __COMMA__ double __COMMA__ std::string __COMMA__ bool __COMMA__ int64_t __COMMA__ long long>>;
+//%apply int { int }
 
-//%import "stdint.i"
+//typedef long int int64_t;
 //%apply long int { int64_t }
 
-//typedef long int		int64_t;
 
-
-%template(Str2Int64Map) std::map<std::string, int64_t>;
-
-
-
-%template(Str2StrMap) std::map<std::string, std::string>;
+//%template(Str2Int64Map) std::map<std::string, int64_t>;
+//
+//
+//
+//%template(Str2StrMap) std::map<std::string, std::string>;
 //%template(UnorderedStr2StrMap) std::unordered_map<std::string, std::string>;
 //%template(FeatureFlagVariant2StrMap) std::unordered_map<std::shared_ptr<FINFeatureFlagVariant>, std::string>;
 
