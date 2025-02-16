@@ -781,7 +781,7 @@ namespace Swig {
 namespace Swig {
   namespace {
     jclass jclass_JNIItemTestJNI = NULL;
-    jmethodID director_method_ids[25];
+    jmethodID director_method_ids[28];
   }
 }
 
@@ -843,12 +843,14 @@ template <typename T> T SwigValueInit() {
 
 #include "model/N2CTestItem.h"
 #include "model/N2CItemIcon.h"
+#include "observer/ObserverManager.h"
 
 #include "model/TestItem.h"
 #include "model/ItemIcon.h"
 
 #include "color/TestColor.h"
 
+#include "JNITestEntrance.h"
 #include "JNIContext.h"
 
 
@@ -991,6 +993,83 @@ SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_IItemIcon_Sg__Sg__doRemoveRange(
         }
       }
 
+class TestObserverBridge {
+
+public:
+    TestObserverBridge() = default;
+    virtual ~TestObserverBridge() = default;
+
+    virtual void onCall(const int &data) = 0;
+
+    virtual int calculateHash() {
+        return static_cast<int>(std::hash<const TestObserverBridge*>{}(this));
+    }
+
+    virtual bool isEquals(const TestObserverBridge& other) {
+        return this == &other;
+    }
+
+    static std::shared_ptr<TestObserver> obtainOriginal(JNIEnv *jenv, std::shared_ptr<TestObserverBridge> *function_bridge, jobject j_function_bridge){
+        std::lock_guard<std::mutex> lock(function_bridge->get()->m_mutex);
+        if (auto original_ptr = function_bridge->get()->m_weakOriginal.lock()) {
+            // 如果原始回调函数还存在，直接返回
+            return original_ptr;
+        }
+
+        // 创建全局引用
+        jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
+        // 创建新的 shared_ptr，使用自定义删除器
+        std::shared_ptr<TestObserverBridge> new_function_bridge = std::shared_ptr<TestObserverBridge>(function_bridge->get(), [globalRef](TestObserverBridge* ptr) {
+            JNIEnv *env = nullptr;
+            JNIContext context(env);
+            // 删除全局引用
+            env->DeleteGlobalRef(globalRef);
+        });
+
+        std::shared_ptr<TestObserver> p_function = std::make_shared<TestObserver>([new_function_bridge](const int &data) -> void {
+            return new_function_bridge->onCall(data);
+        });
+
+        new_function_bridge->m_weakOriginal = std::weak_ptr< TestObserver >(p_function);
+
+        return p_function;
+    }
+
+    std::shared_ptr<TestObserver> ObtainOriginal(JNIEnv *jenv, jobject j_function_bridge){
+        std::lock_guard<std::mutex> lock(this->m_mutex);
+        if (auto original_ptr = this->m_weakOriginal.lock()) {
+            // 如果原始回调函数还存在，直接返回
+            return original_ptr;
+        }
+
+        // 创建全局引用
+        jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
+        // 创建新的 shared_ptr，使用自定义删除器
+        std::shared_ptr<TestObserverBridge> new_function_bridge = std::shared_ptr<TestObserverBridge>(this, [globalRef](TestObserverBridge* ptr) {
+            JNIEnv *env = nullptr;
+            JNIContext context(env);
+            // 删除全局引用
+            env->DeleteGlobalRef(globalRef);
+        });
+
+        std::shared_ptr<TestObserver> p_function = std::make_shared<TestObserver>([new_function_bridge](const int &data) -> void {
+            return new_function_bridge->onCall(data);
+        });
+
+        new_function_bridge->m_weakOriginal = std::weak_ptr<TestObserver>(p_function);
+
+        return p_function;
+    }
+
+private:
+    std::mutex m_mutex;
+
+    std::weak_ptr<TestObserver> m_weakOriginal;
+
+};
+
+
+
 struct SWIG_null_deleter {
   void operator() (void const *) const {
   }
@@ -1002,11 +1081,123 @@ struct SWIG_null_deleter {
 
 
 
+class TestObserverBridge4DI : public TestObserverBridge {
+
+public:
+    explicit TestObserverBridge4DI(TestObserver function) : m_original(std::move(function)) {}
+
+    void onCall(const int &data) override {
+        if (m_original) {
+            return m_original(data);
+        } else {
+            JNIEnv* env;
+            JNIContext context(env);
+            SWIG_JavaThrowException(env, SWIG_JavaNullPointerException, "TestObserverBridge##4DI m_original is null");
+            return m_original(data);
+        }
+    }
+
+private:
+    TestObserver m_original;
+};
+
+class SharedPtrTestObserverBridge4DI : public TestObserverBridge {
+
+public:
+    explicit SharedPtrTestObserverBridge4DI(const std::shared_ptr<TestObserver>& function) : m_original(function) {}
+
+    void onCall(const int &data) override {
+        if (m_original) {
+            return m_original->operator()(data);
+        } else {
+            JNIEnv* env;
+            JNIContext context(env);
+            SWIG_JavaThrowException(env, SWIG_JavaNullPointerException, "SharedPtr##TestObserverBridge##4DI m_original is null");
+            return m_original->operator()(data);
+        }
+    }
+
+    int calculateHash() override {
+        return static_cast<int>(std::hash<const TestObserver*>{}(this->m_original.get()));
+    }
+
+    bool isEquals(const TestObserverBridge& other) override {
+        if (this == &other) {
+            return true;
+        }
+        const auto* other_ptr = dynamic_cast<const SharedPtrTestObserverBridge4DI*>(&other);
+        if(other_ptr == nullptr) {
+            return false;
+        }
+        return this->m_original.get() == other_ptr->m_original.get();
+    }
+
+private:
+    std::shared_ptr<TestObserver> m_original;
+};
+
+
+
+
 /* ---------------------------------------------------
  * C++ director class methods
  * --------------------------------------------------- */
 
 #include "jni_item_test_wrap.h"
+
+SwigDirector_TestObserverBridge::SwigDirector_TestObserverBridge(JNIEnv *jenv) : TestObserverBridge(), Swig::Director(jenv) {
+}
+
+SwigDirector_TestObserverBridge::~SwigDirector_TestObserverBridge() {
+  swig_disconnect_director_self("swigDirectorDisconnect");
+}
+
+
+void SwigDirector_TestObserverBridge::onCall(int const &data) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jint jdata = 0 ;
+  
+  if (!swig_override[0]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method TestObserverBridge::onCall.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jdata = (jint)data;
+    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[0], swigjobj, jdata);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in TestObserverBridge::onCall ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+void SwigDirector_TestObserverBridge::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
+  static jclass baseclass = swig_new_global_ref(jenv, "com/example/jni_test/model/TestObserverBridge");
+  if (!baseclass) return;
+  static SwigDirectorMethod methods[] = {
+    SwigDirectorMethod(jenv, baseclass, "onCall", "(I)V")
+  };
+  
+  if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
+    bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
+    for (int i = 0; i < 1; ++i) {
+      swig_override[i] = false;
+      if (derived) {
+        jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
+        swig_override[i] = methods[i].methid && (methid != methods[i].methid);
+        jenv->ExceptionClear();
+      }
+    }
+  }
+}
+
 
 SwigDirector_IItemIcon::SwigDirector_IItemIcon(JNIEnv *jenv) : IItemIcon(), Swig::Director(jenv) {
 }
@@ -1029,7 +1220,7 @@ std::string SwigDirector_IItemIcon::getName() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[0], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[1], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1065,7 +1256,7 @@ std::string SwigDirector_IItemIcon::getIcon() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[1], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[2], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1131,7 +1322,7 @@ std::string SwigDirector_ITestItem::getId() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[2], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[3], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1167,7 +1358,7 @@ std::string SwigDirector_ITestItem::getTitle() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[3], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[4], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1203,7 +1394,7 @@ std::string SwigDirector_ITestItem::getEnvelopePic() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[4], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[5], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1239,7 +1430,7 @@ std::string SwigDirector_ITestItem::getDesc() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[5], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[6], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1275,7 +1466,7 @@ std::string SwigDirector_ITestItem::getNiceDate() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[6], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[7], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1311,7 +1502,7 @@ std::string SwigDirector_ITestItem::getAuthor() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[7], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[8], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1348,7 +1539,7 @@ std::vector< std::string > SwigDirector_ITestItem::getTags() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[8], swigjobj);
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[9], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1381,7 +1572,7 @@ std::vector< std::shared_ptr< IItemIcon > > SwigDirector_ITestItem::getIcons() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[9], swigjobj);
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[10], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1451,7 +1642,7 @@ std::shared_ptr< ITestItem > SwigDirector_IC2NTestItemFactory::create(int index)
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
     jindex = (jint) index;
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[10], swigjobj, jindex);
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[11], swigjobj, jindex);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1522,7 +1713,7 @@ std::string SwigDirector_N2CTestItem::getId() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[11], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[12], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1557,7 +1748,7 @@ std::string SwigDirector_N2CTestItem::getTitle() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[12], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[13], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1592,7 +1783,7 @@ std::string SwigDirector_N2CTestItem::getEnvelopePic() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[13], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[14], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1627,7 +1818,7 @@ std::string SwigDirector_N2CTestItem::getDesc() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[14], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[15], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1662,7 +1853,7 @@ std::string SwigDirector_N2CTestItem::getNiceDate() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[15], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[16], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1697,7 +1888,7 @@ std::string SwigDirector_N2CTestItem::getAuthor() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[16], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[17], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1733,7 +1924,7 @@ std::vector< std::string > SwigDirector_N2CTestItem::getTags() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[17], swigjobj);
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[18], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1765,7 +1956,7 @@ std::vector< std::shared_ptr< IItemIcon > > SwigDirector_N2CTestItem::getIcons()
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[18], swigjobj);
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[19], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1832,7 +2023,7 @@ std::string SwigDirector_N2CItemIcon::getName() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[19], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[20], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1867,7 +2058,7 @@ std::string SwigDirector_N2CItemIcon::getIcon() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[20], swigjobj);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[21], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1933,7 +2124,7 @@ int SwigDirector_ITestColor::getRandomColor() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[21], swigjobj);
+    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[22], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1966,7 +2157,7 @@ std::string SwigDirector_ITestColor::add(std::string a,std::string b) {
     Swig::LocalRefGuard a_refguard(jenv, ja); 
     jb = jenv->NewStringUTF((&b)->c_str());
     Swig::LocalRefGuard b_refguard(jenv, jb); 
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[22], swigjobj, ja, jb);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[23], swigjobj, ja, jb);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -2031,7 +2222,7 @@ int SwigDirector_N2CTestColor::getRandomColor() {
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[23], swigjobj);
+    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[24], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -2063,7 +2254,7 @@ std::string SwigDirector_N2CTestColor::add(std::string a,std::string b) {
     Swig::LocalRefGuard a_refguard(jenv, ja); 
     jb = jenv->NewStringUTF((&b)->c_str());
     Swig::LocalRefGuard b_refguard(jenv, jb); 
-    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[24], swigjobj, ja, jb);
+    jresult = (jstring) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[25], swigjobj, ja, jb);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -2092,6 +2283,92 @@ void SwigDirector_N2CTestColor::swig_connect_director(JNIEnv *jenv, jobject jsel
   static SwigDirectorMethod methods[] = {
     SwigDirectorMethod(jenv, baseclass, "getRandomColor", "()I"),
     SwigDirectorMethod(jenv, baseclass, "add", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;")
+  };
+  
+  if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
+    bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
+    for (int i = 0; i < 2; ++i) {
+      swig_override[i] = false;
+      if (derived) {
+        jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
+        swig_override[i] = methods[i].methid && (methid != methods[i].methid);
+        jenv->ExceptionClear();
+      }
+    }
+  }
+}
+
+
+SwigDirector_IObserverManager::SwigDirector_IObserverManager(JNIEnv *jenv) : IObserverManager(), Swig::Director(jenv) {
+}
+
+SwigDirector_IObserverManager::~SwigDirector_IObserverManager() {
+  swig_disconnect_director_self("swigDirectorDisconnect");
+}
+
+
+void SwigDirector_IObserverManager::addObserver(std::shared_ptr< TestObserver > observer) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jlong jobserver  ;
+  
+  if (!swig_override[0]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::addObserver.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    TestObserverBridge *function_bridge1 = new SharedPtrTestObserverBridge4DI(observer);
+    *(std::shared_ptr<TestObserverBridge> **) &jobserver = new std::shared_ptr<TestObserverBridge>(function_bridge1);
+    
+    
+    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[26], swigjobj, jobserver);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::addObserver ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+void SwigDirector_IObserverManager::removeObserver(std::shared_ptr< TestObserver > observer) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jlong jobserver  ;
+  
+  if (!swig_override[1]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::removeObserver.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    TestObserverBridge *function_bridge1 = new SharedPtrTestObserverBridge4DI(observer);
+    *(std::shared_ptr<TestObserverBridge> **) &jobserver = new std::shared_ptr<TestObserverBridge>(function_bridge1);
+    
+    
+    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[27], swigjobj, jobserver);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::removeObserver ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+void SwigDirector_IObserverManager::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
+  static jclass baseclass = swig_new_global_ref(jenv, "com/example/jni_test/model/IObserverManager");
+  if (!baseclass) return;
+  static SwigDirectorMethod methods[] = {
+    SwigDirectorMethod(jenv, baseclass, "addObserver", "(Lcom/example/jni_test/model/TestObserverBridge;)V"),
+    SwigDirectorMethod(jenv, baseclass, "removeObserver", "(Lcom/example/jni_test/model/TestObserverBridge;)V")
   };
   
   if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
@@ -2746,6 +3023,117 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1
   (void)jcls;
   arg1 = *(std::vector< std::shared_ptr< IItemIcon > > **)&jarg1; 
   delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1TestObserverBridge(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  TestObserverBridge *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (TestObserverBridge *)new SwigDirector_TestObserverBridge(jenv);
+  
+  *(std::shared_ptr<  TestObserverBridge > **)&jresult = result ? new std::shared_ptr<  TestObserverBridge >(result SWIG_NO_NULL_DELETER_1) : 0;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1TestObserverBridge(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  TestObserverBridge *arg1 = (TestObserverBridge *) 0 ;
+  std::shared_ptr< TestObserverBridge > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  smartarg1 = *(std::shared_ptr<  TestObserverBridge > **)&jarg1;
+  arg1 = (TestObserverBridge *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestObserverBridge_1onCall(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  TestObserverBridge *arg1 = (TestObserverBridge *) 0 ;
+  int *arg2 = 0 ;
+  std::shared_ptr< TestObserverBridge > *smartarg1 = 0 ;
+  int temp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  TestObserverBridge > **)&jarg1;
+  arg1 = (TestObserverBridge *)(smartarg1 ? smartarg1->get() : 0); 
+  temp2 = (int)jarg2; 
+  arg2 = &temp2; 
+  (arg1)->onCall((int const &)*arg2);
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestObserverBridge_1calculateHash(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  TestObserverBridge *arg1 = (TestObserverBridge *) 0 ;
+  std::shared_ptr< TestObserverBridge > *smartarg1 = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  TestObserverBridge > **)&jarg1;
+  arg1 = (TestObserverBridge *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (int)(arg1)->calculateHash();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestObserverBridge_1isEquals(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  TestObserverBridge *arg1 = (TestObserverBridge *) 0 ;
+  TestObserverBridge *arg2 = 0 ;
+  std::shared_ptr< TestObserverBridge > *smartarg1 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  
+  smartarg1 = *(std::shared_ptr<  TestObserverBridge > **)&jarg1;
+  arg1 = (TestObserverBridge *)(smartarg1 ? smartarg1->get() : 0); 
+  
+  arg2 = (TestObserverBridge *)((*(std::shared_ptr< const TestObserverBridge > **)&jarg2) ? (*(std::shared_ptr< const TestObserverBridge > **)&jarg2)->get() : 0);
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "TestObserverBridge const & reference is null");
+    return 0;
+  } 
+  result = (bool)(arg1)->isEquals((TestObserverBridge const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestObserverBridge_1director_1connect(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jswig_mem_own, jboolean jweak_global) {
+  std::shared_ptr< TestObserverBridge > *obj = *((std::shared_ptr< TestObserverBridge > **)&objarg);
+  (void)jcls;
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_TestObserverBridge *director = static_cast<SwigDirector_TestObserverBridge *>(obj->operator->());
+  director->swig_connect_director(jenv, jself, jenv->GetObjectClass(jself), (jswig_mem_own == JNI_TRUE), (jweak_global == JNI_TRUE));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestObserverBridge_1change_1ownership(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jtake_or_release) {
+  std::shared_ptr< TestObserverBridge > *obj = *((std::shared_ptr< TestObserverBridge > **)&objarg);
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_TestObserverBridge *director = dynamic_cast<SwigDirector_TestObserverBridge *>(obj->operator->());
+  (void)jcls;
+  if (director) {
+    director->swig_java_change_ownership(jenv, jself, jtake_or_release ? true : false);
+  }
 }
 
 
@@ -3903,6 +4291,187 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1
 }
 
 
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1IObserverManager(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  IObserverManager *arg1 = (IObserverManager *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(IObserverManager **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1addObserver(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  IObserverManager *arg1 = (IObserverManager *) 0 ;
+  SwigValueWrapper< std::shared_ptr< std::function< void (int const &) > > > arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(IObserverManager **)&jarg1; 
+  
+  std::shared_ptr<TestObserverBridge> *smartarg2 = *(std::shared_ptr<TestObserverBridge> **)&jarg2;
+  auto original2 = TestObserverBridge::obtainOriginal(jenv, smartarg2, jarg2_);
+  arg2 = original2;
+  
+  (arg1)->addObserver(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1removeObserver(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  IObserverManager *arg1 = (IObserverManager *) 0 ;
+  SwigValueWrapper< std::shared_ptr< std::function< void (int const &) > > > arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(IObserverManager **)&jarg1; 
+  
+  std::shared_ptr<TestObserverBridge> *smartarg2 = *(std::shared_ptr<TestObserverBridge> **)&jarg2;
+  auto original2 = TestObserverBridge::obtainOriginal(jenv, smartarg2, jarg2_);
+  arg2 = original2;
+  
+  (arg1)->removeObserver(arg2);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1IObserverManager(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  IObserverManager *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (IObserverManager *)new SwigDirector_IObserverManager(jenv);
+  *(IObserverManager **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1director_1connect(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jswig_mem_own, jboolean jweak_global) {
+  IObserverManager *obj = *((IObserverManager **)&objarg);
+  (void)jcls;
+  SwigDirector_IObserverManager *director = static_cast<SwigDirector_IObserverManager *>(obj);
+  director->swig_connect_director(jenv, jself, jenv->GetObjectClass(jself), (jswig_mem_own == JNI_TRUE), (jweak_global == JNI_TRUE));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1change_1ownership(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jtake_or_release) {
+  IObserverManager *obj = *((IObserverManager **)&objarg);
+  SwigDirector_IObserverManager *director = dynamic_cast<SwigDirector_IObserverManager *>(obj);
+  (void)jcls;
+  if (director) {
+    director->swig_java_change_ownership(jenv, jself, jtake_or_release ? true : false);
+  }
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ObserverManager_1init(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  IObserverManager *arg1 = (IObserverManager *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(IObserverManager **)&jarg1; 
+  ObserverManager::init(arg1);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ObserverManager_1addObserver(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  SwigValueWrapper< std::shared_ptr< std::function< void (int const &) > > > arg1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  std::shared_ptr<TestObserverBridge> *smartarg1 = *(std::shared_ptr<TestObserverBridge> **)&jarg1;
+  auto original1 = TestObserverBridge::obtainOriginal(jenv, smartarg1, jarg1_);
+  arg1 = original1;
+  
+  ObserverManager::addObserver(SWIG_STD_MOVE(arg1));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ObserverManager_1removeObserver(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  SwigValueWrapper< std::shared_ptr< std::function< void (int const &) > > > arg1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  std::shared_ptr<TestObserverBridge> *smartarg1 = *(std::shared_ptr<TestObserverBridge> **)&jarg1;
+  auto original1 = TestObserverBridge::obtainOriginal(jenv, smartarg1, jarg1_);
+  arg1 = original1;
+  
+  ObserverManager::removeObserver(SWIG_STD_MOVE(arg1));
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1ObserverManager(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  ObserverManager *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (ObserverManager *)new ObserverManager();
+  *(ObserverManager **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1ObserverManager(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  ObserverManager *arg1 = (ObserverManager *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(ObserverManager **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_JNITestEntrance_1testAddObserver(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  int arg1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (int)jarg1; 
+  JNITestEntrance::testAddObserver(arg1);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_JNITestEntrance_1testRemoveObserver(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  int arg1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (int)jarg1; 
+  JNITestEntrance::testRemoveObserver(arg1);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1JNITestEntrance(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  JNITestEntrance *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (JNITestEntrance *)new JNITestEntrance();
+  *(JNITestEntrance **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1JNITestEntrance(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  JNITestEntrance *arg1 = (JNITestEntrance *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(JNITestEntrance **)&jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_N2CTestItem_1SWIGSmartPtrUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
     jlong baseptr = 0;
     std::shared_ptr< N2CTestItem > *argp1;
@@ -3939,7 +4508,10 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_swig_1mo
   static struct {
     const char *method;
     const char *signature;
-  } methods[25] = {
+  } methods[28] = {
+    {
+      "SwigDirector_TestObserverBridge_onCall", "(Lcom/example/jni_test/model/TestObserverBridge;I)V" 
+    },
     {
       "SwigDirector_IItemIcon_getName", "(Lcom/example/jni_test/model/IItemIcon;)Ljava/lang/String;" 
     },
@@ -4014,6 +4586,12 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_swig_1mo
     },
     {
       "SwigDirector_N2CTestColor_add", "(Lcom/example/jni_test/model/N2CTestColor;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;" 
+    },
+    {
+      "SwigDirector_IObserverManager_addObserver", "(Lcom/example/jni_test/model/IObserverManager;J)V" 
+    },
+    {
+      "SwigDirector_IObserverManager_removeObserver", "(Lcom/example/jni_test/model/IObserverManager;J)V" 
     }
   };
   Swig::jclass_JNIItemTestJNI = (jclass) jenv->NewGlobalRef(jcls);

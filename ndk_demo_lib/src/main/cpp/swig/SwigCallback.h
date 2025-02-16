@@ -31,6 +31,8 @@ struct FINFeatureFlagModel {
     std::optional<FINFeatureFlagVariant> variant3 = std::nullopt;       // 变体（可以为空）
 };
 
+
+
 class InnerObserver {
 
 public:
@@ -115,5 +117,18 @@ public:
 //
 //        __android_log_print(ANDROID_LOG_INFO, "SwigCallback", "~SwigCallback() - Object address: 0x%s", ss.str().c_str());
 //    };
+
+};
+
+using InnerObserver4 = std::function<void(const SwigCallbackData &data)>;
+
+class AddRemoveObserverTest {
+
+public:
+    virtual ~AddRemoveObserverTest() = default;
+
+    virtual void addObserver(std::shared_ptr<InnerObserver4> observer) = 0;
+
+    virtual void removeObserver(std::shared_ptr<InnerObserver4> observer) = 0;
 
 };

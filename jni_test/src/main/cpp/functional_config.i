@@ -13,11 +13,13 @@
 %ignore target_type::m_weakOriginal;
 %ignore target_type::m_mutex;
 %ignore target_type::obtainOriginal;
-%ignore target_type::ObtainOriginal;
 
 // 确保这些方法在Java中是私有的
 %javamethodmodifiers target_type::isEquals "private";
 %javamethodmodifiers target_type::calculateHash "private";
+
+%feature("nodirector") target_type::isEquals;
+%feature("nodirector") target_type::calculateHash;
 
 // Java端的代码
 %typemap(javacode) target_type %{
@@ -75,32 +77,6 @@ public:
         });
 
         new_function_bridge->m_weakOriginal = std::weak_ptr< original_type >(p_function);
-
-        return p_function;
-    }
-
-    std::shared_ptr<original_type> ObtainOriginal(JNIEnv *jenv, jobject j_function_bridge){
-        std::lock_guard<std::mutex> lock(this->m_mutex);
-        if (auto original_ptr = this->m_weakOriginal.lock()) {
-            // 如果原始回调函数还存在，直接返回
-            return original_ptr;
-        }
-
-        // 创建全局引用
-        jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
-        // 创建新的 shared_ptr，使用自定义删除器
-        std::shared_ptr<target_type> new_function_bridge = std::shared_ptr<target_type>(this, [globalRef](target_type* ptr) {
-            JNIEnv *env = nullptr;
-            JNIContext context(env);
-            // 删除全局引用
-            env->DeleteGlobalRef(globalRef);
-        });
-
-        std::shared_ptr<original_type> p_function = std::make_shared<original_type>([new_function_bridge]##param_type_and_name -> return_type {
-            return new_function_bridge->onCall##param_name;
-        });
-
-        new_function_bridge->m_weakOriginal = std::weak_ptr<original_type>(p_function);
 
         return p_function;
     }

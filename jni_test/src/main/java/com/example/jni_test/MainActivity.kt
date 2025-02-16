@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import com.example.jni_test.fragment.AnimTestFragment
 import com.example.jni_test.fragment.FunctionTestFragment
 import com.example.jni_test.fragment.JNITestTabsFragment
+import com.example.jni_test.model.JNITestEntrance
 import com.example.jni_test.model.wrapper.DataSource
 
 class MainActivity : AppCompatActivity() {
@@ -93,5 +94,21 @@ class MainActivity : AppCompatActivity() {
             )
             .addToBackStack(null)
             .commitAllowingStateLoss()
+    }
+
+    fun onAddObserver(view: View) {
+        for (index in 1..10) {
+            JNITestEntrance.testAddObserver(index)
+        }
+    }
+
+    fun onRemoveObserver(view: View) {
+        for (index in 6..10) {
+            JNITestEntrance.testRemoveObserver(index)
+        }
+    }
+
+    fun onNotifyObservers(view: View) {
+        ObserverManagerImpl.notifyEvent()
     }
 }

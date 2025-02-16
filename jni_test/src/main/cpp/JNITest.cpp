@@ -6,6 +6,7 @@
 #include <string>
 #include "TestUtil.h"
 #include "JNIContext.h"
+#include "observer/ObserverManager.h"
 
 
 class Empty1 {

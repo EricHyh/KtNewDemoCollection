@@ -29,6 +29,7 @@
 %shared_ptr(InnerObserver)
 
 %feature("director") SwigCallback;
+%feature("director") AddRemoveObserverTest;
 
 %shared_ptr_param_wrapper(SwigCallback)
 
@@ -44,6 +45,7 @@
 
 %functional_bridge(InnerObserver2, InnerObserver2Bridge, void, (const SwigCallbackData &data), (data));
 %functional_bridge(InnerObserver3, InnerObserver3Bridge, int, (const SwigCallbackData &data), (data));
+%functional_bridge(InnerObserver4, InnerObserver4Bridge, void, (const SwigCallbackData &data), (data));
 
 //typedef std::variant<int, double, long long, std::string> TestVariant;
 

@@ -39,4 +39,25 @@
         android:text="函数执行测试"
         android:textAllCaps="false" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onAddObserver"
+        android:text="添加观察者"
+        android:textAllCaps="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onRemoveObserver"
+        android:text="移除观察者"
+        android:textAllCaps="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onNotifyObservers"
+        android:text="通知观察者"
+        android:textAllCaps="false" />
+
 </LinearLayout>

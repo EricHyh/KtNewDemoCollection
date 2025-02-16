@@ -16,12 +16,14 @@ public:
     SwigDirector_SwigCallbackFunctionBridge(JNIEnv *jenv);
     virtual ~SwigDirector_SwigCallbackFunctionBridge();
     virtual void onCall(SwigCallbackData const &data);
+    virtual int calculateHash();
+    virtual bool isEquals(SwigCallbackFunctionBridge const &other);
 public:
     bool swig_overrides(int n) {
-      return (n < 1 ? swig_override[n] : false);
+      return (n < 3 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<1> swig_override;
+    Swig::BoolArray<3> swig_override;
 };
 
 class SwigDirector_SwigCallbackFunction1Bridge : public SwigCallbackFunction1Bridge, public Swig::Director {
@@ -31,12 +33,14 @@ public:
     SwigDirector_SwigCallbackFunction1Bridge(JNIEnv *jenv);
     virtual ~SwigDirector_SwigCallbackFunction1Bridge();
     virtual void onCall(SwigCallbackData const &data);
+    virtual int calculateHash();
+    virtual bool isEquals(SwigCallbackFunction1Bridge const &other);
 public:
     bool swig_overrides(int n) {
-      return (n < 1 ? swig_override[n] : false);
+      return (n < 3 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<1> swig_override;
+    Swig::BoolArray<3> swig_override;
 };
 
 class SwigDirector_InnerObserver2Bridge : public InnerObserver2Bridge, public Swig::Director {
@@ -46,12 +50,14 @@ public:
     SwigDirector_InnerObserver2Bridge(JNIEnv *jenv);
     virtual ~SwigDirector_InnerObserver2Bridge();
     virtual void onCall(SwigCallbackData const &data);
+    virtual int calculateHash();
+    virtual bool isEquals(InnerObserver2Bridge const &other);
 public:
     bool swig_overrides(int n) {
-      return (n < 1 ? swig_override[n] : false);
+      return (n < 3 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<1> swig_override;
+    Swig::BoolArray<3> swig_override;
 };
 
 class SwigDirector_InnerObserver3Bridge : public InnerObserver3Bridge, public Swig::Director {
@@ -61,12 +67,31 @@ public:
     SwigDirector_InnerObserver3Bridge(JNIEnv *jenv);
     virtual ~SwigDirector_InnerObserver3Bridge();
     virtual int onCall(SwigCallbackData const &data);
+    virtual int calculateHash();
+    virtual bool isEquals(InnerObserver3Bridge const &other);
 public:
     bool swig_overrides(int n) {
-      return (n < 1 ? swig_override[n] : false);
+      return (n < 3 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<1> swig_override;
+    Swig::BoolArray<3> swig_override;
+};
+
+class SwigDirector_InnerObserver4Bridge : public InnerObserver4Bridge, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_InnerObserver4Bridge(JNIEnv *jenv);
+    virtual ~SwigDirector_InnerObserver4Bridge();
+    virtual void onCall(SwigCallbackData const &data);
+    virtual int calculateHash();
+    virtual bool isEquals(InnerObserver4Bridge const &other);
+public:
+    bool swig_overrides(int n) {
+      return (n < 3 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<3> swig_override;
 };
 
 class SwigDirector_InnerObserver : public InnerObserver, public Swig::Director {
@@ -106,6 +131,22 @@ public:
     }
 protected:
     Swig::BoolArray<6> swig_override;
+};
+
+class SwigDirector_AddRemoveObserverTest : public AddRemoveObserverTest, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_AddRemoveObserverTest(JNIEnv *jenv);
+    virtual ~SwigDirector_AddRemoveObserverTest();
+    virtual void addObserver(std::shared_ptr< InnerObserver4 > observer);
+    virtual void removeObserver(std::shared_ptr< InnerObserver4 > observer);
+public:
+    bool swig_overrides(int n) {
+      return (n < 2 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<2> swig_override;
 };
 
 

@@ -9,6 +9,21 @@
 #ifndef SWIG_JNIItemTest_WRAP_H_
 #define SWIG_JNIItemTest_WRAP_H_
 
+class SwigDirector_TestObserverBridge : public TestObserverBridge, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_TestObserverBridge(JNIEnv *jenv);
+    virtual ~SwigDirector_TestObserverBridge();
+    virtual void onCall(int const &data);
+public:
+    bool swig_overrides(int n) {
+      return (n < 1 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<1> swig_override;
+};
+
 class SwigDirector_IItemIcon : public IItemIcon, public Swig::Director {
 
 public:
@@ -124,6 +139,22 @@ public:
     virtual ~SwigDirector_N2CTestColor();
     virtual int getRandomColor();
     virtual std::string add(std::string a,std::string b);
+public:
+    bool swig_overrides(int n) {
+      return (n < 2 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<2> swig_override;
+};
+
+class SwigDirector_IObserverManager : public IObserverManager, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_IObserverManager(JNIEnv *jenv);
+    virtual ~SwigDirector_IObserverManager();
+    virtual void addObserver(std::shared_ptr< TestObserver > observer);
+    virtual void removeObserver(std::shared_ptr< TestObserver > observer);
 public:
     bool swig_overrides(int n) {
       return (n < 2 ? swig_override[n] : false);

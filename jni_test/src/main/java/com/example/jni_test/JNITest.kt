@@ -2,8 +2,11 @@ package com.example.jni_test
 
 import com.example.jni_test.model.C2NTestItemFactory
 import com.example.jni_test.model.IC2NTestItemFactory
+import com.example.jni_test.model.IObserverManager
 import com.example.jni_test.model.ITestItem
+import com.example.jni_test.model.ObserverManager
 import com.example.jni_test.model.TestColorFactory
+import com.example.jni_test.model.TestObserverBridge
 import com.example.jni_test.model.wrapper.NativeTestColor
 import com.example.jni_test.model.wrapper.NativeTestItem
 
@@ -29,5 +32,31 @@ object JNITest {
     fun load() {
         C2NTestItemFactory.init(factory)
         TestColorFactory.init(testColor)
+        ObserverManager.init(ObserverManagerImpl)
+    }
+}
+
+object ObserverManagerImpl : IObserverManager() {
+
+
+    private val observers: MutableSet<TestObserverBridge> = mutableSetOf()
+
+    private var num = 0;
+
+    override fun addObserver(observer: TestObserverBridge?) {
+        observer ?: return
+        observers.add(observer)
+    }
+
+    override fun removeObserver(observer: TestObserverBridge?) {
+        observer ?: return
+        observers.remove(observer)
+    }
+
+    fun notifyEvent() {
+        num++
+        observers.forEach {
+            it.onCall(num)
+        }
     }
 }

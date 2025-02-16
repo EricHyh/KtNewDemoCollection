@@ -39,6 +39,13 @@ public class JNIItemTestJNI {
   public final static native long IItemIconVector_doSet(long jarg1, IItemIconVector jarg1_, int jarg2, long jarg3, IItemIcon jarg3_);
   public final static native void IItemIconVector_doRemoveRange(long jarg1, IItemIconVector jarg1_, int jarg2, int jarg3);
   public final static native void delete_IItemIconVector(long jarg1);
+  public final static native long new_TestObserverBridge();
+  public final static native void delete_TestObserverBridge(long jarg1);
+  public final static native void TestObserverBridge_onCall(long jarg1, TestObserverBridge jarg1_, int jarg2);
+  public final static native int TestObserverBridge_calculateHash(long jarg1, TestObserverBridge jarg1_);
+  public final static native boolean TestObserverBridge_isEquals(long jarg1, TestObserverBridge jarg1_, long jarg2, TestObserverBridge jarg2_);
+  public final static native void TestObserverBridge_director_connect(TestObserverBridge obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void TestObserverBridge_change_ownership(TestObserverBridge obj, long cptr, boolean take_or_release);
   public final static native void delete_IItemIcon(long jarg1);
   public final static native String IItemIcon_getName(long jarg1, IItemIcon jarg1_);
   public final static native String IItemIcon_getIcon(long jarg1, IItemIcon jarg1_);
@@ -112,10 +119,28 @@ public class JNIItemTestJNI {
   public final static native long TestColorFactory_create();
   public final static native long new_TestColorFactory();
   public final static native void delete_TestColorFactory(long jarg1);
+  public final static native void delete_IObserverManager(long jarg1);
+  public final static native void IObserverManager_addObserver(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
+  public final static native void IObserverManager_removeObserver(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
+  public final static native long new_IObserverManager();
+  public final static native void IObserverManager_director_connect(IObserverManager obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void IObserverManager_change_ownership(IObserverManager obj, long cptr, boolean take_or_release);
+  public final static native void ObserverManager_init(long jarg1, IObserverManager jarg1_);
+  public final static native void ObserverManager_addObserver(long jarg1, TestObserverBridge jarg1_);
+  public final static native void ObserverManager_removeObserver(long jarg1, TestObserverBridge jarg1_);
+  public final static native long new_ObserverManager();
+  public final static native void delete_ObserverManager(long jarg1);
+  public final static native void JNITestEntrance_testAddObserver(int jarg1);
+  public final static native void JNITestEntrance_testRemoveObserver(int jarg1);
+  public final static native long new_JNITestEntrance();
+  public final static native void delete_JNITestEntrance(long jarg1);
   public final static native long N2CTestItem_SWIGSmartPtrUpcast(long jarg1);
   public final static native long N2CItemIcon_SWIGSmartPtrUpcast(long jarg1);
   public final static native long N2CTestColor_SWIGSmartPtrUpcast(long jarg1);
 
+  public static void SwigDirector_TestObserverBridge_onCall(TestObserverBridge jself, int data) {
+    jself.onCall(data);
+  }
   public static String SwigDirector_IItemIcon_getName(IItemIcon jself) {
     return jself.getName();
   }
@@ -190,6 +215,12 @@ public class JNIItemTestJNI {
   }
   public static String SwigDirector_N2CTestColor_add(N2CTestColor jself, String a, String b) {
     return jself.add(a, b);
+  }
+  public static void SwigDirector_IObserverManager_addObserver(IObserverManager jself, long observer) {
+    jself.addObserver((observer == 0) ? null : new TestObserverBridge(observer, true));
+  }
+  public static void SwigDirector_IObserverManager_removeObserver(IObserverManager jself, long observer) {
+    jself.removeObserver((observer == 0) ? null : new TestObserverBridge(observer, true));
   }
 
   private final static native void swig_module_init();
