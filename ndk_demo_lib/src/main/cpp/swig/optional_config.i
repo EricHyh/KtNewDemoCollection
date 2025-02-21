@@ -1,7 +1,7 @@
 #ifndef OPTIONAL_CONFIG
 #define OPTIONAL_CONFIG
 
-%define %simple_shared_optional(original_type, target_type)
+%define %shared_type_optional(original_type, target_type)
 
 %typemap(jstype) std::optional<original_type>, std::optional<original_type>& "target_type"  //Java层 Java函数类型
 %typemap(jtype) std::optional<original_type>, std::optional<original_type>& "long"   //Java层 JNI函数参数类型
@@ -77,7 +77,91 @@ if ($input == 0) {
 #error "typemaps for $1_type not available"
 %}
 
+%enddef
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+
+%define %normal_type_optional(original_type, target_type)
+
+%typemap(jstype) std::optional<original_type>, std::optional<original_type>& "target_type"  //Java层 Java函数类型
+%typemap(jtype) std::optional<original_type>, std::optional<original_type>& "long"   //Java层 JNI函数参数类型
+%typemap(jni) std::optional<original_type>, std::optional<original_type>& "jlong"    //C++层  JNI函数参数类型
+
+//Java层，Java调用JNI函数时，对函数参数的转换
+%typemap(javain) std::optional<original_type>, std::optional<original_type>& "$typemap(jstype, original_type).getCPtr($javainput)"
+
+//Java层，Java调用JNI函数时，对返回值的转换
+%typemap(javaout) std::optional<original_type>, std::optional<original_type>& {
+long cPtr = $jnicall;
+return (cPtr == 0) ? null : new $typemap(jstype, original_type)(cPtr, true);
+}
+
+//Java层，C++调用Java函数时，对函数参数的转换
+%typemap(javadirectorin) std::optional<original_type>, std::optional<original_type>& "($jniinput == 0) ? null : new $typemap(jstype, original_type)($jniinput, true)"
+
+//Java层，C++调用Java函数时，对返回值的转换
+%typemap(javadirectorout) std::optional<original_type>, std::optional<original_type>& "$typemap(jstype, original_type).getCPtr($javacall)"
+
+
+//C++层，JNI函数参数，java类型转C++类型
+%typemap(in) std::optional<original_type> %{
+if ($input) {
+  $1 = std::make_optional<FINFeatureFlagVariant>(*(FINFeatureFlagVariant *) $input);
+} else {
+  $1 = std::nullopt;
+}
+%}
+%typemap(in) std::optional<original_type>& %{
+if ($input) {
+  std::optional<FINFeatureFlagVariant> optional$argnum = std::make_optional<FINFeatureFlagVariant>(*(FINFeatureFlagVariant *) $input);
+  $1 = &optional$argnum;
+} else {
+  std::optional<FINFeatureFlagVariant> optional$argnum = std::nullopt;
+  $1 = &optional$argnum;
+}
+%}
+
+//C++层，JNI函数返回值，C++类型转java类型
+%typemap(out) std::optional<original_type> %{
+if ((&$1)->has_value()) {
+  *(original_type **)&$result = new original_type((&$1)->value());
+}
+%}
+%typemap(out) std::optional<original_type>& %{
+if ($1->has_value()) {
+  *(original_type **)&$result = new original_type($1->value());
+}
+%}
+
+%typemap(directorin, descriptor="L$packagepath/$typemap(jstype, original_type);") std::optional<original_type> %{
+if ($1.has_value()) {
+  *(FINFeatureFlagVariant **)&$input = new original_type(SWIG_STD_MOVE($1.value()));
+} else {
+  $input = 0;
+}
+%}
+%typemap(directorin, descriptor="L$packagepath/$typemap(jstype, original_type);") std::optional<original_type>& %{
+if ($1.has_value()) {
+  *(FINFeatureFlagVariant **)&$input = new original_type($1.value());
+} else {
+  $input = 0;
+}
+%}
+
+%typemap(directorout, descriptor="L$packagepath/$typemap(jstype, original_type);") std::optional<original_type> %{
+if ($input == 0) {
+  $1 = std::nullopt;
+} else {
+  $1 = *(original_type*)$input;
+}
+%}
+%typemap(directorout, descriptor="L$packagepath/$typemap(jstype, original_type);") std::optional<original_type>& %{
+#error "typemaps for $1_type not available"
+%}
 
 %enddef
+
 
 #endif // OPTIONAL_CONFIG

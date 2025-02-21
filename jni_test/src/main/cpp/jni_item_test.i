@@ -3,8 +3,12 @@
 
 %include "common_swig_config.i"
 %include "functional_config.i"
+%include "byte_array_config.i"
+%include "enum_type_config.i"
+%include "map_type_config.i"
 %include <std_string.i>
 
+%byte_array_bridge()
 
 %{
 #include "model/N2CTestItem.h"
@@ -43,6 +47,20 @@
 %template(IItemIconVector) std::vector<std::shared_ptr<IItemIcon>>;
 
 %functional_bridge(TestObserver, TestObserverBridge, void, (const int &data), (data));
+
+
+//using TestVariant = std::variant<TestEnum2, TestStruct>;
+//std::map<TestEnum1, TestVariant>
+%variant_with_empty_bridge_2(TestVariant, TestVariantBridge,
+        TestEnum2, TestEnum2,
+        TestStruct, TestStruct
+);
+
+%normal_variant_type_bridge(TestVariant, TestVariantBridge, TestVariantBridge);
+
+%std_map_bridge(std::map<TestEnum1 __COMMA__ TestVariant>, TestVariantMap);
+
+%template(TestIntMap) std::map<int, int>;
 
 
 %include "model/ItemIcon.h"

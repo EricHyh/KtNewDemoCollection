@@ -30,7 +30,7 @@
 // 支持 shared_ptr
 %shared_ptr(SwigCallbackData)
 %shared_ptr(SwigCallback)
-%shared_ptr(FINFeatureFlagVariant)
+//%shared_ptr(FINFeatureFlagVariant)
 %shared_ptr(InnerObserver)
 
 %feature("director") SwigCallback;
@@ -40,7 +40,7 @@
 
 %shared_ptr_param_wrapper(InnerObserver)
 
-%simple_shared_optional(FINFeatureFlagVariant, FINFeatureFlagVariant)
+%normal_type_optional(FINFeatureFlagVariant, FINFeatureFlagVariant)
 
 //%shared_ptr_param_wrapper(SwigCallbackFunctionBridge)
 //%shared_ptr_param_wrapper(SwigCallbackFunction1Bridge)
@@ -64,22 +64,23 @@
 //                  long long, Long,
 //                  std::string, String);
 
-%variant_bridge_5(TestVariant, TestVariantBridge,
-                    int, Int,
-                    double, Double,
-                    std::string, String,
-                    bool, Bool,
-                    int64_t, Long);
-
-%java_package(std::variant<int __COMMA__ double __COMMA__ std::string __COMMA__ bool __COMMA__ int64_t>, com.example.ndk_demo_lib2)
-
-%shared_type_bridge(std::variant<int __COMMA__ double __COMMA__ std::string __COMMA__ bool __COMMA__ int64_t>, TestVariantBridge, TestVariantBridge)
-
-%template(Str2TestVariantMap) std::map<std::string, std::variant<int __COMMA__ double __COMMA__ std::string __COMMA__ bool __COMMA__ int64_t>>;
+//%variant_bridge_5(TestVariant, TestVariantBridge,
+//                    int, Int,
+//                    double, Double,
+//                    std::string, String,
+//                    bool, Bool,
+//                    int64_t, Long);
+//
+//%java_package(std::variant<int __COMMA__ double __COMMA__ std::string __COMMA__ bool __COMMA__ int64_t>, com.example.ndk_demo_lib2)
+//
+//%shared_type_bridge(std::variant<int __COMMA__ double __COMMA__ std::string __COMMA__ bool __COMMA__ int64_t>, TestVariantBridge, TestVariantBridge)
+//
+//%template(Str2TestVariantMap) std::map<std::string, std::variant<int __COMMA__ double __COMMA__ std::string __COMMA__ bool __COMMA__ int64_t>>;
 //%apply TestVariantBridge { std::variant<int, double, std::string, bool, int64_t> };
 //%apply TestVariant { std::variant<int, double, std::string, bool, int64_t> };
 //%template(Str2TestVariantMap) std::map<std::string, TestVariant>;
 
+%template(Str2IntMap) std::map<std::string, int>;
 
 
 //%apply int { int }

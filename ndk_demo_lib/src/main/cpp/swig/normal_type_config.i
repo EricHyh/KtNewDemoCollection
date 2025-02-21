@@ -44,7 +44,7 @@ c_target_type* value_ptr = new c_target_type($1);
 %}
 %typemap(out) original_type& %{
 c_target_type* value_ptr = new c_target_type(*$1);
-*(std::shared_ptr<c_target_type>**)&$result = new std::shared_ptr<c_target_type>(value_ptr);
+*(std::shared_ptr<c_target_type> **)&$result = new std::shared_ptr<c_target_type>(value_ptr);
 %}
 
 %typemap(directorin, descriptor="L$packagepath/$typemap(jstype, original_type);") original_type, original_type& %{

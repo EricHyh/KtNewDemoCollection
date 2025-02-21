@@ -24,12 +24,12 @@ struct FINFeatureFlagVariant {
     std::optional<std::string> str;
 };
 
-struct FINFeatureFlagModel {
-    std::string id;                                                  // feature的id
-    FINFeatureFlagVariant variant1;
-    std::shared_ptr<FINFeatureFlagVariant> variant2 = nullptr;       // 变体（可以为空）
-    std::optional<FINFeatureFlagVariant> variant3 = std::nullopt;       // 变体（可以为空）
-};
+//struct FINFeatureFlagModel {
+//    std::string id;                                                  // feature的id
+//    FINFeatureFlagVariant variant1;
+//    std::shared_ptr<FINFeatureFlagVariant> variant2 = nullptr;       // 变体（可以为空）
+//    std::optional<FINFeatureFlagVariant> variant3 = std::nullopt;       // 变体（可以为空）
+//};
 
 
 
@@ -41,13 +41,19 @@ public:
 
     virtual void onTest1(std::shared_ptr<SwigCallbackData> data1) = 0;
 
-    virtual void setOptional(std::optional<FINFeatureFlagVariant> opt) = 0;
+    virtual void setOptional(FINFeatureFlagVariant opt) = 0;
+
+    virtual void setOptional_(FINFeatureFlagVariant& opt) = 0;
+
+    virtual void setOptional1(std::optional<FINFeatureFlagVariant> opt) = 0;
 
     virtual void setOptional2(std::optional<FINFeatureFlagVariant>& opt) = 0;
 
-    virtual std::optional<FINFeatureFlagVariant> getOptional() = 0;
+    virtual FINFeatureFlagVariant getOptional() = 0;
 
-    virtual std::optional<FINFeatureFlagVariant> getOptional2() = 0;
+    virtual std::optional<FINFeatureFlagVariant> getOptional1() = 0;
+
+    virtual std::optional<FINFeatureFlagVariant>& getOptional2() = 0;
 
 };
 
@@ -75,6 +81,8 @@ public:
     virtual void onTestLong3(uint64_t value) = 0;
 
     virtual int64_t onTestLong33(const uint64_t &value) = 0;
+
+    virtual void onTestMap1(std::map<std::string, int>) = 0;
 
 //    virtual void onTestVariant1(TestVariant variant) = 0;
 //

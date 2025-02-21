@@ -1,6 +1,7 @@
 package com.example.jni_test
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,9 +12,14 @@ import com.example.jni_test.fragment.FunctionTestFragment
 import com.example.jni_test.fragment.JNITestTabsFragment
 import com.example.jni_test.model.JNITestEntrance
 import com.example.jni_test.model.wrapper.DataSource
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
+
+    companion object{
+        private const val TAG = "MainActivity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +34,27 @@ class MainActivity : AppCompatActivity() {
                 }
             }, true
         )
+
+
+        val json = JSONObject().apply {
+            put("num", "9999999999999999999999999")
+        }
+
+        val optInt = json.optInt("num", Int.MAX_VALUE)
+
+        try {
+            val toInt = "9999999999999999999999999".toDouble().toInt()
+
+            val parseInt = Integer.parseInt("9999999999999999999999999")
+
+            Log.d(TAG, "onCreate: NumberFormatException $parseInt")
+
+        } catch (ignored: NumberFormatException) {
+            Log.d(TAG, "onCreate: NumberFormatException")
+        }
+
+        Log.d(TAG, "onCreate: $json , $optInt")
+
     }
 
     fun onClickNative(view: View) {

@@ -2,7 +2,9 @@
 #define COMMON_SWIG_CONFIG
 
 %{
+#include <map>
 #include <unordered_map>
+#include <variant>
 #include <memory>
 #include <mutex>
 #include <list>
@@ -15,10 +17,9 @@
 %typemap(javapackage) TYPE, TYPE *, TYPE &, std::shared_ptr<TYPE>, std::shared_ptr<TYPE> *, std::shared_ptr<TYPE> &, std::unique_ptr<TYPE>, std::unique_ptr<TYPE> *, std::unique_ptr<TYPE> & "PACKAGE"
 %enddef //java_package
 
-
 #endif // COMMON_SWIG_CONFIG
 
-
+// 修改 java 类函数的修饰符
 // 源码位置：https://github.com/swig/swig/blob/master/Lib/java/java.swg
 SWIG_JAVABODY_PROXY(public, public, SWIGTYPE)
 SWIG_JAVABODY_METHODS(public, public, SWIGTYPE)
@@ -29,9 +30,41 @@ SWIG_JAVABODY_METHODS(public, public, SWIGTYPE)
 SWIG_SHARED_PTR_TYPEMAPS_IMPLEMENTATION(public, public, CONST, TYPE)
 %enddef
 
-
+%import "enums.swg"
 %import "std_shared_ptr.i"
 %import "std_unique_ptr.i"
 %import "std_string.i"
-%import "std_vector.i"
-%import "shared_ptr_swig_config.i"
+%import "std_vector.i"   //https://github.com/swig/swig/blob/master/Lib/java/std_vector.i
+%import "std_map.i"
+%import "std_unordered_map.i"
+
+%import "functional_config.i"
+
+//%import "stdint.i"            //不能用这个，已替换成 basic_type_config.i
+%import "basic_type_config.i"
+
+%import "shared_ptr_config.i"
+%import "string_config.i"
+
+%import "variant_type_wrapper_config.i"
+%import "variant_type_map_config.i"
+
+
+%ignore "private:";     //忽略所有私用成员
+
+%naturalvar;            //一律将成员变量转成 set/get 函数
+
+
+/**
+ * 逗号宏定义，避免"带逗号的类型"被识别成多个参数<p>
+ * 案例：<p>
+ *  - 原始类型：std::variant<int , double , long long , std::string>
+ *  <p>
+ *  - 逗号处理：std::variant<int __COMMA__ double __COMMA__ long long __COMMA__ std::string>
+ */
+#ifndef __COMMA__
+#define __COMMA__ ,
+#endif
+
+%define SDK_API
+%enddef

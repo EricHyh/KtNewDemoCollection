@@ -101,16 +101,19 @@ public:
     SwigDirector_InnerObserver(JNIEnv *jenv);
     virtual ~SwigDirector_InnerObserver();
     virtual void onTest1(std::shared_ptr< SwigCallbackData > data1);
-    virtual void setOptional(std::optional< FINFeatureFlagVariant > opt);
+    virtual void setOptional(FINFeatureFlagVariant opt);
+    virtual void setOptional_(FINFeatureFlagVariant &opt);
+    virtual void setOptional1(std::optional< FINFeatureFlagVariant > opt);
     virtual void setOptional2(std::optional< FINFeatureFlagVariant > &opt);
-    virtual std::optional< FINFeatureFlagVariant > getOptional();
-    virtual std::optional< FINFeatureFlagVariant > getOptional2();
+    virtual FINFeatureFlagVariant getOptional();
+    virtual std::optional< FINFeatureFlagVariant > getOptional1();
+    virtual std::optional< FINFeatureFlagVariant > &getOptional2();
 public:
     bool swig_overrides(int n) {
-      return (n < 5 ? swig_override[n] : false);
+      return (n < 8 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<5> swig_override;
+    Swig::BoolArray<8> swig_override;
 };
 
 class SwigDirector_SwigCallback : public SwigCallback, public Swig::Director {
@@ -125,12 +128,13 @@ public:
     virtual int64_t onTestLong22(int64_t const &value);
     virtual void onTestLong3(uint64_t value);
     virtual int64_t onTestLong33(uint64_t const &value);
+    virtual void onTestMap1(std::map< std::string,int,std::less< std::string > > arg0);
 public:
     bool swig_overrides(int n) {
-      return (n < 6 ? swig_override[n] : false);
+      return (n < 7 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<6> swig_override;
+    Swig::BoolArray<7> swig_override;
 };
 
 class SwigDirector_AddRemoveObserverTest : public AddRemoveObserverTest, public Swig::Director {
