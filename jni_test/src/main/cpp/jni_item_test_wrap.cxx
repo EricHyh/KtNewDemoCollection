@@ -785,7 +785,7 @@ namespace Swig {
 namespace Swig {
   namespace {
     jclass jclass_JNIItemTestJNI = NULL;
-    jmethodID director_method_ids[40];
+    jmethodID director_method_ids[31];
   }
 }
 
@@ -858,6 +858,57 @@ template <typename T> T SwigValueInit() {
 
 #include "JNITestEntrance.h"
 #include "JNIContext.h"
+
+
+
+class SwigDirectorWrapper {
+public:
+    explicit SwigDirectorWrapper(JNIEnv *env, jobject obj)
+            : m_data(std::make_unique<JNIGlobalRef>(env, obj)) {}
+
+    explicit SwigDirectorWrapper(void *ptr) : m_data(ptr) {}
+
+    ~SwigDirectorWrapper() = default;
+
+    SwigDirectorWrapper(const SwigDirectorWrapper &) = delete;
+
+    SwigDirectorWrapper &operator=(const SwigDirectorWrapper &) = delete;
+
+    SwigDirectorWrapper(SwigDirectorWrapper &&) = default;
+
+    SwigDirectorWrapper &operator=(SwigDirectorWrapper &&) = default;
+
+    bool isJObject() const noexcept {
+        return std::holds_alternative<std::unique_ptr<JNIGlobalRef>>(m_data);
+    }
+
+    bool isCPtr() const noexcept {
+        return std::holds_alternative<void *>(m_data);
+    }
+
+    jobject getJObject() const noexcept {
+        if (auto jref = std::get_if<std::unique_ptr<JNIGlobalRef>>(&m_data)) {
+            JNIEnv *env = nullptr;
+            JNIContext context(env);
+            return env->NewLocalRef((*jref)->get());
+        }
+        return nullptr;
+    }
+
+    uintptr_t getCPtr() const noexcept {
+        if (auto ptr = std::get_if<void *>(&m_data)) {
+            return reinterpret_cast<uintptr_t>(*ptr);
+        }
+        return 0;
+    }
+
+private:
+    std::variant<std::unique_ptr<JNIGlobalRef>, void *> m_data;
+};
+
+
+
+#include <memory>
 
 
 /* Check for overflow converting to Java int (always signed 32-bit) from (unsigned variable-bit) size_t */
@@ -1117,120 +1168,12 @@ private:
 };
 
 
-
-class TestVariantBridge {
-
-public:
-    TestVariantBridge() = default;
-
-    TestVariantBridge(const TestVariant& value) : m_original(value) {}
-
-    /*@SWIG:variant_type_wrapper_config.i,4,type_expand@*/
-    TestVariantBridge(const TestEnum2& value){
-        this->m_original = value;
-    }
-
-    bool IsTestEnum2(){
-        return std::holds_alternative<TestEnum2>(m_original);
-    }
-
-    TestEnum2 GetTestEnum2(){
-        return std::get<TestEnum2>(m_original);
-    }
-    /*@SWIG@*/
-
-    /*@SWIG:variant_type_wrapper_config.i,4,type_expand@*/
-    TestVariantBridge(const TestStruct& value){
-        this->m_original = value;
-    }
-
-    bool IsTestStruct(){
-        return std::holds_alternative<TestStruct>(m_original);
-    }
-
-    TestStruct GetTestStruct(){
-        return std::get<TestStruct>(m_original);
-    }
-    /*@SWIG@*/
-
-    TestVariant m_original;
-};
-
-
-SWIGINTERN std::map< TestEnum1,TestVariant,std::less< TestEnum1 > >::iterator std_map_Sl_TestEnum1_Sc_TestVariant_Sg__iterator_getNextUnchecked(std::map< TestEnum1,TestVariant >::iterator *self){
-          std::map< TestEnum1, TestVariant, std::less< TestEnum1 > >::iterator copy = (*self);
-          return ++copy;
-        }
-SWIGINTERN bool std_map_Sl_TestEnum1_Sc_TestVariant_Sg__iterator_isNot(std::map< TestEnum1,TestVariant >::iterator const *self,std::map< TestEnum1,TestVariant >::iterator other){
-          return (*self != other);
-        }
-SWIGINTERN TestEnum1 std_map_Sl_TestEnum1_Sc_TestVariant_Sg__iterator_getKey(std::map< TestEnum1,TestVariant >::iterator const *self){
-          return (*self)->first;
-        }
-SWIGINTERN TestVariant std_map_Sl_TestEnum1_Sc_TestVariant_Sg__iterator_getValue(std::map< TestEnum1,TestVariant >::iterator const *self){
-          return (*self)->second;
-        }
-SWIGINTERN void std_map_Sl_TestEnum1_Sc_TestVariant_Sg__iterator_setValue(std::map< TestEnum1,TestVariant >::iterator *self,TestVariant const &newValue){
-          (*self)->second = newValue;
-        }
-
-  SWIGINTERN jint SWIG_MapSize(size_t size) {
-    jint sz = SWIG_JavaIntFromSize_t(size);
-    if (sz == -1) {
-      throw std::out_of_range("map size is too large to fit into a Java int");
-    }
-
-    return sz;
+SWIGINTERN int ITestObserver2_calculateHash(ITestObserver2 const *self){
+    return static_cast<int>(std::hash<const ITestObserver2*>{}(self));
   }
-
-SWIGINTERN jint std_map_Sl_TestEnum1_Sc_TestVariant_Sg__sizeImpl(std::map< TestEnum1,TestVariant > const *self){
-        return SWIG_MapSize(self->size());
-      }
-SWIGINTERN bool std_map_Sl_TestEnum1_Sc_TestVariant_Sg__containsImpl(std::map< TestEnum1,TestVariant > *self,TestEnum1 const &key){
-        return (self->count(key) > 0);
-      }
-SWIGINTERN void std_map_Sl_TestEnum1_Sc_TestVariant_Sg__putUnchecked(std::map< TestEnum1,TestVariant > *self,TestEnum1 const &key,TestVariant const &value){
-#ifdef __cpp_lib_map_try_emplace
-        (*self).insert_or_assign(key, value);
-#else
-        (*self)[key] = value;
-#endif
-      }
-SWIGINTERN void std_map_Sl_TestEnum1_Sc_TestVariant_Sg__removeUnchecked(std::map< TestEnum1,TestVariant > *self,std::map< TestEnum1,TestVariant,std::less< TestEnum1 > >::iterator const itr){
-        self->erase(itr);
-      }
-SWIGINTERN std::map< int,int,std::less< int > >::iterator std_map_Sl_int_Sc_int_Sg__iterator_getNextUnchecked(std::map< int,int >::iterator *self){
-          std::map< int, int, std::less< int > >::iterator copy = (*self);
-          return ++copy;
-        }
-SWIGINTERN bool std_map_Sl_int_Sc_int_Sg__iterator_isNot(std::map< int,int >::iterator const *self,std::map< int,int >::iterator other){
-          return (*self != other);
-        }
-SWIGINTERN int std_map_Sl_int_Sc_int_Sg__iterator_getKey(std::map< int,int >::iterator const *self){
-          return (*self)->first;
-        }
-SWIGINTERN int std_map_Sl_int_Sc_int_Sg__iterator_getValue(std::map< int,int >::iterator const *self){
-          return (*self)->second;
-        }
-SWIGINTERN void std_map_Sl_int_Sc_int_Sg__iterator_setValue(std::map< int,int >::iterator *self,int const &newValue){
-          (*self)->second = newValue;
-        }
-SWIGINTERN jint std_map_Sl_int_Sc_int_Sg__sizeImpl(std::map< int,int > const *self){
-        return SWIG_MapSize(self->size());
-      }
-SWIGINTERN bool std_map_Sl_int_Sc_int_Sg__containsImpl(std::map< int,int > *self,int const &key){
-        return (self->count(key) > 0);
-      }
-SWIGINTERN void std_map_Sl_int_Sc_int_Sg__putUnchecked(std::map< int,int > *self,int const &key,int const &value){
-#ifdef __cpp_lib_map_try_emplace
-        (*self).insert_or_assign(key, value);
-#else
-        (*self)[key] = value;
-#endif
-      }
-SWIGINTERN void std_map_Sl_int_Sc_int_Sg__removeUnchecked(std::map< int,int > *self,std::map< int,int,std::less< int > >::iterator const itr){
-        self->erase(itr);
-      }
+SWIGINTERN bool ITestObserver2_isEquals(ITestObserver2 const *self,ITestObserver2 const &other){
+    return self == &other;
+  }
 
 
 /* ---------------------------------------------------
@@ -1743,20 +1686,22 @@ std::shared_ptr< ITestItem > SwigDirector_IC2NTestItemFactory::create(int index)
     }
     
     
-    if (!jresult) {
-      c_result = nullptr;
-    } else {
-      std::shared_ptr<ITestItem> * jresult_smartPtr = *(std::shared_ptr<ITestItem> **)&jresult;
-      auto *jresult_ptr = dynamic_cast<SwigDirector_ITestItem*>(jresult_smartPtr->get());
-      jobject jobj = jresult_ptr->swig_get_self(jenv);
-      // 创建全局引用
-      jobject globalRef = jenv->NewGlobalRef(jobj);
-      c_result = std::shared_ptr<ITestItem>(jresult_smartPtr->get(), [globalRef](ITestItem* ptr) {
-        JNIEnv *env = nullptr;
-          JNIContext context(env);
-          // 删除全局引用
-          env->DeleteGlobalRef(globalRef);
-        });
+    if (jresult) {
+      std::shared_ptr<ITestItem> *smartarg = *(std::shared_ptr<ITestItem> **)&jresult;
+      auto *jresult_ptr = dynamic_cast<SwigDirector_ITestItem*>(smartarg->get());
+      if (jresult_ptr) {
+        jobject jobj = jresult_ptr->swig_get_self(jenv);
+        // 创建全局引用
+        jobject globalRef = jenv->NewGlobalRef(jobj);
+        c_result = std::shared_ptr<ITestItem>(smartarg->get(), [globalRef](ITestItem* ptr) {
+          JNIEnv *env = nullptr;
+            JNIContext context(env);
+            // 删除全局引用
+            env->DeleteGlobalRef(globalRef);
+          });
+      } else {
+        c_result = *smartarg;
+      }
     }
     
   } else {
@@ -2393,6 +2338,60 @@ void SwigDirector_N2CTestColor::swig_connect_director(JNIEnv *jenv, jobject jsel
 }
 
 
+SwigDirector_ITestObserver2Bridge::SwigDirector_ITestObserver2Bridge(JNIEnv *jenv) : ITestObserver2(), Swig::Director(jenv) {
+}
+
+SwigDirector_ITestObserver2Bridge::~SwigDirector_ITestObserver2Bridge() {
+  swig_disconnect_director_self("swigDirectorDisconnect");
+}
+
+
+void SwigDirector_ITestObserver2Bridge::onCall(int const &data) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jint jdata = 0 ;
+  
+  if (!swig_override[0]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method ITestObserver2::onCall.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jdata = (jint)data;
+    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[26], swigjobj, jdata);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in ITestObserver2::onCall ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+void SwigDirector_ITestObserver2Bridge::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
+  static jclass baseclass = swig_new_global_ref(jenv, "com/example/jni_test/model/ITestObserver2Bridge");
+  if (!baseclass) return;
+  static SwigDirectorMethod methods[] = {
+    SwigDirectorMethod(jenv, baseclass, "onCall", "(I)V")
+  };
+  
+  if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
+    bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
+    for (int i = 0; i < 1; ++i) {
+      swig_override[i] = false;
+      if (derived) {
+        jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
+        swig_override[i] = methods[i].methid && (methid != methods[i].methid);
+        jenv->ExceptionClear();
+      }
+    }
+  }
+}
+
+
 SwigDirector_IObserverManager::SwigDirector_IObserverManager(JNIEnv *jenv) : IObserverManager(), Swig::Director(jenv) {
 }
 
@@ -2417,7 +2416,7 @@ void SwigDirector_IObserverManager::addObserver(std::shared_ptr< TestObserver > 
     *(std::shared_ptr<TestObserverBridge> **) &jobserver = new std::shared_ptr<TestObserverBridge>(function_bridge1);
     
     
-    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[26], swigjobj, jobserver);
+    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[27], swigjobj, jobserver);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -2445,7 +2444,7 @@ void SwigDirector_IObserverManager::removeObserver(std::shared_ptr< TestObserver
     *(std::shared_ptr<TestObserverBridge> **) &jobserver = new std::shared_ptr<TestObserverBridge>(function_bridge1);
     
     
-    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[27], swigjobj, jobserver);
+    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[28], swigjobj, jobserver);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -2457,351 +2456,60 @@ void SwigDirector_IObserverManager::removeObserver(std::shared_ptr< TestObserver
   if (swigjobj) jenv->DeleteLocalRef(swigjobj);
 }
 
-void SwigDirector_IObserverManager::byteTest1(std::vector< uint8_t > byteArray) {
+void SwigDirector_IObserverManager::addObserver2(std::shared_ptr< ITestObserver2 > observer) {
   JNIEnvWrapper swigjnienv(this) ;
   JNIEnv * jenv = swigjnienv.getJNIEnv() ;
   jobject swigjobj = (jobject) NULL ;
-  jbyteArray jbyteArray  ;
+  jlong jobserver  ;
   
   if (!swig_override[2]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::byteTest1.");
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::addObserver2.");
     return;
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jbyteArray = jenv->NewByteArray((&byteArray)->size());
-    jenv->SetByteArrayRegion(jbyteArray, 0, (&byteArray)->size(), (jbyte*)(&byteArray)->data());
-    
-    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[28], swigjobj, jbyteArray);
+    jobserver = 0;
+    if (observer) {
+      *((std::shared_ptr<  ITestObserver2 > **)&jobserver) = new std::shared_ptr<  ITestObserver2 >(observer);
+    } 
+    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[29], swigjobj, jobserver);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
     }
     
   } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::byteTest1 ");
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::addObserver2 ");
   }
   if (swigjobj) jenv->DeleteLocalRef(swigjobj);
 }
 
-std::vector< uint8_t > SwigDirector_IObserverManager::byteTest2() {
-  SwigValueWrapper< std::vector< uint8_t > > c_result ;
-  jbyteArray jresult = 0 ;
+void SwigDirector_IObserverManager::removeObserver2(std::shared_ptr< ITestObserver2 > observer) {
   JNIEnvWrapper swigjnienv(this) ;
   JNIEnv * jenv = swigjnienv.getJNIEnv() ;
   jobject swigjobj = (jobject) NULL ;
+  jlong jobserver  ;
   
   if (!swig_override[3]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::byteTest2.");
-    return c_result;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jbyteArray) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[29], swigjobj);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-    
-    jsize len = jenv->GetArrayLength(jresult);
-    (&c_result)->resize(len);
-    jenv->GetByteArrayRegion(jresult, 0, len, (jbyte*)(&c_result)->data());
-    
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::byteTest2 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-  return c_result;
-}
-
-void SwigDirector_IObserverManager::byteTest3(jbyteArray byteArray) {
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  jbyteArray jbyteArray  ;
-  
-  if (!swig_override[4]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::byteTest3.");
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::removeObserver2.");
     return;
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jbyteArray = byteArray;
-    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[30], swigjobj, jbyteArray);
+    jobserver = 0;
+    if (observer) {
+      *((std::shared_ptr<  ITestObserver2 > **)&jobserver) = new std::shared_ptr<  ITestObserver2 >(observer);
+    } 
+    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[30], swigjobj, jobserver);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
     }
     
   } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::byteTest3 ");
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::removeObserver2 ");
   }
   if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-}
-
-jbyteArray SwigDirector_IObserverManager::byteTest4() {
-  jbyteArray c_result = SwigValueInit< jbyteArray >() ;
-  jbyteArray jresult = 0 ;
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  
-  if (!swig_override[5]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::byteTest4.");
-    return c_result;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jbyteArray) jenv->CallStaticObjectMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[31], swigjobj);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-    c_result = jresult; 
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::byteTest4 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-  return c_result;
-}
-
-void SwigDirector_IObserverManager::testVariant1(std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > const params) {
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  jlong jparams  ;
-  
-  if (!swig_override[6]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::testVariant1.");
-    return;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jparams = 0;
-    *((std::map<TestEnum1 , TestVariant> **)&jparams) = new std::map<TestEnum1 , TestVariant>(SWIG_STD_MOVE(params));
-    
-    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[32], swigjobj, jparams);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::testVariant1 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-}
-
-void SwigDirector_IObserverManager::testMap1(std::map< int,int,std::less< int > > params) {
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  jlong jparams  ;
-  
-  if (!swig_override[7]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::testMap1.");
-    return;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jparams = 0;
-    *((std::map< int,int,std::less< int > > **)&jparams) = new std::map< int,int,std::less< int > >(SWIG_STD_MOVE(params)); 
-    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[33], swigjobj, jparams);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::testMap1 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-}
-
-void SwigDirector_IObserverManager::testVariant2(std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > const &params) {
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  jlong jparams = 0 ;
-  
-  if (!swig_override[8]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::testVariant2.");
-    return;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    *(std::map<TestEnum1 , TestVariant> **)&jparams = (std::map<TestEnum1 , TestVariant> *)&params;
-    
-    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[34], swigjobj, jparams);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::testVariant2 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-}
-
-void SwigDirector_IObserverManager::testMap2(std::map< int,int,std::less< int > > const &params) {
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  jlong jparams = 0 ;
-  
-  if (!swig_override[9]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::testMap2.");
-    return;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    *(std::map< int,int,std::less< int > > **)&jparams = (std::map< int,int,std::less< int > > *) &params; 
-    jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[35], swigjobj, jparams);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::testMap2 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-}
-
-std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > SwigDirector_IObserverManager::testVariant3() {
-  SwigValueWrapper< std::map< enum TestEnum1,std::variant< std::monostate,enum TestEnum2,TestStruct >,std::less< enum TestEnum1 > > > c_result ;
-  jlong jresult = 0 ;
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  
-  if (!swig_override[10]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::testVariant3.");
-    return c_result;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[36], swigjobj);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-    
-    auto *argp = *(std::map< TestEnum1,TestVariant> **)&jresult;
-    if (!argp) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Unexpected null return for type std::map<TestEnum1 , TestVariant>");
-      return c_result;
-    }
-    c_result = *argp;
-    
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::testVariant3 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-  return c_result;
-}
-
-std::map< int,int,std::less< int > > SwigDirector_IObserverManager::testMap3() {
-  std::map< int,int,std::less< int > > c_result ;
-  jlong jresult = 0 ;
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  std::map< int,int,std::less< int > > *argp ;
-  
-  if (!swig_override[11]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::testMap3.");
-    return c_result;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[37], swigjobj);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-    argp = *(std::map< int,int,std::less< int > > **)&jresult; 
-    if (!argp) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Unexpected null return for type std::map< int,int,std::less< int > >");
-      return c_result;
-    }
-    c_result = *argp; 
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::testMap3 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-  return c_result;
-}
-
-std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > &SwigDirector_IObserverManager::testVariant4() {
-  static std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > result_default ;
-  std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > * c_result ;
-  jlong jresult = 0 ;
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  
-  result_default = SwigValueInit< std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > >();
-  c_result = &result_default;
-  if (!swig_override[12]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::testVariant4.");
-    return *c_result;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[38], swigjobj);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-    
-#error "typemaps for std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > & not available"
-    
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::testVariant4 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-  return *c_result;
-}
-
-std::map< int,int,std::less< int > > &SwigDirector_IObserverManager::testMap4() {
-  static std::map< int,int,std::less< int > > result_default ;
-  std::map< int,int,std::less< int > > * c_result ;
-  jlong jresult = 0 ;
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  
-  result_default = SwigValueInit< std::map< int,int,std::less< int > > >();
-  c_result = &result_default;
-  if (!swig_override[13]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::testMap4.");
-    return *c_result;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[39], swigjobj);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-    if (!jresult) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Unexpected null return for type std::map< int,int,std::less< int > > &");
-      return *c_result;
-    }
-    c_result = *(std::map< int,int,std::less< int > > **)&jresult; 
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::testMap4 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-  return *c_result;
 }
 
 void SwigDirector_IObserverManager::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
@@ -2810,23 +2518,13 @@ void SwigDirector_IObserverManager::swig_connect_director(JNIEnv *jenv, jobject 
   static SwigDirectorMethod methods[] = {
     SwigDirectorMethod(jenv, baseclass, "addObserver", "(Lcom/example/jni_test/model/TestObserverBridge;)V"),
     SwigDirectorMethod(jenv, baseclass, "removeObserver", "(Lcom/example/jni_test/model/TestObserverBridge;)V"),
-    SwigDirectorMethod(jenv, baseclass, "byteTest1", "([B)V"),
-    SwigDirectorMethod(jenv, baseclass, "byteTest2", "()[B"),
-    SwigDirectorMethod(jenv, baseclass, "byteTest3", "([B)V"),
-    SwigDirectorMethod(jenv, baseclass, "byteTest4", "()[B"),
-    SwigDirectorMethod(jenv, baseclass, "testVariant1", "(Lcom/example/jni_test/model/TestVariantMap;)V"),
-    SwigDirectorMethod(jenv, baseclass, "testMap1", "(Lcom/example/jni_test/model/TestIntMap;)V"),
-    SwigDirectorMethod(jenv, baseclass, "testVariant2", "(Lcom/example/jni_test/model/TestVariantMap;)V"),
-    SwigDirectorMethod(jenv, baseclass, "testMap2", "(Lcom/example/jni_test/model/TestIntMap;)V"),
-    SwigDirectorMethod(jenv, baseclass, "testVariant3", "()Lcom/example/jni_test/model/TestVariantMap;"),
-    SwigDirectorMethod(jenv, baseclass, "testMap3", "()Lcom/example/jni_test/model/TestIntMap;"),
-    SwigDirectorMethod(jenv, baseclass, "testVariant4", "()Lcom/example/jni_test/model/TestVariantMap;"),
-    SwigDirectorMethod(jenv, baseclass, "testMap4", "()Lcom/example/jni_test/model/TestIntMap;")
+    SwigDirectorMethod(jenv, baseclass, "addObserver2", "(Lcom/example/jni_test/model/ITestObserver2Bridge;)V"),
+    SwigDirectorMethod(jenv, baseclass, "removeObserver2", "(Lcom/example/jni_test/model/ITestObserver2Bridge;)V")
   };
   
   if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
     bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
-    for (int i = 0; i < 14; ++i) {
+    for (int i = 0; i < 4; ++i) {
       swig_override[i] = false;
       if (derived) {
         jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
@@ -2842,6 +2540,99 @@ void SwigDirector_IObserverManager::swig_connect_director(JNIEnv *jenv, jobject 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1SwigDirectorWrapper(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  SwigDirectorWrapper *arg1 = (SwigDirectorWrapper *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(SwigDirectorWrapper **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1SwigDirectorWrapper(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  SwigDirectorWrapper *arg1 = 0 ;
+  std::unique_ptr< SwigDirectorWrapper > rvrdeleter1 ;
+  SwigDirectorWrapper *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SwigDirectorWrapper **)&jarg1;
+  if (!arg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "SwigDirectorWrapper && is null");
+    return 0;
+  }
+  rvrdeleter1.reset(arg1); 
+  result = (SwigDirectorWrapper *)new SwigDirectorWrapper((SwigDirectorWrapper &&)*arg1);
+  *(SwigDirectorWrapper **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDirectorWrapper_1isJObject(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  SwigDirectorWrapper *arg1 = (SwigDirectorWrapper *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SwigDirectorWrapper **)&jarg1; 
+  result = (bool)((SwigDirectorWrapper const *)arg1)->isJObject();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDirectorWrapper_1isCPtr(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  SwigDirectorWrapper *arg1 = (SwigDirectorWrapper *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SwigDirectorWrapper **)&jarg1; 
+  result = (bool)((SwigDirectorWrapper const *)arg1)->isCPtr();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jobject JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDirectorWrapper_1getJObject(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jobject jresult = 0 ;
+  SwigDirectorWrapper *arg1 = (SwigDirectorWrapper *) 0 ;
+  jobject result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SwigDirectorWrapper **)&jarg1; 
+  result = ((SwigDirectorWrapper const *)arg1)->getJObject();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDirectorWrapper_1getCPtr(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  SwigDirectorWrapper *arg1 = (SwigDirectorWrapper *) 0 ;
+  uintptr_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(SwigDirectorWrapper **)&jarg1; 
+  result = ((SwigDirectorWrapper const *)arg1)->getCPtr();
+  
+  jresult = result;
+  
+  return jresult;
+}
+
 
 SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1StringVector_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
@@ -3590,710 +3381,6 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestObse
 }
 
 
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1TestVariantBridge_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
-  jlong jresult = 0 ;
-  TestVariantBridge *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  result = (TestVariantBridge *)new TestVariantBridge();
-  *(TestVariantBridge **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1TestVariantBridge_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jint jarg1) {
-  jlong jresult = 0 ;
-  TestEnum2 *arg1 = 0 ;
-  TestEnum2 temp1 ;
-  TestVariantBridge *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  temp1 = (TestEnum2)jarg1; 
-  arg1 = &temp1; 
-  result = (TestVariantBridge *)new TestVariantBridge((TestEnum2 const &)*arg1);
-  *(TestVariantBridge **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantBridge_1IsTestEnum2(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jboolean jresult = 0 ;
-  TestVariantBridge *arg1 = (TestVariantBridge *) 0 ;
-  bool result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(TestVariantBridge **)&jarg1; 
-  result = (bool)(arg1)->IsTestEnum2();
-  jresult = (jboolean)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantBridge_1GetTestEnum2(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jint jresult = 0 ;
-  TestVariantBridge *arg1 = (TestVariantBridge *) 0 ;
-  TestEnum2 result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(TestVariantBridge **)&jarg1; 
-  result = (TestEnum2)(arg1)->GetTestEnum2();
-  jresult = (jint)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1TestVariantBridge_1_1SWIG_12(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  TestStruct *arg1 = 0 ;
-  TestVariantBridge *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(TestStruct **)&jarg1;
-  if (!arg1) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "TestStruct const & is null");
-    return 0;
-  } 
-  result = (TestVariantBridge *)new TestVariantBridge((TestStruct const &)*arg1);
-  *(TestVariantBridge **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantBridge_1IsTestStruct(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jboolean jresult = 0 ;
-  TestVariantBridge *arg1 = (TestVariantBridge *) 0 ;
-  bool result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(TestVariantBridge **)&jarg1; 
-  result = (bool)(arg1)->IsTestStruct();
-  jresult = (jboolean)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantBridge_1GetTestStruct(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  TestVariantBridge *arg1 = (TestVariantBridge *) 0 ;
-  TestStruct result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(TestVariantBridge **)&jarg1; 
-  result = (arg1)->GetTestStruct();
-  *(TestStruct **)&jresult = new TestStruct(result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1TestVariantBridge(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  TestVariantBridge *arg1 = (TestVariantBridge *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(TestVariantBridge **)&jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1TestVariantMap_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
-  jlong jresult = 0 ;
-  std::map< TestEnum1,TestVariant > *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  result = (std::map< TestEnum1,TestVariant > *)new std::map< TestEnum1,TestVariant >();
-  *(std::map< TestEnum1,TestVariant > **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1TestVariantMap_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  std::map< TestEnum1,TestVariant > *arg1 = 0 ;
-  std::map< TestEnum1,TestVariant > *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  
-  arg1 = *(std::map<TestEnum1 , TestVariant> **)&jarg1;
-  if (!arg1) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::map<TestEnum1 , TestVariant>");
-  }
-  
-  result = (std::map< TestEnum1,TestVariant > *)new std::map< TestEnum1,TestVariant >((std::map< TestEnum1,TestVariant > const &)*arg1);
-  *(std::map< TestEnum1,TestVariant > **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1Iterator_1getNextUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  std::map< TestEnum1,TestVariant >::iterator *arg1 = (std::map< TestEnum1,TestVariant >::iterator *) 0 ;
-  SwigValueWrapper< std::map< enum TestEnum1,std::variant< std::monostate,enum TestEnum2,TestStruct >,std::less< enum TestEnum1 > >::iterator > result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< TestEnum1,TestVariant >::iterator **)&jarg1; 
-  result = std_map_Sl_TestEnum1_Sc_TestVariant_Sg__iterator_getNextUnchecked(arg1);
-  
-  *(std::map<TestEnum1 , TestVariant>::iterator **)&jresult = new std::map<TestEnum1 , TestVariant>::iterator(result);
-  
-  return jresult;
-}
-
-
-SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1Iterator_1isNot(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  jboolean jresult = 0 ;
-  std::map< TestEnum1,TestVariant >::iterator *arg1 = (std::map< TestEnum1,TestVariant >::iterator *) 0 ;
-  std::map< TestEnum1,TestVariant >::iterator arg2 ;
-  bool result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(std::map< TestEnum1,TestVariant >::iterator **)&jarg1; 
-  
-  arg2 = *(std::map<TestEnum1 , TestVariant>::iterator*)jarg2;
-  
-  result = (bool)std_map_Sl_TestEnum1_Sc_TestVariant_Sg__iterator_isNot((std::map< TestEnum1,TestVariant >::iterator const *)arg1,SWIG_STD_MOVE(arg2));
-  jresult = (jboolean)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1Iterator_1getKey(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jint jresult = 0 ;
-  std::map< TestEnum1,TestVariant >::iterator *arg1 = (std::map< TestEnum1,TestVariant >::iterator *) 0 ;
-  TestEnum1 result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< TestEnum1,TestVariant >::iterator **)&jarg1; 
-  result = (TestEnum1)std_map_Sl_TestEnum1_Sc_TestVariant_Sg__iterator_getKey((std::map< TestEnum1,TestVariant >::iterator const *)arg1);
-  jresult = (jint)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1Iterator_1getValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  std::map< TestEnum1,TestVariant >::iterator *arg1 = (std::map< TestEnum1,TestVariant >::iterator *) 0 ;
-  SwigValueWrapper< std::variant< std::monostate,enum TestEnum2,TestStruct > > result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< TestEnum1,TestVariant >::iterator **)&jarg1; 
-  result = std_map_Sl_TestEnum1_Sc_TestVariant_Sg__iterator_getValue((std::map< TestEnum1,TestVariant >::iterator const *)arg1);
-  
-  *(TestVariantBridge **)&jresult = new TestVariantBridge(result);
-  
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1Iterator_1setValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  std::map< TestEnum1,TestVariant >::iterator *arg1 = (std::map< TestEnum1,TestVariant >::iterator *) 0 ;
-  TestVariant *arg2 = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(std::map< TestEnum1,TestVariant >::iterator **)&jarg1; 
-  
-  TestVariantBridge* jarg2_element = (TestVariantBridge*)jarg2;
-  if (jarg2_element) {
-    arg2 = &jarg2_element->m_original;
-  }
-  
-  std_map_Sl_TestEnum1_Sc_TestVariant_Sg__iterator_setValue(arg1,(std::variant< std::monostate,enum TestEnum2,TestStruct > const &)*arg2);
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1TestVariantMap_1Iterator(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  std::map< TestEnum1,TestVariant >::iterator *arg1 = (std::map< TestEnum1,TestVariant >::iterator *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(std::map< TestEnum1,TestVariant >::iterator **)&jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jboolean jresult = 0 ;
-  std::map< TestEnum1,TestVariant > *arg1 = (std::map< TestEnum1,TestVariant > *) 0 ;
-  bool result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< TestEnum1,TestVariant > **)&jarg1; 
-  result = (bool)((std::map< TestEnum1,TestVariant > const *)arg1)->empty();
-  jresult = (jboolean)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  std::map< TestEnum1,TestVariant > *arg1 = (std::map< TestEnum1,TestVariant > *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< TestEnum1,TestVariant > **)&jarg1; 
-  (arg1)->clear();
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1find(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
-  jlong jresult = 0 ;
-  std::map< TestEnum1,TestVariant > *arg1 = (std::map< TestEnum1,TestVariant > *) 0 ;
-  TestEnum1 *arg2 = 0 ;
-  TestEnum1 temp2 ;
-  std::map< TestEnum1,TestVariant >::iterator result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< TestEnum1,TestVariant > **)&jarg1; 
-  temp2 = (TestEnum1)jarg2; 
-  arg2 = &temp2; 
-  result = (arg1)->find((TestEnum1 const &)*arg2);
-  
-  *(std::map<TestEnum1 , TestVariant>::iterator **)&jresult = new std::map<TestEnum1 , TestVariant>::iterator(result);
-  
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1begin(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  std::map< TestEnum1,TestVariant > *arg1 = (std::map< TestEnum1,TestVariant > *) 0 ;
-  std::map< TestEnum1,TestVariant >::iterator result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< TestEnum1,TestVariant > **)&jarg1; 
-  result = (arg1)->begin();
-  
-  *(std::map<TestEnum1 , TestVariant>::iterator **)&jresult = new std::map<TestEnum1 , TestVariant>::iterator(result);
-  
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1end(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  std::map< TestEnum1,TestVariant > *arg1 = (std::map< TestEnum1,TestVariant > *) 0 ;
-  std::map< TestEnum1,TestVariant >::iterator result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< TestEnum1,TestVariant > **)&jarg1; 
-  result = (arg1)->end();
-  
-  *(std::map<TestEnum1 , TestVariant>::iterator **)&jresult = new std::map<TestEnum1 , TestVariant>::iterator(result);
-  
-  return jresult;
-}
-
-
-SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1sizeImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jint jresult = 0 ;
-  std::map< TestEnum1,TestVariant > *arg1 = (std::map< TestEnum1,TestVariant > *) 0 ;
-  jint result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< TestEnum1,TestVariant > **)&jarg1; 
-  try {
-    result = std_map_Sl_TestEnum1_Sc_TestVariant_Sg__sizeImpl((std::map< TestEnum1,TestVariant > const *)arg1);
-  } catch(std::out_of_range &_e) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
-    return 0;
-  }
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1containsImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
-  jboolean jresult = 0 ;
-  std::map< TestEnum1,TestVariant > *arg1 = (std::map< TestEnum1,TestVariant > *) 0 ;
-  TestEnum1 *arg2 = 0 ;
-  TestEnum1 temp2 ;
-  bool result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< TestEnum1,TestVariant > **)&jarg1; 
-  temp2 = (TestEnum1)jarg2; 
-  arg2 = &temp2; 
-  result = (bool)std_map_Sl_TestEnum1_Sc_TestVariant_Sg__containsImpl(arg1,(enum TestEnum1 const &)*arg2);
-  jresult = (jboolean)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1putUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jobject jarg3_) {
-  std::map< TestEnum1,TestVariant > *arg1 = (std::map< TestEnum1,TestVariant > *) 0 ;
-  TestEnum1 *arg2 = 0 ;
-  TestVariant *arg3 = 0 ;
-  TestEnum1 temp2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg3_;
-  arg1 = *(std::map< TestEnum1,TestVariant > **)&jarg1; 
-  temp2 = (TestEnum1)jarg2; 
-  arg2 = &temp2; 
-  
-  TestVariantBridge* jarg3_element = (TestVariantBridge*)jarg3;
-  if (jarg3_element) {
-    arg3 = &jarg3_element->m_original;
-  }
-  
-  std_map_Sl_TestEnum1_Sc_TestVariant_Sg__putUnchecked(arg1,(enum TestEnum1 const &)*arg2,(std::variant< std::monostate,enum TestEnum2,TestStruct > const &)*arg3);
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestVariantMap_1removeUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  std::map< TestEnum1,TestVariant > *arg1 = (std::map< TestEnum1,TestVariant > *) 0 ;
-  SwigValueWrapper< std::map< enum TestEnum1,std::variant< std::monostate,enum TestEnum2,TestStruct >,std::less< enum TestEnum1 > >::iterator > arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(std::map< TestEnum1,TestVariant > **)&jarg1; 
-  
-  arg2 = *(std::map<TestEnum1 , TestVariant>::iterator*)jarg2;
-  
-  std_map_Sl_TestEnum1_Sc_TestVariant_Sg__removeUnchecked(arg1,SWIG_STD_MOVE(arg2));
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1TestVariantMap(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  std::map< TestEnum1,TestVariant > *arg1 = (std::map< TestEnum1,TestVariant > *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(std::map< TestEnum1,TestVariant > **)&jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1TestIntMap_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
-  jlong jresult = 0 ;
-  std::map< int,int > *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  result = (std::map< int,int > *)new std::map< int,int >();
-  *(std::map< int,int > **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1TestIntMap_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  std::map< int,int > *arg1 = 0 ;
-  std::map< int,int > *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int > **)&jarg1;
-  if (!arg1) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::map< int,int > const & is null");
-    return 0;
-  } 
-  result = (std::map< int,int > *)new std::map< int,int >((std::map< int,int > const &)*arg1);
-  *(std::map< int,int > **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1Iterator_1getNextUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  std::map< int,int >::iterator *arg1 = (std::map< int,int >::iterator *) 0 ;
-  std::map< int,int,std::less< int > >::iterator result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int >::iterator **)&jarg1; 
-  result = std_map_Sl_int_Sc_int_Sg__iterator_getNextUnchecked(arg1);
-  *(std::map< int,int,std::less< int > >::iterator **)&jresult = new std::map< int,int,std::less< int > >::iterator(result); 
-  return jresult;
-}
-
-
-SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1Iterator_1isNot(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  jboolean jresult = 0 ;
-  std::map< int,int >::iterator *arg1 = (std::map< int,int >::iterator *) 0 ;
-  std::map< int,int >::iterator arg2 ;
-  std::map< int,int >::iterator *argp2 ;
-  bool result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(std::map< int,int >::iterator **)&jarg1; 
-  argp2 = *(std::map< int,int >::iterator **)&jarg2; 
-  if (!argp2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::map< int,int >::iterator");
-    return 0;
-  }
-  arg2 = *argp2; 
-  result = (bool)std_map_Sl_int_Sc_int_Sg__iterator_isNot((std::map< int,int >::iterator const *)arg1,SWIG_STD_MOVE(arg2));
-  jresult = (jboolean)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1Iterator_1getKey(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jint jresult = 0 ;
-  std::map< int,int >::iterator *arg1 = (std::map< int,int >::iterator *) 0 ;
-  int result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int >::iterator **)&jarg1; 
-  result = (int)std_map_Sl_int_Sc_int_Sg__iterator_getKey((std::map< int,int >::iterator const *)arg1);
-  jresult = (jint)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1Iterator_1getValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jint jresult = 0 ;
-  std::map< int,int >::iterator *arg1 = (std::map< int,int >::iterator *) 0 ;
-  int result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int >::iterator **)&jarg1; 
-  result = (int)std_map_Sl_int_Sc_int_Sg__iterator_getValue((std::map< int,int >::iterator const *)arg1);
-  jresult = (jint)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1Iterator_1setValue(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
-  std::map< int,int >::iterator *arg1 = (std::map< int,int >::iterator *) 0 ;
-  int *arg2 = 0 ;
-  int temp2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int >::iterator **)&jarg1; 
-  temp2 = (int)jarg2; 
-  arg2 = &temp2; 
-  std_map_Sl_int_Sc_int_Sg__iterator_setValue(arg1,(int const &)*arg2);
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1TestIntMap_1Iterator(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  std::map< int,int >::iterator *arg1 = (std::map< int,int >::iterator *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(std::map< int,int >::iterator **)&jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jboolean jresult = 0 ;
-  std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
-  bool result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int > **)&jarg1; 
-  result = (bool)((std::map< int,int > const *)arg1)->empty();
-  jresult = (jboolean)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int > **)&jarg1; 
-  (arg1)->clear();
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1find(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
-  jlong jresult = 0 ;
-  std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
-  int *arg2 = 0 ;
-  int temp2 ;
-  std::map< int,int >::iterator result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int > **)&jarg1; 
-  temp2 = (int)jarg2; 
-  arg2 = &temp2; 
-  result = (arg1)->find((int const &)*arg2);
-  *(std::map< int,int >::iterator **)&jresult = new std::map< int,int >::iterator(result); 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1begin(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
-  std::map< int,int >::iterator result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int > **)&jarg1; 
-  result = (arg1)->begin();
-  *(std::map< int,int >::iterator **)&jresult = new std::map< int,int >::iterator(result); 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1end(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
-  std::map< int,int >::iterator result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int > **)&jarg1; 
-  result = (arg1)->end();
-  *(std::map< int,int >::iterator **)&jresult = new std::map< int,int >::iterator(result); 
-  return jresult;
-}
-
-
-SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1sizeImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jint jresult = 0 ;
-  std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
-  jint result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int > **)&jarg1; 
-  try {
-    result = std_map_Sl_int_Sc_int_Sg__sizeImpl((std::map< int,int > const *)arg1);
-  } catch(std::out_of_range &_e) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
-    return 0;
-  }
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1containsImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
-  jboolean jresult = 0 ;
-  std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
-  int *arg2 = 0 ;
-  int temp2 ;
-  bool result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int > **)&jarg1; 
-  temp2 = (int)jarg2; 
-  arg2 = &temp2; 
-  result = (bool)std_map_Sl_int_Sc_int_Sg__containsImpl(arg1,(int const &)*arg2);
-  jresult = (jboolean)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1putUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3) {
-  std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
-  int *arg2 = 0 ;
-  int *arg3 = 0 ;
-  int temp2 ;
-  int temp3 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(std::map< int,int > **)&jarg1; 
-  temp2 = (int)jarg2; 
-  arg2 = &temp2; 
-  temp3 = (int)jarg3; 
-  arg3 = &temp3; 
-  std_map_Sl_int_Sc_int_Sg__putUnchecked(arg1,(int const &)*arg2,(int const &)*arg3);
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestIntMap_1removeUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
-  std::map< int,int,std::less< int > >::iterator arg2 ;
-  std::map< int,int,std::less< int > >::iterator const *argp2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(std::map< int,int > **)&jarg1; 
-  argp2 = *(std::map< int,int,std::less< int > >::iterator **)&jarg2; 
-  if (!argp2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::map< int,int,std::less< int > >::iterator const");
-    return ;
-  }
-  arg2 = *argp2; 
-  std_map_Sl_int_Sc_int_Sg__removeUnchecked(arg1,SWIG_STD_MOVE(arg2));
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1TestIntMap(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  std::map< int,int > *arg1 = (std::map< int,int > *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(std::map< int,int > **)&jarg1; 
-  delete arg1;
-}
-
-
 SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1IItemIcon(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   IItemIcon *arg1 = (IItemIcon *) 0 ;
   std::shared_ptr< IItemIcon > *smartarg1 = 0 ;
@@ -4594,7 +3681,21 @@ SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IC2NTes
   arg1 = *(IC2NTestItemFactory **)&jarg1; 
   arg2 = (int)jarg2; 
   result = (arg1)->create(arg2);
-  *(std::shared_ptr< ITestItem > **)&jresult = result ? new std::shared_ptr< ITestItem >(result) : 0; 
+  
+  if (result) {
+    auto *result_ptr = dynamic_cast<SwigDirector_ITestItem*>((&result)->get());
+    if (result_ptr) {
+      jobject result_jobj = result_ptr->swig_get_self(jenv);
+      if (result_jobj) {
+        *((SwigDirectorWrapper **)&jresult) = new SwigDirectorWrapper(result_jobj);
+      } else {
+        *((SwigDirectorWrapper **)&jresult) = new SwigDirectorWrapper(new std::shared_ptr<ITestItem>(result));
+      }
+    } else {
+      *((SwigDirectorWrapper **)&jresult) = new SwigDirectorWrapper(new std::shared_ptr<ITestItem>(result));
+    }
+  }
+  
   return jresult;
 }
 
@@ -4649,7 +3750,21 @@ SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_C2NTest
   (void)jcls;
   arg1 = (int)jarg1; 
   result = C2NTestItemFactory::create(arg1);
-  *(std::shared_ptr< ITestItem > **)&jresult = result ? new std::shared_ptr< ITestItem >(result) : 0; 
+  
+  if (result) {
+    auto *result_ptr = dynamic_cast<SwigDirector_ITestItem*>((&result)->get());
+    if (result_ptr) {
+      jobject result_jobj = result_ptr->swig_get_self(jenv);
+      if (result_jobj) {
+        *((SwigDirectorWrapper **)&jresult) = new SwigDirectorWrapper(result_jobj);
+      } else {
+        *((SwigDirectorWrapper **)&jresult) = new SwigDirectorWrapper(new std::shared_ptr<ITestItem>(result));
+      }
+    } else {
+      *((SwigDirectorWrapper **)&jresult) = new SwigDirectorWrapper(new std::shared_ptr<ITestItem>(result));
+    }
+  }
+  
   return jresult;
 }
 
@@ -5554,6 +4669,117 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1
 }
 
 
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1ITestObserver2Bridge(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  ITestObserver2 *arg1 = (ITestObserver2 *) 0 ;
+  std::shared_ptr< ITestObserver2 > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  smartarg1 = *(std::shared_ptr<  ITestObserver2 > **)&jarg1;
+  arg1 = (ITestObserver2 *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ITestObserver2Bridge_1onCall(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  ITestObserver2 *arg1 = (ITestObserver2 *) 0 ;
+  int *arg2 = 0 ;
+  std::shared_ptr< ITestObserver2 > *smartarg1 = 0 ;
+  int temp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ITestObserver2 > **)&jarg1;
+  arg1 = (ITestObserver2 *)(smartarg1 ? smartarg1->get() : 0); 
+  temp2 = (int)jarg2; 
+  arg2 = &temp2; 
+  (arg1)->onCall((int const &)*arg2);
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ITestObserver2Bridge_1calculateHash(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  ITestObserver2 *arg1 = (ITestObserver2 *) 0 ;
+  std::shared_ptr< ITestObserver2 const > *smartarg1 = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ITestObserver2 > **)&jarg1;
+  arg1 = (ITestObserver2 *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (int)ITestObserver2_calculateHash((ITestObserver2 const *)arg1);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ITestObserver2Bridge_1isEquals(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  ITestObserver2 *arg1 = (ITestObserver2 *) 0 ;
+  ITestObserver2 *arg2 = 0 ;
+  std::shared_ptr< ITestObserver2 const > *smartarg1 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  
+  smartarg1 = *(std::shared_ptr< const ITestObserver2 > **)&jarg1;
+  arg1 = (ITestObserver2 *)(smartarg1 ? smartarg1->get() : 0); 
+  
+  arg2 = (ITestObserver2 *)((*(std::shared_ptr< const ITestObserver2 > **)&jarg2) ? (*(std::shared_ptr< const ITestObserver2 > **)&jarg2)->get() : 0);
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "ITestObserver2 const & reference is null");
+    return 0;
+  } 
+  result = (bool)ITestObserver2_isEquals((ITestObserver2 const *)arg1,(ITestObserver2 const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1ITestObserver2Bridge(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  ITestObserver2 *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (ITestObserver2 *)new SwigDirector_ITestObserver2Bridge(jenv);
+  
+  *(std::shared_ptr<  ITestObserver2 > **)&jresult = result ? new std::shared_ptr<  ITestObserver2 >(result SWIG_NO_NULL_DELETER_1) : 0;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ITestObserver2Bridge_1director_1connect(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jswig_mem_own, jboolean jweak_global) {
+  std::shared_ptr< ITestObserver2 > *obj = *((std::shared_ptr< ITestObserver2 > **)&objarg);
+  (void)jcls;
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_ITestObserver2Bridge *director = static_cast<SwigDirector_ITestObserver2Bridge *>(obj->operator->());
+  director->swig_connect_director(jenv, jself, jenv->GetObjectClass(jself), (jswig_mem_own == JNI_TRUE), (jweak_global == JNI_TRUE));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ITestObserver2Bridge_1change_1ownership(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jtake_or_release) {
+  std::shared_ptr< ITestObserver2 > *obj = *((std::shared_ptr< ITestObserver2 > **)&objarg);
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_ITestObserver2Bridge *director = dynamic_cast<SwigDirector_ITestObserver2Bridge *>(obj->operator->());
+  (void)jcls;
+  if (director) {
+    director->swig_java_change_ownership(jenv, jself, jtake_or_release ? true : false);
+  }
+}
+
+
 SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1IObserverManager(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   IObserverManager *arg1 = (IObserverManager *) 0 ;
   
@@ -5600,209 +4826,35 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserve
 }
 
 
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1byteTest1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2) {
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1addObserver2(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   IObserverManager *arg1 = (IObserverManager *) 0 ;
-  SwigValueWrapper< std::vector< uint8_t > > arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  
-  jsize len = jenv->GetArrayLength(jarg2);
-  (&arg2)->resize(len);
-  jenv->GetByteArrayRegion(jarg2, 0, len, (jbyte*)(&arg2)->data());
-  
-  (arg1)->byteTest1(SWIG_STD_MOVE(arg2));
-}
-
-
-SWIGEXPORT jbyteArray JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1byteTest2(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jbyteArray jresult = 0 ;
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  SwigValueWrapper< std::vector< uint8_t > > result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  result = (arg1)->byteTest2();
-  
-  jbyteArray jba = jenv->NewByteArray((&result)->size());
-  jenv->SetByteArrayRegion(jba, 0, (&result)->size(), (jbyte*)(&result)->data());
-  jresult = jba;
-  
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1byteTest3(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2) {
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  jbyteArray arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  arg2 = jarg2; 
-  (arg1)->byteTest3(SWIG_STD_MOVE(arg2));
-}
-
-
-SWIGEXPORT jbyteArray JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1byteTest4(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jbyteArray jresult = 0 ;
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  jbyteArray result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  result = (arg1)->byteTest4();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1testVariant1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  SwigValueWrapper< std::map< enum TestEnum1,std::variant< std::monostate,enum TestEnum2,TestStruct >,std::less< enum TestEnum1 > > > arg2 ;
+  std::shared_ptr< ITestObserver2 > arg2 ;
+  std::shared_ptr< ITestObserver2 > *argp2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(IObserverManager **)&jarg1; 
-  
-  auto *argp2 = *(std::map<TestEnum1 , TestVariant> **)&jarg2;
-  if (!argp2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::map<TestEnum1 , TestVariant>");
-    return ;
-  }
-  arg2 = *argp2;
-  
-  (arg1)->testVariant1(SWIG_STD_MOVE(arg2));
+  argp2 = *(std::shared_ptr< ITestObserver2 > **)&jarg2;
+  if (argp2) arg2 = *argp2; 
+  (arg1)->addObserver2(SWIG_STD_MOVE(arg2));
 }
 
 
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1testMap1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1removeObserver2(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   IObserverManager *arg1 = (IObserverManager *) 0 ;
-  std::map< int,int,std::less< int > > arg2 ;
-  std::map< int,int,std::less< int > > *argp2 ;
+  std::shared_ptr< ITestObserver2 > arg2 ;
+  std::shared_ptr< ITestObserver2 > *argp2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   (void)jarg2_;
   arg1 = *(IObserverManager **)&jarg1; 
-  argp2 = *(std::map< int,int,std::less< int > > **)&jarg2; 
-  if (!argp2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::map< int,int,std::less< int > >");
-    return ;
-  }
-  arg2 = *argp2; 
-  (arg1)->testMap1(SWIG_STD_MOVE(arg2));
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1testVariant2(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > *arg2 = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  
-  arg2 = *(std::map<TestEnum1 , TestVariant> **)&jarg2;
-  if (!arg2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::map<TestEnum1 , TestVariant>");
-  }
-  
-  (arg1)->testVariant2((std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > const &)*arg2);
-}
-
-
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1testMap2(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  std::map< int,int,std::less< int > > *arg2 = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  arg2 = *(std::map< int,int,std::less< int > > **)&jarg2;
-  if (!arg2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::map< int,int,std::less< int > > const & is null");
-    return ;
-  } 
-  (arg1)->testMap2((std::map< int,int,std::less< int > > const &)*arg2);
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1testVariant3(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  SwigValueWrapper< std::map< enum TestEnum1,std::variant< std::monostate,enum TestEnum2,TestStruct >,std::less< enum TestEnum1 > > > result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  result = (arg1)->testVariant3();
-  
-  *(std::map<TestEnum1 , TestVariant> **)&jresult = new std::map<TestEnum1 , TestVariant>(result);
-  
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1testMap3(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  std::map< int,int,std::less< int > > result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  result = (arg1)->testMap3();
-  *(std::map< int,int,std::less< int > > **)&jresult = new std::map< int,int,std::less< int > >(result); 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1testVariant4(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  result = (std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > *) &(arg1)->testVariant4();
-  
-  *(std::map<TestEnum1 , TestVariant> **)&jresult = result;
-  
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1testMap4(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  std::map< int,int,std::less< int > > *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  result = (std::map< int,int,std::less< int > > *) &(arg1)->testMap4();
-  *(std::map< int,int,std::less< int > > **)&jresult = result; 
-  return jresult;
+  argp2 = *(std::shared_ptr< ITestObserver2 > **)&jarg2;
+  if (argp2) arg2 = *argp2; 
+  (arg1)->removeObserver2(SWIG_STD_MOVE(arg2));
 }
 
 
@@ -5874,6 +4926,32 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Observer
   arg1 = original1;
   
   ObserverManager::removeObserver(SWIG_STD_MOVE(arg1));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ObserverManager_1addObserver2(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::shared_ptr< ITestObserver2 > arg1 ;
+  std::shared_ptr< ITestObserver2 > *argp1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  argp1 = *(std::shared_ptr< ITestObserver2 > **)&jarg1;
+  if (argp1) arg1 = *argp1; 
+  ObserverManager::addObserver2(SWIG_STD_MOVE(arg1));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_ObserverManager_1removeObserver2(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::shared_ptr< ITestObserver2 > arg1 ;
+  std::shared_ptr< ITestObserver2 > *argp1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  argp1 = *(std::shared_ptr< ITestObserver2 > **)&jarg1;
+  if (argp1) arg1 = *argp1; 
+  ObserverManager::removeObserver2(SWIG_STD_MOVE(arg1));
 }
 
 
@@ -5977,7 +5055,7 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_swig_1mo
   static struct {
     const char *method;
     const char *signature;
-  } methods[40] = {
+  } methods[31] = {
     {
       "SwigDirector_TestObserverBridge_onCall", "(Lcom/example/jni_test/model/TestObserverBridge;I)V" 
     },
@@ -6057,46 +5135,19 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_swig_1mo
       "SwigDirector_N2CTestColor_add", "(Lcom/example/jni_test/model/N2CTestColor;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;" 
     },
     {
+      "SwigDirector_ITestObserver2Bridge_onCall", "(Lcom/example/jni_test/model/ITestObserver2Bridge;I)V" 
+    },
+    {
       "SwigDirector_IObserverManager_addObserver", "(Lcom/example/jni_test/model/IObserverManager;J)V" 
     },
     {
       "SwigDirector_IObserverManager_removeObserver", "(Lcom/example/jni_test/model/IObserverManager;J)V" 
     },
     {
-      "SwigDirector_IObserverManager_byteTest1", "(Lcom/example/jni_test/model/IObserverManager;[B)V" 
+      "SwigDirector_IObserverManager_addObserver2", "(Lcom/example/jni_test/model/IObserverManager;J)V" 
     },
     {
-      "SwigDirector_IObserverManager_byteTest2", "(Lcom/example/jni_test/model/IObserverManager;)[B" 
-    },
-    {
-      "SwigDirector_IObserverManager_byteTest3", "(Lcom/example/jni_test/model/IObserverManager;[B)V" 
-    },
-    {
-      "SwigDirector_IObserverManager_byteTest4", "(Lcom/example/jni_test/model/IObserverManager;)[B" 
-    },
-    {
-      "SwigDirector_IObserverManager_testVariant1", "(Lcom/example/jni_test/model/IObserverManager;J)V" 
-    },
-    {
-      "SwigDirector_IObserverManager_testMap1", "(Lcom/example/jni_test/model/IObserverManager;J)V" 
-    },
-    {
-      "SwigDirector_IObserverManager_testVariant2", "(Lcom/example/jni_test/model/IObserverManager;J)V" 
-    },
-    {
-      "SwigDirector_IObserverManager_testMap2", "(Lcom/example/jni_test/model/IObserverManager;J)V" 
-    },
-    {
-      "SwigDirector_IObserverManager_testVariant3", "(Lcom/example/jni_test/model/IObserverManager;)J" 
-    },
-    {
-      "SwigDirector_IObserverManager_testMap3", "(Lcom/example/jni_test/model/IObserverManager;)J" 
-    },
-    {
-      "SwigDirector_IObserverManager_testVariant4", "(Lcom/example/jni_test/model/IObserverManager;)J" 
-    },
-    {
-      "SwigDirector_IObserverManager_testMap4", "(Lcom/example/jni_test/model/IObserverManager;)J" 
+      "SwigDirector_IObserverManager_removeObserver2", "(Lcom/example/jni_test/model/IObserverManager;J)V" 
     }
   };
   Swig::jclass_JNIItemTestJNI = (jclass) jenv->NewGlobalRef(jcls);

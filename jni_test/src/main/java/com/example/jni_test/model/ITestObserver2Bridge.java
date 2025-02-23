@@ -8,16 +8,16 @@
 
 package com.example.jni_test.model;
 
-public class TestObserverBridge {
+public class ITestObserver2Bridge {
   private transient long swigCPtr;
   private transient boolean swigCMemOwn;
 
-  public TestObserverBridge(long cPtr, boolean cMemoryOwn) {
+  public ITestObserver2Bridge(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
   }
 
-  public static long getCPtr(TestObserverBridge obj) {
+  public static long getCPtr(ITestObserver2Bridge obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
@@ -34,7 +34,7 @@ public class TestObserverBridge {
     if (swigCPtr != 0) {
       if (swigCMemOwn) {
         swigCMemOwn = false;
-        JNIItemTestJNI.delete_TestObserverBridge(swigCPtr);
+        JNIItemTestJNI.delete_ITestObserver2Bridge(swigCPtr);
       }
       swigCPtr = 0;
     }
@@ -47,19 +47,19 @@ public class TestObserverBridge {
 
   public void swigReleaseOwnership() {
     swigSetCMemOwn(false);
-    JNIItemTestJNI.TestObserverBridge_change_ownership(this, swigCPtr, false);
+    JNIItemTestJNI.ITestObserver2Bridge_change_ownership(this, swigCPtr, false);
   }
 
   public void swigTakeOwnership() {
     swigSetCMemOwn(true);
-    JNIItemTestJNI.TestObserverBridge_change_ownership(this, swigCPtr, true);
+    JNIItemTestJNI.ITestObserver2Bridge_change_ownership(this, swigCPtr, true);
   }
 
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
     if (obj == null || getClass() != obj.getClass()) return false;
-    TestObserverBridge other = (TestObserverBridge) obj;
+    ITestObserver2Bridge other = (ITestObserver2Bridge) obj;
     return this.isEquals(other);
   }
 
@@ -68,21 +68,21 @@ public class TestObserverBridge {
     return this.calculateHash();
   }
 
-  public TestObserverBridge() {
-    this(JNIItemTestJNI.new_TestObserverBridge(), true);
-    JNIItemTestJNI.TestObserverBridge_director_connect(this, swigCPtr, true, true);
-  }
-
   public void onCall(int data) {
-    JNIItemTestJNI.TestObserverBridge_onCall(swigCPtr, this, data);
+    JNIItemTestJNI.ITestObserver2Bridge_onCall(swigCPtr, this, data);
   }
 
   private int calculateHash() {
-    return JNIItemTestJNI.TestObserverBridge_calculateHash(swigCPtr, this);
+    return JNIItemTestJNI.ITestObserver2Bridge_calculateHash(swigCPtr, this);
   }
 
-  private boolean isEquals(TestObserverBridge other) {
-    return JNIItemTestJNI.TestObserverBridge_isEquals(swigCPtr, this, TestObserverBridge.getCPtr(other), other);
+  private boolean isEquals(ITestObserver2Bridge other) {
+    return JNIItemTestJNI.ITestObserver2Bridge_isEquals(swigCPtr, this, ITestObserver2Bridge.getCPtr(other), other);
+  }
+
+  public ITestObserver2Bridge() {
+    this(JNIItemTestJNI.new_ITestObserver2Bridge(), true);
+    JNIItemTestJNI.ITestObserver2Bridge_director_connect(this, swigCPtr, true, true);
   }
 
 }

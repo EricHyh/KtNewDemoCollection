@@ -48,6 +48,10 @@ SWIG_SHARED_PTR_TYPEMAPS_IMPLEMENTATION(public, public, CONST, TYPE)
 
 %import "variant_type_wrapper_config.i"
 %import "variant_type_map_config.i"
+%import "byte_array_config.i"
+%import "map_type_config.i"
+%import "java_object_config.i"
+%import "director_config.i"
 
 
 %ignore "private:";     //忽略所有私用成员

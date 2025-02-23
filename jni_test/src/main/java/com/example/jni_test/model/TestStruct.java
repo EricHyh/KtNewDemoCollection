@@ -8,20 +8,20 @@
 
 package com.example.jni_test.model;
 
-public class C2NTestItemFactory {
+public class TestStruct {
   private transient long swigCPtr;
   protected transient boolean swigCMemOwn;
 
-  public C2NTestItemFactory(long cPtr, boolean cMemoryOwn) {
+  public TestStruct(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
   }
 
-  public static long getCPtr(C2NTestItemFactory obj) {
+  public static long getCPtr(TestStruct obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
-  public static long swigRelease(C2NTestItemFactory obj) {
+  public static long swigRelease(TestStruct obj) {
     long ptr = 0;
     if (obj != null) {
       if (!obj.swigCMemOwn)
@@ -42,28 +42,22 @@ public class C2NTestItemFactory {
     if (swigCPtr != 0) {
       if (swigCMemOwn) {
         swigCMemOwn = false;
-        JNIItemTestJNI.delete_C2NTestItemFactory(swigCPtr);
+        JNIItemTestJNI.delete_TestStruct(swigCPtr);
       }
       swigCPtr = 0;
     }
   }
 
-  public static void init(IC2NTestItemFactory factory) {
-    JNIItemTestJNI.C2NTestItemFactory_init(IC2NTestItemFactory.getCPtr(factory), factory);
+  public void setGroupName(String value) {
+    JNIItemTestJNI.TestStruct_groupName_set(swigCPtr, this, value);
   }
 
-  public static ITestItem create(int index) {
-    long ptr = JNIItemTestJNI.C2NTestItemFactory_create(index);
-    if (ptr == 0) {
-      return null;
-    } else {
-      SwigDirectorWrapper wrapper = new SwigDirectorWrapper(ptr, true);
-      return wrapper.acquire((SwigDirectorWrapper.IDirectorConstructor<ITestItem>) cPtr -> new ITestItem(cPtr, true));
-    }
+  public String getGroupName() {
+    return JNIItemTestJNI.TestStruct_groupName_get(swigCPtr, this);
   }
 
-  public C2NTestItemFactory() {
-    this(JNIItemTestJNI.new_C2NTestItemFactory(), true);
+  public TestStruct() {
+    this(JNIItemTestJNI.new_TestStruct(), true);
   }
 
 }

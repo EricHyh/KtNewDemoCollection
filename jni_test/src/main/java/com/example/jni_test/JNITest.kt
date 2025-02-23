@@ -4,6 +4,7 @@ import com.example.jni_test.model.C2NTestItemFactory
 import com.example.jni_test.model.IC2NTestItemFactory
 import com.example.jni_test.model.IObserverManager
 import com.example.jni_test.model.ITestItem
+import com.example.jni_test.model.ITestObserver2Bridge
 import com.example.jni_test.model.ObserverManager
 import com.example.jni_test.model.TestColorFactory
 import com.example.jni_test.model.TestObserverBridge
@@ -40,6 +41,7 @@ object ObserverManagerImpl : IObserverManager() {
 
 
     private val observers: MutableSet<TestObserverBridge> = mutableSetOf()
+    private val observer2s: MutableSet<ITestObserver2Bridge> = mutableSetOf()
 
     private var num = 0;
 
@@ -53,9 +55,22 @@ object ObserverManagerImpl : IObserverManager() {
         observers.remove(observer)
     }
 
+    override fun addObserver2(observer: ITestObserver2Bridge?) {
+        observer ?: return
+        observer2s.add(observer)
+    }
+
+    override fun removeObserver2(observer: ITestObserver2Bridge?) {
+        observer ?: return
+        observer2s.remove(observer)
+    }
+
     fun notifyEvent() {
         num++
         observers.forEach {
+            it.onCall(num)
+        }
+        observer2s.forEach {
             it.onCall(num)
         }
     }

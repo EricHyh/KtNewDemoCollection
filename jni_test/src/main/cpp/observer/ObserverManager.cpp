@@ -17,3 +17,11 @@ void ObserverManager::addObserver(std::shared_ptr <TestObserver> observer) {
 void ObserverManager::removeObserver(std::shared_ptr <TestObserver> observer) {
     s_manager->removeObserver(observer);
 }
+
+void ObserverManager::addObserver2(std::shared_ptr <ITestObserver2> observer) {
+    s_manager->addObserver2(observer);
+}
+
+void ObserverManager::removeObserver2(std::shared_ptr <ITestObserver2> observer) {
+    s_manager->removeObserver2(observer);
+}

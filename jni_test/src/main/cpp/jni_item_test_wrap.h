@@ -147,6 +147,21 @@ protected:
     Swig::BoolArray<2> swig_override;
 };
 
+class SwigDirector_ITestObserver2Bridge : public ITestObserver2, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_ITestObserver2Bridge(JNIEnv *jenv);
+    virtual ~SwigDirector_ITestObserver2Bridge();
+    virtual void onCall(int const &data);
+public:
+    bool swig_overrides(int n) {
+      return (n < 1 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<1> swig_override;
+};
+
 class SwigDirector_IObserverManager : public IObserverManager, public Swig::Director {
 
 public:
@@ -155,24 +170,14 @@ public:
     virtual ~SwigDirector_IObserverManager();
     virtual void addObserver(std::shared_ptr< TestObserver > observer);
     virtual void removeObserver(std::shared_ptr< TestObserver > observer);
-    virtual void byteTest1(std::vector< uint8_t > byteArray);
-    virtual std::vector< uint8_t > byteTest2();
-    virtual void byteTest3(jbyteArray byteArray);
-    virtual jbyteArray byteTest4();
-    virtual void testVariant1(std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > const params);
-    virtual void testMap1(std::map< int,int,std::less< int > > params);
-    virtual void testVariant2(std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > const &params);
-    virtual void testMap2(std::map< int,int,std::less< int > > const &params);
-    virtual std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > testVariant3();
-    virtual std::map< int,int,std::less< int > > testMap3();
-    virtual std::map< TestEnum1,TestVariant,std::less< TestEnum1 > > &testVariant4();
-    virtual std::map< int,int,std::less< int > > &testMap4();
+    virtual void addObserver2(std::shared_ptr< ITestObserver2 > observer);
+    virtual void removeObserver2(std::shared_ptr< ITestObserver2 > observer);
 public:
     bool swig_overrides(int n) {
-      return (n < 14 ? swig_override[n] : false);
+      return (n < 4 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<14> swig_override;
+    Swig::BoolArray<4> swig_override;
 };
 
 

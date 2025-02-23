@@ -5,6 +5,8 @@
 #pragma once
 
 #include <jni.h>
+#include <variant>
+#include <memory>
 
 
 class JNIContext {
@@ -20,3 +22,21 @@ private:
     jboolean flag_;
 };
 
+
+class JNIGlobalRef {
+public:
+    JNIGlobalRef(JNIEnv *env, jobject obj) : m_ref(env->NewGlobalRef(obj)) {}
+
+    ~JNIGlobalRef() {
+        if (m_ref) {
+            JNIEnv *env = nullptr;
+            JNIContext context(env);
+            env->DeleteGlobalRef(m_ref);
+        }
+    }
+
+    jobject get() const { return m_ref; }
+
+private:
+    jobject m_ref;
+};

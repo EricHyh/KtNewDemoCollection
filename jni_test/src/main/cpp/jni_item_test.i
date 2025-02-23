@@ -1,11 +1,8 @@
 %module JNIItemTest
 
 
-%include "common_swig_config.i"
-%include "functional_config.i"
-%include "byte_array_config.i"
-%include "enum_type_config.i"
-%include "map_type_config.i"
+%include "swig_config/common_swig_config.i"
+
 %include <std_string.i>
 
 %byte_array_bridge()
@@ -31,17 +28,22 @@
 %shared_ptr(ITestColor)
 %shared_ptr(N2CTestColor)
 
+%shared_ptr(ITestObserver2)
+
 
 %feature("director") ITestItem;
 %feature("director") IC2NTestItemFactory;
 %feature("director") IItemIcon;
 %feature("director") ITestColor;
 %feature("director") IObserverManager;
+%feature("director") ITestObserver2;
+
+%swig_director_wrapper();
 
 %shared_ptr_wrapper(ITestItem);
 %shared_ptr_wrapper(IItemIcon);
 
-%director_shared_ptr_wrapper(ITestItem, com/example/jni_test/model/ITestItem);
+%director_shared_ptr_wrapper(ITestItem);
 
 %template(StringVector) std::vector<std::string>;
 %template(IItemIconVector) std::vector<std::shared_ptr<IItemIcon>>;
@@ -49,18 +51,9 @@
 %functional_bridge(TestObserver, TestObserverBridge, void, (const int &data), (data));
 
 
-//using TestVariant = std::variant<TestEnum2, TestStruct>;
-//std::map<TestEnum1, TestVariant>
-%variant_with_empty_bridge_2(TestVariant, TestVariantBridge,
-        TestEnum2, TestEnum2,
-        TestStruct, TestStruct
-);
+%java_hash_equals(ITestObserver2);
 
-%normal_variant_type_bridge(TestVariant, TestVariantBridge, TestVariantBridge);
-
-%std_map_bridge(std::map<TestEnum1 __COMMA__ TestVariant>, TestVariantMap);
-
-%template(TestIntMap) std::map<int, int>;
+%rename(ITestObserver2Bridge) ITestObserver2;
 
 
 %include "model/ItemIcon.h"

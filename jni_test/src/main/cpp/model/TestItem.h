@@ -8,6 +8,8 @@
 #include <vector>
 #include <memory>
 #include "ItemIcon.h"
+#include <jni.h>
+#include <cstdint>
 
 class ITestItem {
 public:
@@ -39,12 +41,21 @@ public:
 
     virtual std::shared_ptr<ITestItem> create(int index) = 0;
 
+//    virtual std::shared_ptr<IItemIcon> create2(int index) = 0;
+//
+//    virtual void setItemIcon(std::shared_ptr<IItemIcon> item) = 0;
+//
+//    virtual void setTestItem(std::shared_ptr<ITestItem> item) = 0;
+//
+//    virtual uintptr_t getPtr() = 0;
+
 };
 
 class C2NTestItemFactory {
 
 public:
-    static void init(IC2NTestItemFactory* factory);
+    static void init(IC2NTestItemFactory *factory);
+
     static std::shared_ptr<ITestItem> create(int index);
 
 
