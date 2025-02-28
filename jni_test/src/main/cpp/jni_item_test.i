@@ -38,7 +38,7 @@
 %feature("director") IObserverManager;
 %feature("director") ITestObserver2;
 
-%swig_director_wrapper();
+%swig_director_wrapper_prepare();
 
 %shared_ptr_wrapper(ITestItem);
 %shared_ptr_wrapper(IItemIcon);

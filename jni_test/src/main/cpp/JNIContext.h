@@ -35,6 +35,10 @@ public:
         }
     }
 
+    JNIGlobalRef(const JNIGlobalRef &) = delete;
+
+    JNIGlobalRef &operator=(const JNIGlobalRef &) = delete;
+
     jobject get() const { return m_ref; }
 
 private:

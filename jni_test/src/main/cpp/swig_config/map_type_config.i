@@ -4,7 +4,7 @@
 
 %define %std_map_bridge(c_map_type, j_map_type)
 
-%typemap(jstype) c_map_type::iterator, c_map_type::iterator& "Iterator"  //Java层 Java函数类型
+%typemap(jstype) c_map_type::iterator, c_map_type::iterator& "$typemap(jstype, c_map_type).Iterator"  //Java层 Java函数类型
 
 %typemap(jtype) c_map_type::iterator, c_map_type::iterator& "long"   //Java层 JNI函数参数类型
 

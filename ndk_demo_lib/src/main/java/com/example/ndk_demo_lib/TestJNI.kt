@@ -78,3 +78,93 @@ fun interface TestCallbackJni<T> {
     fun onTest(data: T)
 
 }
+
+
+class UnlockProcessNodeInfo
+
+interface IUnlockUserProcess {
+
+    fun onPasswordUnlock(action: IUnlockUserAction<*, *, *>)
+
+}
+
+
+interface IPlatformUnlockAbility {
+
+    fun isUnLockModeOpened(): Boolean
+
+
+}
+
+
+interface IUnlockUserAction<Context, NextParam, ErrorInfo> {
+
+
+    fun getContextInfo(): Context
+
+    fun next(param: NextParam)
+
+    fun error(error: ErrorInfo)
+
+    fun cancel()
+
+}
+
+interface IBiometricUserAction {
+    fun next(biometricJson: String, biometricSignature: String)
+
+    fun error()
+
+    fun cancel()
+
+}
+
+interface ITokenUserAction {
+
+    fun onNext(token: String)
+
+    fun onError()
+
+    fun onCancel()
+
+}
+
+
+class UnlockProcessManager {
+
+
+    fun config() {
+
+    }
+
+    private fun <FirstParam, FirstResult, SecondParam> connect(
+        first: IUnlockProcessUnit<FirstParam, FirstResult>,
+        connector: ProcessUnitConnector<FirstParam, FirstResult, SecondParam>,
+        second: IUnlockProcessUnit<SecondParam, *>,
+    ) {
+
+    }
+}
+
+
+class ProcessResult<Result>(
+    val type: Int, //成功，取消，下一步
+    val result: Result?
+)
+
+class IUnlockProcessUnit<Param, Result> {
+
+    fun start(
+        param: Param,
+        result: (ProcessResult<Result>) -> Unit
+    ) {
+
+    }
+
+}
+
+interface ProcessUnitConnector<LastParam, LastResult, NextParam> {
+
+    fun tryConnect(param: LastParam, result: LastResult): NextParam?
+
+}

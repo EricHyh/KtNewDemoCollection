@@ -878,15 +878,15 @@ public:
 
     SwigDirectorWrapper &operator=(SwigDirectorWrapper &&) = default;
 
-    bool isJObject() const noexcept {
+    bool IsJObject() const noexcept {
         return std::holds_alternative<std::unique_ptr<JNIGlobalRef>>(m_data);
     }
 
-    bool isCPtr() const noexcept {
+    bool IsCPtr() const noexcept {
         return std::holds_alternative<void *>(m_data);
     }
 
-    jobject getJObject() const noexcept {
+    jobject GetJObject() const noexcept {
         if (auto jref = std::get_if<std::unique_ptr<JNIGlobalRef>>(&m_data)) {
             JNIEnv *env = nullptr;
             JNIContext context(env);
@@ -895,7 +895,7 @@ public:
         return nullptr;
     }
 
-    uintptr_t getCPtr() const noexcept {
+    uintptr_t GetCPtr() const noexcept {
         if (auto ptr = std::get_if<void *>(&m_data)) {
             return reinterpret_cast<uintptr_t>(*ptr);
         }
@@ -1688,7 +1688,7 @@ std::shared_ptr< ITestItem > SwigDirector_IC2NTestItemFactory::create(int index)
     
     if (jresult) {
       std::shared_ptr<ITestItem> *smartarg = *(std::shared_ptr<ITestItem> **)&jresult;
-      auto *jresult_ptr = dynamic_cast<SwigDirector_ITestItem*>(smartarg->get());
+      auto *jresult_ptr = dynamic_cast<Swig::Director*>(smartarg->get());
       if (jresult_ptr) {
         jobject jobj = jresult_ptr->swig_get_self(jenv);
         // 创建全局引用
@@ -2572,7 +2572,7 @@ SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1Sw
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDirectorWrapper_1isJObject(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDirectorWrapper_1IsJObject(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   SwigDirectorWrapper *arg1 = (SwigDirectorWrapper *) 0 ;
   bool result;
@@ -2581,13 +2581,13 @@ SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Swig
   (void)jcls;
   (void)jarg1_;
   arg1 = *(SwigDirectorWrapper **)&jarg1; 
-  result = (bool)((SwigDirectorWrapper const *)arg1)->isJObject();
+  result = (bool)((SwigDirectorWrapper const *)arg1)->IsJObject();
   jresult = (jboolean)result; 
   return jresult;
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDirectorWrapper_1isCPtr(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDirectorWrapper_1IsCPtr(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   SwigDirectorWrapper *arg1 = (SwigDirectorWrapper *) 0 ;
   bool result;
@@ -2596,13 +2596,13 @@ SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Swig
   (void)jcls;
   (void)jarg1_;
   arg1 = *(SwigDirectorWrapper **)&jarg1; 
-  result = (bool)((SwigDirectorWrapper const *)arg1)->isCPtr();
+  result = (bool)((SwigDirectorWrapper const *)arg1)->IsCPtr();
   jresult = (jboolean)result; 
   return jresult;
 }
 
 
-SWIGEXPORT jobject JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDirectorWrapper_1getJObject(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jobject JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDirectorWrapper_1GetJObject(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jobject jresult = 0 ;
   SwigDirectorWrapper *arg1 = (SwigDirectorWrapper *) 0 ;
   jobject result;
@@ -2611,13 +2611,13 @@ SWIGEXPORT jobject JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigD
   (void)jcls;
   (void)jarg1_;
   arg1 = *(SwigDirectorWrapper **)&jarg1; 
-  result = ((SwigDirectorWrapper const *)arg1)->getJObject();
+  result = ((SwigDirectorWrapper const *)arg1)->GetJObject();
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDirectorWrapper_1getCPtr(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDirectorWrapper_1GetCPtr(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   SwigDirectorWrapper *arg1 = (SwigDirectorWrapper *) 0 ;
   uintptr_t result;
@@ -2626,7 +2626,7 @@ SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_SwigDir
   (void)jcls;
   (void)jarg1_;
   arg1 = *(SwigDirectorWrapper **)&jarg1; 
-  result = ((SwigDirectorWrapper const *)arg1)->getCPtr();
+  result = ((SwigDirectorWrapper const *)arg1)->GetCPtr();
   
   jresult = result;
   
@@ -3683,7 +3683,7 @@ SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IC2NTes
   result = (arg1)->create(arg2);
   
   if (result) {
-    auto *result_ptr = dynamic_cast<SwigDirector_ITestItem*>((&result)->get());
+    auto *result_ptr = dynamic_cast<Swig::Director*>((&result)->get());
     if (result_ptr) {
       jobject result_jobj = result_ptr->swig_get_self(jenv);
       if (result_jobj) {
@@ -3752,7 +3752,7 @@ SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_C2NTest
   result = C2NTestItemFactory::create(arg1);
   
   if (result) {
-    auto *result_ptr = dynamic_cast<SwigDirector_ITestItem*>((&result)->get());
+    auto *result_ptr = dynamic_cast<Swig::Director*>((&result)->get());
     if (result_ptr) {
       jobject result_jobj = result_ptr->swig_get_self(jenv);
       if (result_jobj) {

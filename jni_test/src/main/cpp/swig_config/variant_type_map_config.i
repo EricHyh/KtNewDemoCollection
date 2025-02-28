@@ -48,7 +48,7 @@ c_target_type* value_ptr = new c_target_type(*$1);
 %}
 
 %typemap(directorin, descriptor="L$packagepath/$typemap(jstype, original_type);") original_type, original_type& %{
-*(shared_ptr<c_target_type>**)&jvariant = new shared_ptr<c_target_type>(new c_target_type(variant));
+*(shared_ptr<c_target_type>**)&$input = new shared_ptr<c_target_type>(new c_target_type($1));
 %}
 
 %typemap(directorout, descriptor="L$packagepath/$typemap(jstype, original_type);") original_type %{
@@ -110,7 +110,7 @@ c_target_type* value_ptr = new c_target_type(*$1);
 %}
 
 %typemap(directorin, descriptor="L$packagepath/$typemap(jstype, original_type);") original_type, original_type& %{
-*(c_target_type**)&jvariant = new c_target_type(variant);
+*(c_target_type**)&$input = new c_target_type($1);
 %}
 
 %typemap(directorout, descriptor="L$packagepath/$typemap(jstype, original_type);") original_type %{
