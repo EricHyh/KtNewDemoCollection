@@ -7,6 +7,7 @@
 #include <string>
 #include <functional>
 #include <memory>
+#include <cstdint>
 #include <vector>
 #include <jni.h>
 #include <map>
@@ -49,13 +50,24 @@ public:
 
     virtual void removeObserver2(std::shared_ptr<ITestObserver2> observer) = 0;
 
-//    virtual void byteTest1(std::vector<uint8_t> byteArray) = 0;
-//
-//    virtual std::vector<uint8_t> byteTest2() = 0;
-//
-//    virtual void byteTest3(jbyteArray byteArray) = 0;
-//
-//    virtual jbyteArray byteTest4() = 0;
+    virtual int64_t add1(int64_t a, int64_t b) = 0;
+
+    virtual long long add11(long long a, long long b) = 0;
+
+    virtual int64_t add2(const int64_t &a, const int64_t &b) = 0;
+
+    virtual long long add22(const long long &a, const long long &b) = 0;
+
+    virtual std::optional<int64_t> add3(std::optional<int64_t> a, std::optional<int64_t> b) = 0;
+
+    virtual std::optional<int64_t> add33(const std::optional<int64_t> &a, const std::optional<int64_t> &b) = 0;
+
+    virtual void byteTest1(std::vector<uint8_t> byteArray) = 0;
+
+    virtual void byteTest2(const std::vector<uint8_t> &byteArray) = 0;
+
+    virtual std::vector<uint8_t> byteTest3() = 0;
+
 
 };
 
@@ -73,6 +85,23 @@ public:
 
     static void removeObserver2(std::shared_ptr<ITestObserver2> observer);
 
+    static int64_t add1(int64_t a, int64_t b);
+
+    static long long add11(long long a, long long b);
+
+    static int64_t add2(int64_t &a, int64_t &b);
+
+    static long long add22(const long long &a, const long long &b);
+
+    static std::optional<int64_t> add3(std::optional<int64_t> a, std::optional<int64_t> b);
+
+    static std::optional<int64_t> add33(const std::optional<int64_t> &a, const std::optional<int64_t> &b);
+
+    static void byteTest1(std::vector<uint8_t> byteArray);
+
+    static void byteTest2(const std::vector<uint8_t> &byteArray);
+
+    static std::vector<uint8_t> byteTest3();
 
 private:
     static IObserverManager *s_manager;

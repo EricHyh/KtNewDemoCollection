@@ -11,13 +11,14 @@ import com.example.jni_test.fragment.AnimTestFragment
 import com.example.jni_test.fragment.FunctionTestFragment
 import com.example.jni_test.fragment.JNITestTabsFragment
 import com.example.jni_test.model.JNITestEntrance
+import com.example.jni_test.model.ObserverManager
 import com.example.jni_test.model.wrapper.DataSource
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
 
-    companion object{
+    companion object {
         private const val TAG = "MainActivity"
     }
 
@@ -137,5 +138,12 @@ class MainActivity : AppCompatActivity() {
 
     fun onNotifyObservers(view: View) {
         ObserverManagerImpl.notifyEvent()
+
+        ObserverManager.byteTest1(byteArrayOf(1, 2, 3, 4))
+        ObserverManager.byteTest2(byteArrayOf(5, 6, 7, 8))
+        val byteTest3 = ObserverManager.byteTest3()
+        byteTest3.forEach {
+            Log.d(TAG, "onNotifyObservers: byte $it")
+        }
     }
 }

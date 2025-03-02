@@ -68,6 +68,42 @@ public class ObserverManager {
     JNIItemTestJNI.ObserverManager_removeObserver2(ITestObserver2Bridge.getCPtr(observer), observer);
   }
 
+  public static long add1(long a, long b) {
+    return JNIItemTestJNI.ObserverManager_add1(a, b);
+  }
+
+  public static long add11(long a, long b) {
+    return JNIItemTestJNI.ObserverManager_add11(a, b);
+  }
+
+  public static long add2(long a, long b) {
+    return JNIItemTestJNI.ObserverManager_add2(a, b);
+  }
+
+  public static long add22(long a, long b) {
+    return JNIItemTestJNI.ObserverManager_add22(a, b);
+  }
+
+  public static long add3(long a, long b) {
+    return JNIItemTestJNI.ObserverManager_add3(a, b);
+  }
+
+  public static long add33(long a, long b) {
+    return JNIItemTestJNI.ObserverManager_add33(a, b);
+  }
+
+  public static void byteTest1(byte[] byteArray) {
+    JNIItemTestJNI.ObserverManager_byteTest1(byteArray);
+  }
+
+  public static void byteTest2(byte[] byteArray) {
+    JNIItemTestJNI.ObserverManager_byteTest2(byteArray);
+  }
+
+  public static byte[] byteTest3() {
+    return JNIItemTestJNI.ObserverManager_byteTest3();
+  }
+
   public ObserverManager() {
     this(JNIItemTestJNI.new_ObserverManager(), true);
   }

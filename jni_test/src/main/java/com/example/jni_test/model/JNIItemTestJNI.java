@@ -11,10 +11,10 @@ package com.example.jni_test.model;
 public class JNIItemTestJNI {
   public final static native void delete_SwigDirectorWrapper(long jarg1);
   public final static native long new_SwigDirectorWrapper(long jarg1, SwigDirectorWrapper jarg1_);
-  public final static native boolean SwigDirectorWrapper_isJObject(long jarg1, SwigDirectorWrapper jarg1_);
-  public final static native boolean SwigDirectorWrapper_isCPtr(long jarg1, SwigDirectorWrapper jarg1_);
-  public final static native Object SwigDirectorWrapper_getJObject(long jarg1, SwigDirectorWrapper jarg1_);
-  public final static native long SwigDirectorWrapper_getCPtr(long jarg1, SwigDirectorWrapper jarg1_);
+  public final static native boolean SwigDirectorWrapper_IsJObject(long jarg1, SwigDirectorWrapper jarg1_);
+  public final static native boolean SwigDirectorWrapper_IsCPtr(long jarg1, SwigDirectorWrapper jarg1_);
+  public final static native Object SwigDirectorWrapper_GetJObject(long jarg1, SwigDirectorWrapper jarg1_);
+  public final static native long SwigDirectorWrapper_GetCPtr(long jarg1, SwigDirectorWrapper jarg1_);
   public final static native long new_StringVector__SWIG_0();
   public final static native long new_StringVector__SWIG_1(long jarg1, StringVector jarg1_);
   public final static native boolean StringVector_isEmpty(long jarg1, StringVector jarg1_);
@@ -145,6 +145,15 @@ public class JNIItemTestJNI {
   public final static native void IObserverManager_removeObserver(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
   public final static native void IObserverManager_addObserver2(long jarg1, IObserverManager jarg1_, long jarg2, ITestObserver2Bridge jarg2_);
   public final static native void IObserverManager_removeObserver2(long jarg1, IObserverManager jarg1_, long jarg2, ITestObserver2Bridge jarg2_);
+  public final static native long IObserverManager_add1(long jarg1, IObserverManager jarg1_, long jarg2, long jarg3);
+  public final static native long IObserverManager_add11(long jarg1, IObserverManager jarg1_, long jarg2, long jarg3);
+  public final static native long IObserverManager_add2(long jarg1, IObserverManager jarg1_, long jarg2, long jarg3);
+  public final static native long IObserverManager_add22(long jarg1, IObserverManager jarg1_, long jarg2, long jarg3);
+  public final static native long IObserverManager_add3(long jarg1, IObserverManager jarg1_, long jarg2, long jarg3);
+  public final static native long IObserverManager_add33(long jarg1, IObserverManager jarg1_, long jarg2, long jarg3);
+  public final static native void IObserverManager_byteTest1(long jarg1, IObserverManager jarg1_, byte[] jarg2);
+  public final static native void IObserverManager_byteTest2(long jarg1, IObserverManager jarg1_, byte[] jarg2);
+  public final static native byte[] IObserverManager_byteTest3(long jarg1, IObserverManager jarg1_);
   public final static native long new_IObserverManager();
   public final static native void IObserverManager_director_connect(IObserverManager obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void IObserverManager_change_ownership(IObserverManager obj, long cptr, boolean take_or_release);
@@ -153,6 +162,15 @@ public class JNIItemTestJNI {
   public final static native void ObserverManager_removeObserver(long jarg1, TestObserverBridge jarg1_);
   public final static native void ObserverManager_addObserver2(long jarg1, ITestObserver2Bridge jarg1_);
   public final static native void ObserverManager_removeObserver2(long jarg1, ITestObserver2Bridge jarg1_);
+  public final static native long ObserverManager_add1(long jarg1, long jarg2);
+  public final static native long ObserverManager_add11(long jarg1, long jarg2);
+  public final static native long ObserverManager_add2(long jarg1, long jarg2);
+  public final static native long ObserverManager_add22(long jarg1, long jarg2);
+  public final static native long ObserverManager_add3(long jarg1, long jarg2);
+  public final static native long ObserverManager_add33(long jarg1, long jarg2);
+  public final static native void ObserverManager_byteTest1(byte[] jarg1);
+  public final static native void ObserverManager_byteTest2(byte[] jarg1);
+  public final static native byte[] ObserverManager_byteTest3();
   public final static native long new_ObserverManager();
   public final static native void delete_ObserverManager(long jarg1);
   public final static native void JNITestEntrance_testAddObserver(int jarg1);
@@ -255,6 +273,33 @@ public class JNIItemTestJNI {
   }
   public static void SwigDirector_IObserverManager_removeObserver2(IObserverManager jself, long observer) {
     jself.removeObserver2((observer == 0) ? null : new ITestObserver2Bridge(observer, true));
+  }
+  public static long SwigDirector_IObserverManager_add1(IObserverManager jself, long a, long b) {
+    return jself.add1(a, b);
+  }
+  public static long SwigDirector_IObserverManager_add11(IObserverManager jself, long a, long b) {
+    return jself.add11(a, b);
+  }
+  public static long SwigDirector_IObserverManager_add2(IObserverManager jself, long a, long b) {
+    return jself.add2(a, b);
+  }
+  public static long SwigDirector_IObserverManager_add22(IObserverManager jself, long a, long b) {
+    return jself.add22(a, b);
+  }
+  public static long SwigDirector_IObserverManager_add3(IObserverManager jself, long a, long b) {
+    return jself.add3(a, b);
+  }
+  public static long SwigDirector_IObserverManager_add33(IObserverManager jself, long a, long b) {
+    return jself.add33(a, b);
+  }
+  public static void SwigDirector_IObserverManager_byteTest1(IObserverManager jself, byte[] byteArray) {
+    jself.byteTest1(byteArray);
+  }
+  public static void SwigDirector_IObserverManager_byteTest2(IObserverManager jself, byte[] byteArray) {
+    jself.byteTest2(byteArray);
+  }
+  public static byte[] SwigDirector_IObserverManager_byteTest3(IObserverManager jself) {
+    return jself.byteTest3();
   }
 
   private final static native void swig_module_init();

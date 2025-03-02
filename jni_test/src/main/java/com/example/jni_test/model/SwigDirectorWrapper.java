@@ -51,10 +51,10 @@ public class SwigDirectorWrapper {
 
   @SuppressWarnings("all")
   public <T> T acquire(IDirectorConstructor<T> constructor){
-    if (isJObject()) {
-      return (T) getJObject();
+    if (IsJObject()) {
+      return (T) GetJObject();
     } else {
-      long cPtr = getCPtr();
+      long cPtr = GetCPtr();
       return (cPtr == 0) ? null : constructor.create(cPtr);
     }
   }
@@ -67,20 +67,20 @@ public class SwigDirectorWrapper {
     this(JNIItemTestJNI.new_SwigDirectorWrapper(SwigDirectorWrapper.swigRelease(arg0), arg0), true);
   }
 
-  public boolean isJObject() {
-    return JNIItemTestJNI.SwigDirectorWrapper_isJObject(swigCPtr, this);
+  private boolean IsJObject() {
+    return JNIItemTestJNI.SwigDirectorWrapper_IsJObject(swigCPtr, this);
   }
 
-  public boolean isCPtr() {
-    return JNIItemTestJNI.SwigDirectorWrapper_isCPtr(swigCPtr, this);
+  private boolean IsCPtr() {
+    return JNIItemTestJNI.SwigDirectorWrapper_IsCPtr(swigCPtr, this);
   }
 
-  public Object getJObject() {
-    return JNIItemTestJNI.SwigDirectorWrapper_getJObject(swigCPtr, this);
+  private Object GetJObject() {
+    return JNIItemTestJNI.SwigDirectorWrapper_GetJObject(swigCPtr, this);
   }
 
-  public long getCPtr() {
-    return JNIItemTestJNI.SwigDirectorWrapper_getCPtr(swigCPtr, this);
+  private long GetCPtr() {
+    return JNIItemTestJNI.SwigDirectorWrapper_GetCPtr(swigCPtr, this);
   }
 
 }

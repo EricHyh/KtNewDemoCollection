@@ -172,12 +172,21 @@ public:
     virtual void removeObserver(std::shared_ptr< TestObserver > observer);
     virtual void addObserver2(std::shared_ptr< ITestObserver2 > observer);
     virtual void removeObserver2(std::shared_ptr< ITestObserver2 > observer);
+    virtual int64_t add1(int64_t a,int64_t b);
+    virtual long long add11(long long a,long long b);
+    virtual int64_t add2(int64_t const &a,int64_t const &b);
+    virtual long long add22(long long const &a,long long const &b);
+    virtual std::optional< int64_t > add3(std::optional< int64_t > a,std::optional< int64_t > b);
+    virtual std::optional< int64_t > add33(std::optional< int64_t > const &a,std::optional< int64_t > const &b);
+    virtual void byteTest1(std::vector< uint8_t > byteArray);
+    virtual void byteTest2(std::vector< uint8_t > const &byteArray);
+    virtual std::vector< uint8_t > byteTest3();
 public:
     bool swig_overrides(int n) {
-      return (n < 4 ? swig_override[n] : false);
+      return (n < 13 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<4> swig_override;
+    Swig::BoolArray<13> swig_override;
 };
 
 

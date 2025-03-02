@@ -79,6 +79,42 @@ public class IObserverManager {
     JNIItemTestJNI.IObserverManager_removeObserver2(swigCPtr, this, ITestObserver2Bridge.getCPtr(observer), observer);
   }
 
+  public long add1(long a, long b) {
+    return JNIItemTestJNI.IObserverManager_add1(swigCPtr, this, a, b);
+  }
+
+  public long add11(long a, long b) {
+    return JNIItemTestJNI.IObserverManager_add11(swigCPtr, this, a, b);
+  }
+
+  public long add2(long a, long b) {
+    return JNIItemTestJNI.IObserverManager_add2(swigCPtr, this, a, b);
+  }
+
+  public long add22(long a, long b) {
+    return JNIItemTestJNI.IObserverManager_add22(swigCPtr, this, a, b);
+  }
+
+  public long add3(long a, long b) {
+    return JNIItemTestJNI.IObserverManager_add3(swigCPtr, this, a, b);
+  }
+
+  public long add33(long a, long b) {
+    return JNIItemTestJNI.IObserverManager_add33(swigCPtr, this, a, b);
+  }
+
+  public void byteTest1(byte[] byteArray) {
+    JNIItemTestJNI.IObserverManager_byteTest1(swigCPtr, this, byteArray);
+  }
+
+  public void byteTest2(byte[] byteArray) {
+    JNIItemTestJNI.IObserverManager_byteTest2(swigCPtr, this, byteArray);
+  }
+
+  public byte[] byteTest3() {
+    return JNIItemTestJNI.IObserverManager_byteTest3(swigCPtr, this);
+  }
+
   public IObserverManager() {
     this(JNIItemTestJNI.new_IObserverManager(), true);
     JNIItemTestJNI.IObserverManager_director_connect(this, swigCPtr, true, true);

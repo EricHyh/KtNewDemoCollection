@@ -1,5 +1,6 @@
 package com.example.jni_test
 
+import android.util.Log
 import com.example.jni_test.model.C2NTestItemFactory
 import com.example.jni_test.model.IC2NTestItemFactory
 import com.example.jni_test.model.IObserverManager
@@ -39,6 +40,8 @@ object JNITest {
 
 object ObserverManagerImpl : IObserverManager() {
 
+    private const val TAG = "ObserverManagerImpl"
+
 
     private val observers: MutableSet<TestObserverBridge> = mutableSetOf()
     private val observer2s: MutableSet<ITestObserver2Bridge> = mutableSetOf()
@@ -63,6 +66,48 @@ object ObserverManagerImpl : IObserverManager() {
     override fun removeObserver2(observer: ITestObserver2Bridge?) {
         observer ?: return
         observer2s.remove(observer)
+    }
+
+    override fun add1(a: Long, b: Long): Long {
+        return a + b
+    }
+
+    override fun add11(a: Long, b: Long): Long {
+        return a + b
+    }
+
+    override fun add2(a: Long, b: Long): Long {
+        return a + b
+    }
+
+    override fun add22(a: Long, b: Long): Long {
+        return a + b
+    }
+
+    override fun add3(a: Long, b: Long): Long {
+        return a + b
+    }
+
+    override fun add33(a: Long, b: Long): Long {
+        return a + b
+    }
+
+    override fun byteTest1(byteArray: ByteArray?) {
+        byteArray ?: return
+        byteArray.forEach {
+            Log.d(TAG, "byteTest1: $it")
+        }
+    }
+
+    override fun byteTest2(byteArray: ByteArray?) {
+        byteArray ?: return
+        byteArray.forEach {
+            Log.d(TAG, "byteTest2: $it")
+        }
+    }
+
+    override fun byteTest3(): ByteArray {
+        return byteArrayOf(20, 21, 22, 23)
     }
 
     fun notifyEvent() {

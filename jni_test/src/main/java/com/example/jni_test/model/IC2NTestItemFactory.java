@@ -69,7 +69,7 @@ public class IC2NTestItemFactory {
       return null;
     } else {
       SwigDirectorWrapper wrapper = new SwigDirectorWrapper(ptr, true);
-      return wrapper.acquire((SwigDirectorWrapper.IDirectorConstructor<ITestItem>) cPtr -> new ITestItem(cPtr, true));
+      return wrapper.acquire(cPtr -> new ITestItem(cPtr, true));
     }
   }
 
