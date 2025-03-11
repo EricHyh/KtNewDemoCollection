@@ -13,14 +13,8 @@
 %typemap(javain) std::vector<c_value_type>::value_type, std::vector<c_value_type>::value_type& "$typemap(javain, c_value_type)"
 
 //Java层，Java调用JNI函数时，对返回值的转换
-%typemap(javaout) std::vector<c_value_type>::value_type, std::vector<c_value_type>::value_type& $typemap(javaout, c_value_type)
+%typemap(javaout) std::vector<c_value_type>::value_type, std::vector<c_value_type>::value_type& "$typemap(javaout, c_value_type)"
 
-
-//C++层，JNI函数参数，java类型转C++类型
-%typemap(in) std::vector<c_value_type>::value_type $typemap(in, c_value_type)
-
-//C++层，JNI函数返回值，C++类型转java类型
-%typemap(out) std::vector<c_value_type>::value_type $typemap(out, c_value_type)
 
 %enddef
 

@@ -15,6 +15,12 @@
 
 using TestObserver = std::function<void(const int &data)>;
 
+struct TestObserver2Data {
+    int a;
+};
+
+typedef std::function<void(const TestObserver2Data &data)> TestObserver2;
+
 enum class TestEnum1 {
     AllTradingTime = 0,   // 全时段
     UsPreMarketAfter = 1  // 美股盘前盘后
@@ -68,6 +74,7 @@ public:
 
     virtual std::vector<uint8_t> byteTest3() = 0;
 
+    virtual void setTestObserver2List(std::vector<TestObserver2>) = 0;
 
 };
 

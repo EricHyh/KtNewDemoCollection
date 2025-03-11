@@ -24,6 +24,21 @@ protected:
     Swig::BoolArray<1> swig_override;
 };
 
+class SwigDirector_TestObserver2Bridge : public TestObserver2Bridge, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_TestObserver2Bridge(JNIEnv *jenv);
+    virtual ~SwigDirector_TestObserver2Bridge();
+    virtual void onCall(TestObserver2Data const &data);
+public:
+    bool swig_overrides(int n) {
+      return (n < 1 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<1> swig_override;
+};
+
 class SwigDirector_IItemIcon : public IItemIcon, public Swig::Director {
 
 public:
@@ -181,12 +196,13 @@ public:
     virtual void byteTest1(std::vector< uint8_t > byteArray);
     virtual void byteTest2(std::vector< uint8_t > const &byteArray);
     virtual std::vector< uint8_t > byteTest3();
+    virtual void setTestObserver2List(std::vector< TestObserver2 > arg0);
 public:
     bool swig_overrides(int n) {
-      return (n < 13 ? swig_override[n] : false);
+      return (n < 14 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<13> swig_override;
+    Swig::BoolArray<14> swig_override;
 };
 
 

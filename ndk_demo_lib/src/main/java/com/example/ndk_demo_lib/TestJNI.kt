@@ -84,7 +84,8 @@ class UnlockProcessNodeInfo
 
 interface IUnlockUserProcess {
 
-    fun onPasswordUnlock(action: IUnlockUserAction<*, *, *>)
+    fun onInputPassword(action: IUnlockUserAction<*, *, *>)
+
 
 }
 
@@ -160,7 +161,6 @@ class IUnlockProcessUnit<Param, Result> {
     ) {
 
     }
-
 }
 
 interface ProcessUnitConnector<LastParam, LastResult, NextParam> {
