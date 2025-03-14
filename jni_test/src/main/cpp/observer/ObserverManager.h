@@ -8,6 +8,7 @@
 #include <functional>
 #include <memory>
 #include <cstdint>
+#include <optional>
 #include <vector>
 #include <jni.h>
 #include <map>
@@ -16,10 +17,13 @@
 using TestObserver = std::function<void(const int &data)>;
 
 struct TestObserver2Data {
-    int a;
+    const int a;
+
+    TestObserver2Data(int a) : a(a) {}
 };
 
 typedef std::function<void(const TestObserver2Data &data)> TestObserver2;
+
 
 enum class TestEnum1 {
     AllTradingTime = 0,   // 全时段
@@ -35,6 +39,15 @@ struct TestStruct {
     std::string groupName;  // 分组名称
 };
 
+
+struct TestOptional {
+
+    std::optional<TestEnum1> enum1;
+
+    TestEnum1 enum11;
+
+};
+
 class ITestObserver2 {
 public:
     virtual ~ITestObserver2() = default;
@@ -48,7 +61,7 @@ class IObserverManager {
 public:
     virtual ~IObserverManager() = default;
 
-    virtual void addObserver(std::shared_ptr<TestObserver> observer) = 0;
+    virtual void addObserver(std::shared_ptr<const TestObserver> observer) = 0;
 
     virtual void removeObserver(std::shared_ptr<TestObserver> observer) = 0;
 
@@ -76,8 +89,34 @@ public:
 
     virtual void setTestObserver2List(std::vector<TestObserver2>) = 0;
 
+    virtual TestEnum1 optionalEnum33() = 0;
+
+    virtual std::optional<TestEnum1> &optionalEnum4() = 0;
+
+    virtual TestEnum1 &optionalEnum44() = 0;
 };
 
+virtual void optionalTest1(std::optional<TestOptional> option) = 0;
+
+virtual void optionalTest2(const std::optional<TestOptional> &option) = 0;
+
+virtual std::optional<TestOptional> optionalTest3() = 0;
+
+virtual std::optional<TestOptional> &optionalTest4() = 0;
+
+virtual TestOptional optionalTest33() = 0;
+
+virtual TestOptional &optionalTest44() = 0;
+
+virtual void optionalEnum1(std::optional<TestEnum1> option) = 0;
+
+virtual void optionalEnum11(TestEnum1 option) = 0;
+
+virtual void optionalEnum2(const std::optional<TestEnum1> &option) = 0;
+
+virtual void optionalEnum22(const TestEnum1 &option) = 0;
+
+virtual std::optional<TestEnum1> optionalEnum3() = 0;
 
 class ObserverManager {
 

@@ -121,23 +121,23 @@ $1 = std::make_optional<c_type>($input);
 %basic_type_map(int64_t, long, jlong, J);
 %basic_type_map(uint64_t, long, jlong, J);
 %basic_type_map(uintptr_t, long, jlong, J);
+%basic_type_map(uint32_t, long, jlong, J);
 %optional_basic_type_map(int64_t, long, jlong, J);
 %optional_basic_type_map(uint64_t, long, jlong, J);
 %optional_basic_type_map(uintptr_t, long, jlong, J);
+%optional_basic_type_map(uint32_t, long, jlong, J);
 
 %basic_type_map(int32_t, int, jint, I);
-%basic_type_map(uint32_t, int, jint, I);
+%basic_type_map(uint16_t, int, jint, I);
 %optional_basic_type_map(int32_t, int, jint, I);
-%optional_basic_type_map(uint32_t, int, jint, I);
+%optional_basic_type_map(uint16_t, int, jint, I);
 
 %basic_type_map(int16_t, short, jshort, S);
-%basic_type_map(uint16_t, short, jshort, S);
+%basic_type_map(uint8_t, short, jshort, S);
 %optional_basic_type_map(int16_t, short, jshort, S);
-%optional_basic_type_map(uint16_t, short, jshort, S);
+%optional_basic_type_map(uint8_t, short, jshort, S);
 
 %basic_type_map(int8_t, byte, jbyte, B);
-%basic_type_map(uint8_t, byte, jbyte, B);
 %optional_basic_type_map(int8_t, byte, jbyte, B);
-%optional_basic_type_map(uint8_t, byte, jbyte, B);
 
 #endif // BASIC_TYPE_CONFIG

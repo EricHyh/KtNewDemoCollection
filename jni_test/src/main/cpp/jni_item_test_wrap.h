@@ -183,7 +183,7 @@ public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
     SwigDirector_IObserverManager(JNIEnv *jenv);
     virtual ~SwigDirector_IObserverManager();
-    virtual void addObserver(std::shared_ptr< TestObserver > observer);
+    virtual void addObserver(std::shared_ptr< TestObserver const > observer);
     virtual void removeObserver(std::shared_ptr< TestObserver > observer);
     virtual void addObserver2(std::shared_ptr< ITestObserver2 > observer);
     virtual void removeObserver2(std::shared_ptr< ITestObserver2 > observer);
@@ -197,12 +197,30 @@ public:
     virtual void byteTest2(std::vector< uint8_t > const &byteArray);
     virtual std::vector< uint8_t > byteTest3();
     virtual void setTestObserver2List(std::vector< TestObserver2 > arg0);
+    virtual TestEnum1 optionalEnum33();
+    virtual std::optional< TestEnum1 > &optionalEnum4();
+    virtual TestEnum1 &optionalEnum44();
 public:
     bool swig_overrides(int n) {
-      return (n < 14 ? swig_override[n] : false);
+      return (n < 17 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<14> swig_override;
+    Swig::BoolArray<17> swig_override;
+};
+
+class SwigDirector_IFINBrokerCapabilityConfig : public eric::good::test1::IFINBrokerCapabilityConfig, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_IFINBrokerCapabilityConfig(JNIEnv *jenv);
+    virtual ~SwigDirector_IFINBrokerCapabilityConfig();
+    virtual std::unordered_set< Market1 > GetSupportEnableMarkets() const;
+public:
+    bool swig_overrides(int n) {
+      return (n < 1 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<1> swig_override;
 };
 
 

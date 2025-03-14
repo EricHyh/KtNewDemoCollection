@@ -10,6 +10,7 @@
 #include <list>
 #include <vector>
 #include <functional>
+#include <optional>
 %}
 
 // java 包名配置
@@ -36,7 +37,9 @@ SWIG_SHARED_PTR_TYPEMAPS_IMPLEMENTATION(public, public, CONST, TYPE)
 %import "std_string.i"
 %import "std_vector.i"   //https://github.com/swig/swig/blob/master/Lib/java/std_vector.i
 %import "std_map.i"
+%import "std_set.i"
 %import "std_unordered_map.i"
+%import "std_unordered_set.i"
 
 %import "functional_config.i"
 
@@ -53,6 +56,7 @@ SWIG_SHARED_PTR_TYPEMAPS_IMPLEMENTATION(public, public, CONST, TYPE)
 %import "vector_type_config.i"
 %import "java_object_config.i"
 %import "director_config.i"
+%import "optional_config.i"
 
 
 %ignore "private:";     //忽略所有私用成员

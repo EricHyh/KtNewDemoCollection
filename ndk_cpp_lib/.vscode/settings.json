@@ -41,6 +41,13 @@
         "iostream": "cpp",
         "functional": "cpp",
         "iterator": "cpp",
-        "cassert": "cpp"
+        "cassert": "cpp",
+        "mutex": "cpp",
+        "chrono": "cpp",
+        "condition_variable": "cpp",
+        "ctime": "cpp",
+        "ratio": "cpp",
+        "thread": "cpp",
+        "shared_mutex": "cpp"
     }
 }

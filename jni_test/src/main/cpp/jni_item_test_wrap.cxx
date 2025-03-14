@@ -785,7 +785,7 @@ namespace Swig {
 namespace Swig {
   namespace {
     jclass jclass_JNIItemTestJNI = NULL;
-    jmethodID director_method_ids[42];
+    jmethodID director_method_ids[46];
   }
 }
 
@@ -845,12 +845,14 @@ template <typename T> T SwigValueInit() {
 #include <list>
 #include <vector>
 #include <functional>
+#include <optional>
 
 
 #include "model/N2CTestItem.h"
 #include "model/N2CItemIcon.h"
 #include "observer/ObserverManager.h"
 #include "nsp/NamespaceTest.h"
+#include "nsp/NamespaceTest2.h"
 
 #include "model/TestItem.h"
 #include "model/ItemIcon.h"
@@ -1049,6 +1051,40 @@ SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_IItemIcon_Sg__Sg__doRemoveRange(
         } else {
           throw std::out_of_range("vector index out of range");
         }
+      }
+SWIGINTERN void std_unordered_set_Sl_Market1_Sg__iterator_incrementUnchecked(std::unordered_set< Market1 >::iterator *self){
+          ++(*self);
+        }
+SWIGINTERN Market1 std_unordered_set_Sl_Market1_Sg__iterator_derefUnchecked(std::unordered_set< Market1 >::iterator const *self){
+          return **self;
+        }
+SWIGINTERN bool std_unordered_set_Sl_Market1_Sg__iterator_isNot(std::unordered_set< Market1 >::iterator const *self,std::unordered_set< Market1 >::iterator other){
+          return (*self != other);
+        }
+
+  SWIGINTERN jint SWIG_UnorderedSetSize(size_t size) {
+    jint sz = SWIG_JavaIntFromSize_t(size);
+    if (sz == -1) {
+      throw std::out_of_range("unordered_set size is too large to fit into a Java int");
+    }
+
+    return sz;
+  }
+
+SWIGINTERN bool std_unordered_set_Sl_Market1_Sg__add(std::unordered_set< Market1 > *self,Market1 const &key){
+        return self->insert(key).second;
+      }
+SWIGINTERN bool std_unordered_set_Sl_Market1_Sg__containsImpl(std::unordered_set< Market1 > *self,Market1 const &key){
+        return (self->count(key) > 0);
+      }
+SWIGINTERN bool std_unordered_set_Sl_Market1_Sg__removeImpl(std::unordered_set< Market1 > *self,Market1 const &key){
+        return (self->erase(key) > 0);
+      }
+SWIGINTERN jint std_unordered_set_Sl_Market1_Sg__sizeImpl(std::unordered_set< Market1 > const *self){
+        return SWIG_UnorderedSetSize(self->size());
+      }
+SWIGINTERN bool std_unordered_set_Sl_Market1_Sg__hasNextImpl(std::unordered_set< Market1 > const *self,std::unordered_set< Market1 >::iterator const &itr){
+        return (itr != self->end());
       }
 
 class TestObserverBridge {
@@ -2626,7 +2662,7 @@ SwigDirector_IObserverManager::~SwigDirector_IObserverManager() {
 }
 
 
-void SwigDirector_IObserverManager::addObserver(std::shared_ptr< TestObserver > observer) {
+void SwigDirector_IObserverManager::addObserver(std::shared_ptr< TestObserver const > observer) {
   JNIEnvWrapper swigjnienv(this) ;
   JNIEnv * jenv = swigjnienv.getJNIEnv() ;
   jobject swigjobj = (jobject) NULL ;
@@ -2638,10 +2674,8 @@ void SwigDirector_IObserverManager::addObserver(std::shared_ptr< TestObserver > 
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    TestObserverBridge *function_bridge1 = new SharedPtrTestObserverBridge4DI(observer);
-    *(std::shared_ptr<TestObserverBridge> **) &jobserver = new std::shared_ptr<TestObserverBridge>(function_bridge1);
-    
-    
+    jobserver = 0;
+    *((std::shared_ptr< TestObserver const > **)&jobserver) = new std::shared_ptr< TestObserver const >(SWIG_STD_MOVE(observer)); 
     jenv->CallStaticVoidMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[28], swigjobj, jobserver);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
@@ -3075,11 +3109,104 @@ void SwigDirector_IObserverManager::setTestObserver2List(std::vector< TestObserv
   if (swigjobj) jenv->DeleteLocalRef(swigjobj);
 }
 
+TestEnum1 SwigDirector_IObserverManager::optionalEnum33() {
+  TestEnum1 c_result = SwigValueInit< TestEnum1 >() ;
+  jint jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  
+  if (!swig_override[14]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::optionalEnum33.");
+    return c_result;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[42], swigjobj);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    c_result = (TestEnum1)jresult; 
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::optionalEnum33 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return c_result;
+}
+
+std::optional< TestEnum1 > &SwigDirector_IObserverManager::optionalEnum4() {
+  static std::optional< TestEnum1 > result_default ;
+  std::optional< TestEnum1 > * c_result ;
+  jint jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  
+  result_default = SwigValueInit< std::optional< TestEnum1 > >();
+  c_result = &result_default;
+  if (!swig_override[15]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::optionalEnum4.");
+    return *c_result;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[43], swigjobj);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    
+#error "typemaps for std::optional< TestEnum1 > & not available"
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::optionalEnum4 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return *c_result;
+}
+
+TestEnum1 &SwigDirector_IObserverManager::optionalEnum44() {
+  static TestEnum1 result_default ;
+  TestEnum1 * c_result ;
+  jlong jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  
+  result_default = SwigValueInit< TestEnum1 >();
+  c_result = &result_default;
+  if (!swig_override[16]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::optionalEnum44.");
+    return *c_result;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[44], swigjobj);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    if (!jresult) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Unexpected null return for type TestEnum1 &");
+      return *c_result;
+    }
+    c_result = *(TestEnum1 **)&jresult; 
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::optionalEnum44 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return *c_result;
+}
+
 void SwigDirector_IObserverManager::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
   static jclass baseclass = swig_new_global_ref(jenv, "com/example/jni_test/model/IObserverManager");
   if (!baseclass) return;
   static SwigDirectorMethod methods[] = {
-    SwigDirectorMethod(jenv, baseclass, "addObserver", "(Lcom/example/jni_test/model/TestObserverBridge;)V"),
+    SwigDirectorMethod(jenv, baseclass, "addObserver", "(Lcom/example/jni_test/model/SWIGTYPE_p_std__shared_ptrT_std__functionT_void_fint_const_RF_t_const_t;)V"),
     SwigDirectorMethod(jenv, baseclass, "removeObserver", "(Lcom/example/jni_test/model/TestObserverBridge;)V"),
     SwigDirectorMethod(jenv, baseclass, "addObserver2", "(Lcom/example/jni_test/model/ITestObserver2Bridge;)V"),
     SwigDirectorMethod(jenv, baseclass, "removeObserver2", "(Lcom/example/jni_test/model/ITestObserver2Bridge;)V"),
@@ -3092,12 +3219,77 @@ void SwigDirector_IObserverManager::swig_connect_director(JNIEnv *jenv, jobject 
     SwigDirectorMethod(jenv, baseclass, "byteTest1", "([B)V"),
     SwigDirectorMethod(jenv, baseclass, "byteTest2", "([B)V"),
     SwigDirectorMethod(jenv, baseclass, "byteTest3", "()[B"),
-    SwigDirectorMethod(jenv, baseclass, "setTestObserver2List", "(Lcom/example/jni_test/model/TestObserver2Vector;)V")
+    SwigDirectorMethod(jenv, baseclass, "setTestObserver2List", "(Lcom/example/jni_test/model/TestObserver2Vector;)V"),
+    SwigDirectorMethod(jenv, baseclass, "optionalEnum33", "()Lcom/example/jni_test/model/TestEnum1;"),
+    SwigDirectorMethod(jenv, baseclass, "optionalEnum4", "()Lcom/example/jni_test/model/TestEnum1;"),
+    SwigDirectorMethod(jenv, baseclass, "optionalEnum44", "()Lcom/example/jni_test/model/SWIGTYPE_p_TestEnum1;")
   };
   
   if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
     bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
-    for (int i = 0; i < 14; ++i) {
+    for (int i = 0; i < 17; ++i) {
+      swig_override[i] = false;
+      if (derived) {
+        jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
+        swig_override[i] = methods[i].methid && (methid != methods[i].methid);
+        jenv->ExceptionClear();
+      }
+    }
+  }
+}
+
+
+SwigDirector_IFINBrokerCapabilityConfig::SwigDirector_IFINBrokerCapabilityConfig(JNIEnv *jenv) : eric::good::test1::IFINBrokerCapabilityConfig(), Swig::Director(jenv) {
+}
+
+SwigDirector_IFINBrokerCapabilityConfig::~SwigDirector_IFINBrokerCapabilityConfig() {
+  swig_disconnect_director_self("swigDirectorDisconnect");
+}
+
+
+std::unordered_set< Market1 > SwigDirector_IFINBrokerCapabilityConfig::GetSupportEnableMarkets() const {
+  std::unordered_set< Market1 > c_result ;
+  jlong jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  std::unordered_set< Market1 > *argp ;
+  
+  if (!swig_override[0]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method eric::good::test1::IFINBrokerCapabilityConfig::GetSupportEnableMarkets.");
+    return c_result;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_JNIItemTestJNI, Swig::director_method_ids[45], swigjobj);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    argp = *(std::unordered_set< Market1 > **)&jresult; 
+    if (!argp) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Unexpected null return for type std::unordered_set< Market1 >");
+      return c_result;
+    }
+    c_result = *argp; 
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in eric::good::test1::IFINBrokerCapabilityConfig::GetSupportEnableMarkets ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return c_result;
+}
+
+void SwigDirector_IFINBrokerCapabilityConfig::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
+  static jclass baseclass = swig_new_global_ref(jenv, "com/example/jni_test/model/IFINBrokerCapabilityConfig");
+  if (!baseclass) return;
+  static SwigDirectorMethod methods[] = {
+    SwigDirectorMethod(jenv, baseclass, "GetSupportEnableMarkets", "()Lcom/example/jni_test/model/Market1USet;")
+  };
+  
+  if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
+    bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
+    for (int i = 0; i < 1; ++i) {
       swig_override[i] = false;
       if (derived) {
         jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
@@ -3839,6 +4031,262 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1
   (void)jenv;
   (void)jcls;
   arg1 = *(std::vector< std::shared_ptr< IItemIcon > > **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Market1USet_1Iterator_1incrementUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::unordered_set< Market1 >::iterator *arg1 = (std::unordered_set< Market1 >::iterator *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_set< Market1 >::iterator **)&jarg1; 
+  std_unordered_set_Sl_Market1_Sg__iterator_incrementUnchecked(arg1);
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Market1USet_1Iterator_1derefUnchecked(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  std::unordered_set< Market1 >::iterator *arg1 = (std::unordered_set< Market1 >::iterator *) 0 ;
+  Market1 result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_set< Market1 >::iterator **)&jarg1; 
+  result = (Market1)std_unordered_set_Sl_Market1_Sg__iterator_derefUnchecked((std::unordered_set< Market1 >::iterator const *)arg1);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Market1USet_1Iterator_1isNot(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  std::unordered_set< Market1 >::iterator *arg1 = (std::unordered_set< Market1 >::iterator *) 0 ;
+  std::unordered_set< Market1 >::iterator arg2 ;
+  std::unordered_set< Market1 >::iterator *argp2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(std::unordered_set< Market1 >::iterator **)&jarg1; 
+  argp2 = *(std::unordered_set< Market1 >::iterator **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::unordered_set< Market1 >::iterator");
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (bool)std_unordered_set_Sl_Market1_Sg__iterator_isNot((std::unordered_set< Market1 >::iterator const *)arg1,SWIG_STD_MOVE(arg2));
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1Market1USet_1Iterator(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::unordered_set< Market1 >::iterator *arg1 = (std::unordered_set< Market1 >::iterator *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::unordered_set< Market1 >::iterator **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1Market1USet_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::unordered_set< Market1 > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::unordered_set< Market1 > *)new std::unordered_set< Market1 >();
+  *(std::unordered_set< Market1 > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1Market1USet_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::unordered_set< Market1 > *arg1 = 0 ;
+  std::unordered_set< Market1 > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_set< Market1 > **)&jarg1;
+  if (!arg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::unordered_set< Market1 > const & is null");
+    return 0;
+  } 
+  result = (std::unordered_set< Market1 > *)new std::unordered_set< Market1 >((std::unordered_set< Market1 > const &)*arg1);
+  *(std::unordered_set< Market1 > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Market1USet_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  std::unordered_set< Market1 > *arg1 = (std::unordered_set< Market1 > *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_set< Market1 > **)&jarg1; 
+  result = (bool)((std::unordered_set< Market1 > const *)arg1)->empty();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Market1USet_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::unordered_set< Market1 > *arg1 = (std::unordered_set< Market1 > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_set< Market1 > **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Market1USet_1begin(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::unordered_set< Market1 > *arg1 = (std::unordered_set< Market1 > *) 0 ;
+  std::unordered_set< Market1 >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_set< Market1 > **)&jarg1; 
+  result = (arg1)->begin();
+  *(std::unordered_set< Market1 >::iterator **)&jresult = new std::unordered_set< Market1 >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Market1USet_1end(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::unordered_set< Market1 > *arg1 = (std::unordered_set< Market1 > *) 0 ;
+  std::unordered_set< Market1 >::iterator result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_set< Market1 > **)&jarg1; 
+  result = (arg1)->end();
+  *(std::unordered_set< Market1 >::iterator **)&jresult = new std::unordered_set< Market1 >::iterator(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Market1USet_1add(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jboolean jresult = 0 ;
+  std::unordered_set< Market1 > *arg1 = (std::unordered_set< Market1 > *) 0 ;
+  Market1 *arg2 = 0 ;
+  Market1 temp2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_set< Market1 > **)&jarg1; 
+  temp2 = (Market1)jarg2; 
+  arg2 = &temp2; 
+  result = (bool)std_unordered_set_Sl_Market1_Sg__add(arg1,(enum Market1 const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Market1USet_1containsImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jboolean jresult = 0 ;
+  std::unordered_set< Market1 > *arg1 = (std::unordered_set< Market1 > *) 0 ;
+  Market1 *arg2 = 0 ;
+  Market1 temp2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_set< Market1 > **)&jarg1; 
+  temp2 = (Market1)jarg2; 
+  arg2 = &temp2; 
+  result = (bool)std_unordered_set_Sl_Market1_Sg__containsImpl(arg1,(enum Market1 const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Market1USet_1removeImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jboolean jresult = 0 ;
+  std::unordered_set< Market1 > *arg1 = (std::unordered_set< Market1 > *) 0 ;
+  Market1 *arg2 = 0 ;
+  Market1 temp2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_set< Market1 > **)&jarg1; 
+  temp2 = (Market1)jarg2; 
+  arg2 = &temp2; 
+  result = (bool)std_unordered_set_Sl_Market1_Sg__removeImpl(arg1,(enum Market1 const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Market1USet_1sizeImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  std::unordered_set< Market1 > *arg1 = (std::unordered_set< Market1 > *) 0 ;
+  jint result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::unordered_set< Market1 > **)&jarg1; 
+  try {
+    result = std_unordered_set_Sl_Market1_Sg__sizeImpl((std::unordered_set< Market1 > const *)arg1);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_Market1USet_1hasNextImpl(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  std::unordered_set< Market1 > *arg1 = (std::unordered_set< Market1 > *) 0 ;
+  std::unordered_set< Market1 >::iterator *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(std::unordered_set< Market1 > **)&jarg1; 
+  arg2 = *(std::unordered_set< Market1 >::iterator **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::unordered_set< Market1 >::iterator const & is null");
+    return 0;
+  } 
+  result = (bool)std_unordered_set_Sl_Market1_Sg__hasNextImpl((std::unordered_set< Market1 > const *)arg1,(std::unordered_set< Market1 >::iterator const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1Market1USet(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::unordered_set< Market1 > *arg1 = (std::unordered_set< Market1 > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::unordered_set< Market1 > **)&jarg1; 
   delete arg1;
 }
 
@@ -5540,19 +5988,6 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1
 }
 
 
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestObserver2Data_1a_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
-  TestObserver2Data *arg1 = (TestObserver2Data *) 0 ;
-  int arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(TestObserver2Data **)&jarg1; 
-  arg2 = (int)jarg2; 
-  if (arg1) (arg1)->a = arg2;
-}
-
-
 SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestObserver2Data_1a_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jint jresult = 0 ;
   TestObserver2Data *arg1 = (TestObserver2Data *) 0 ;
@@ -5562,19 +5997,21 @@ SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestObse
   (void)jcls;
   (void)jarg1_;
   arg1 = *(TestObserver2Data **)&jarg1; 
-  result = (int) ((arg1)->a);
+  result = (int)(int) ((arg1)->a);
   jresult = (jint)result; 
   return jresult;
 }
 
 
-SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1TestObserver2Data(JNIEnv *jenv, jclass jcls) {
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1TestObserver2Data(JNIEnv *jenv, jclass jcls, jint jarg1) {
   jlong jresult = 0 ;
+  int arg1 ;
   TestObserver2Data *result = 0 ;
   
   (void)jenv;
   (void)jcls;
-  result = (TestObserver2Data *)new TestObserver2Data();
+  arg1 = (int)jarg1; 
+  result = (TestObserver2Data *)new TestObserver2Data(arg1);
   *(TestObserver2Data **)&jresult = result; 
   return jresult;
 }
@@ -5692,6 +6129,96 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1
   (void)jenv;
   (void)jcls;
   arg1 = *(TestStruct **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestOptionalBridge_1enum1_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  TestOptional *arg1 = (TestOptional *) 0 ;
+  std::optional< TestEnum1 > arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(TestOptional **)&jarg1; 
+  
+  if (jarg2 != INT32_MIN) {
+    arg2 = std::make_optional<TestEnum1>((TestEnum1)jarg2);
+  } else {
+    arg2 = std::nullopt;
+  }
+  
+  if (arg1) (arg1)->enum1 = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestOptionalBridge_1enum1_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  TestOptional *arg1 = (TestOptional *) 0 ;
+  std::optional< TestEnum1 > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(TestOptional **)&jarg1; 
+  result =  ((arg1)->enum1);
+  
+  if ((&result)->has_value()) {
+    jresult = (jint)(&result)->value();
+  } else {
+    jresult = INT32_MIN;
+  }
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestOptionalBridge_1enum11_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  TestOptional *arg1 = (TestOptional *) 0 ;
+  TestEnum1 arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(TestOptional **)&jarg1; 
+  arg2 = (TestEnum1)jarg2; 
+  if (arg1) (arg1)->enum11 = arg2;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_TestOptionalBridge_1enum11_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  TestOptional *arg1 = (TestOptional *) 0 ;
+  TestEnum1 result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(TestOptional **)&jarg1; 
+  result = (TestEnum1) ((arg1)->enum11);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1TestOptionalBridge(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  TestOptional *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (TestOptional *)new TestOptional();
+  *(TestOptional **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1TestOptionalBridge(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  TestOptional *arg1 = (TestOptional *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(TestOptional **)&jarg1; 
   delete arg1;
 }
 
@@ -5817,20 +6344,21 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1
 }
 
 
-SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1addObserver(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1addObserver(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
   IObserverManager *arg1 = (IObserverManager *) 0 ;
-  SwigValueWrapper< std::shared_ptr< std::function< void (int const &) > > > arg2 ;
+  SwigValueWrapper< std::shared_ptr< std::function< void (int const &) > const > > arg2 ;
+  std::shared_ptr< TestObserver const > *argp2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  (void)jarg2_;
   arg1 = *(IObserverManager **)&jarg1; 
-  
-  std::shared_ptr<TestObserverBridge> *smartarg2 = *(std::shared_ptr<TestObserverBridge> **)&jarg2;
-  auto original2 = TestObserverBridge::obtainOriginal(jenv, smartarg2, jarg2_);
-  arg2 = original2;
-  
+  argp2 = *(std::shared_ptr< TestObserver const > **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null std::shared_ptr< TestObserver const >");
+    return ;
+  }
+  arg2 = *argp2; 
   (arg1)->addObserver(SWIG_STD_MOVE(arg2));
 }
 
@@ -6115,6 +6643,57 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserve
 }
 
 
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1optionalEnum33(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  IObserverManager *arg1 = (IObserverManager *) 0 ;
+  TestEnum1 result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(IObserverManager **)&jarg1; 
+  result = (TestEnum1)(arg1)->optionalEnum33();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1optionalEnum4(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  IObserverManager *arg1 = (IObserverManager *) 0 ;
+  std::optional< TestEnum1 > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(IObserverManager **)&jarg1; 
+  result = (std::optional< TestEnum1 > *) &(arg1)->optionalEnum4();
+  
+  if (result->has_value()) {
+    jresult = (jint)result->value();
+  } else {
+    jresult = INT32_MIN;
+  }
+  
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserverManager_1optionalEnum44(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  IObserverManager *arg1 = (IObserverManager *) 0 ;
+  TestEnum1 *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(IObserverManager **)&jarg1; 
+  result = (TestEnum1 *) &(arg1)->optionalEnum44();
+  *(TestEnum1 **)&jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1IObserverManager(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
   IObserverManager *result = 0 ;
@@ -6142,6 +6721,172 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IObserve
   if (director) {
     director->swig_java_change_ownership(jenv, jself, jtake_or_release ? true : false);
   }
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_optionalTest1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  SwigValueWrapper< std::optional< TestOptional > > arg1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  if (jarg1) {
+    arg1 = std::make_optional<TestOptional>(*(TestOptional *) jarg1);
+  } else {
+    arg1 = std::nullopt;
+  }
+  
+  optionalTest1(SWIG_STD_MOVE(arg1));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_optionalTest2(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::optional< TestOptional > *arg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  if (jarg1) {
+    auto arg1_temp = std::make_optional<TestOptional>(*(TestOptional *) jarg1);
+    arg1 = &arg1_temp;
+  } else {
+    std::optional<TestOptional> arg1_temp = std::nullopt;
+    arg1 = &arg1_temp;
+  }
+  
+  optionalTest2((std::optional< TestOptional > const &)*arg1);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_optionalTest3(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  SwigValueWrapper< std::optional< TestOptional > > result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = optionalTest3();
+  
+  if ((&result)->has_value()) {
+    *(TestOptional **) &jresult = new TestOptional((&result)->value());
+  }
+  
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_optionalTest4(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::optional< TestOptional > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::optional< TestOptional > *) &optionalTest4();
+  
+  if (result->has_value()) {
+    *(TestOptional **) &jresult = new TestOptional(result->value());
+  }
+  
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_optionalTest33(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  TestOptional result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = optionalTest33();
+  *(TestOptional **)&jresult = new TestOptional(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_optionalTest44(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  TestOptional *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (TestOptional *) &optionalTest44();
+  *(TestOptional **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_optionalEnum1(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  std::optional< TestEnum1 > arg1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  if (jarg1 != INT32_MIN) {
+    arg1 = std::make_optional<TestEnum1>((TestEnum1)jarg1);
+  } else {
+    arg1 = std::nullopt;
+  }
+  
+  optionalEnum1(SWIG_STD_MOVE(arg1));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_optionalEnum11(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  TestEnum1 arg1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (TestEnum1)jarg1; 
+  optionalEnum11(arg1);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_optionalEnum2(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  std::optional< TestEnum1 > *arg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  if (jarg1 != INT32_MIN) {
+    auto arg1_temp = std::make_optional<TestEnum1>((TestEnum1)jarg1);
+    arg1 = &arg1_temp;
+  } else {
+    std::optional<TestEnum1> arg1_temp = std::nullopt;
+    arg1 = &arg1_temp;
+  }
+  
+  optionalEnum2((std::optional< enum TestEnum1 > const &)*arg1);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_optionalEnum22(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  TestEnum1 *arg1 = 0 ;
+  TestEnum1 temp1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  temp1 = (TestEnum1)jarg1; 
+  arg1 = &temp1; 
+  optionalEnum22((enum TestEnum1 const &)*arg1);
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_optionalEnum3(JNIEnv *jenv, jclass jcls) {
+  jint jresult = 0 ;
+  std::optional< TestEnum1 > result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = optionalEnum3();
+  
+  if ((&result)->has_value()) {
+    jresult = (jint)(&result)->value();
+  } else {
+    jresult = INT32_MIN;
+  }
+  
+  return jresult;
 }
 
 
@@ -6449,6 +7194,144 @@ SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_add2(JNI
 }
 
 
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1XXX(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  XXX *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (XXX *)new XXX();
+  
+  *(std::shared_ptr<  XXX > **)&jresult = result ? new std::shared_ptr<  XXX >(result SWIG_NO_NULL_DELETER_1) : 0;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1XXX(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  XXX *arg1 = (XXX *) 0 ;
+  std::shared_ptr< XXX > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  smartarg1 = *(std::shared_ptr<  XXX > **)&jarg1;
+  arg1 = (XXX *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1IFINBrokerCapabilityConfig(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  eric::good::test1::IFINBrokerCapabilityConfig *arg1 = (eric::good::test1::IFINBrokerCapabilityConfig *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(eric::good::test1::IFINBrokerCapabilityConfig **)&jarg1; 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IFINBrokerCapabilityConfig_1GetSupportEnableMarkets(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  eric::good::test1::IFINBrokerCapabilityConfig *arg1 = (eric::good::test1::IFINBrokerCapabilityConfig *) 0 ;
+  std::unordered_set< Market1 > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(eric::good::test1::IFINBrokerCapabilityConfig **)&jarg1; 
+  result = ((eric::good::test1::IFINBrokerCapabilityConfig const *)arg1)->GetSupportEnableMarkets();
+  *(std::unordered_set< Market1 > **)&jresult = new std::unordered_set< Market1 >(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1IFINBrokerCapabilityConfig(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  eric::good::test1::IFINBrokerCapabilityConfig *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (eric::good::test1::IFINBrokerCapabilityConfig *)new SwigDirector_IFINBrokerCapabilityConfig(jenv);
+  *(eric::good::test1::IFINBrokerCapabilityConfig **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IFINBrokerCapabilityConfig_1director_1connect(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jswig_mem_own, jboolean jweak_global) {
+  std::shared_ptr< eric::good::test1::IFINBrokerCapabilityConfig > *obj = *((std::shared_ptr< eric::good::test1::IFINBrokerCapabilityConfig > **)&objarg);
+  (void)jcls;
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_IFINBrokerCapabilityConfig *director = static_cast<SwigDirector_IFINBrokerCapabilityConfig *>(obj->operator->());
+  director->swig_connect_director(jenv, jself, jenv->GetObjectClass(jself), (jswig_mem_own == JNI_TRUE), (jweak_global == JNI_TRUE));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IFINBrokerCapabilityConfig_1change_1ownership(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jtake_or_release) {
+  std::shared_ptr< eric::good::test1::IFINBrokerCapabilityConfig > *obj = *((std::shared_ptr< eric::good::test1::IFINBrokerCapabilityConfig > **)&objarg);
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_IFINBrokerCapabilityConfig *director = dynamic_cast<SwigDirector_IFINBrokerCapabilityConfig *>(obj->operator->());
+  (void)jcls;
+  if (director) {
+    director->swig_java_change_ownership(jenv, jself, jtake_or_release ? true : false);
+  }
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_GetBrokerCapabilityConfig(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  jlong jresult = 0 ;
+  Market2 arg1 ;
+  SwigValueWrapper< std::shared_ptr< eric::good::test1::IFINBrokerCapabilityConfig const > > result;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (Market2)jarg1; 
+  result = eric::good::test1::GetBrokerCapabilityConfig(arg1);
+  *(std::shared_ptr< eric::good::test1::IFINBrokerCapabilityConfig const > **)&jresult = new std::shared_ptr< eric::good::test1::IFINBrokerCapabilityConfig const >(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_GetBrokerCapabilityConfig2(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  jlong jresult = 0 ;
+  Market2 arg1 ;
+  std::shared_ptr< XXX > result;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (Market2)jarg1; 
+  result = eric::good::test1::GetBrokerCapabilityConfig2(arg1);
+  *(std::shared_ptr< XXX > **)&jresult = result ? new std::shared_ptr< XXX >(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_price_1get(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  FiledKey< int > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (FiledKey< int > *) &FiledKeys::price;
+  *(FiledKey< int > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_quantity_1get(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  FiledKey< std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (FiledKey< std::string > *) &FiledKeys::quantity;
+  *(FiledKey< std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_JNITestEntrance_1testAddObserver(JNIEnv *jenv, jclass jcls, jint jarg1) {
   int arg1 ;
   
@@ -6491,6 +7374,136 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1
 }
 
 
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IntFieldKey_1id_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  FiledKey< int > *arg1 = (FiledKey< int > *) 0 ;
+  uint32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(FiledKey< int > **)&jarg1; 
+  result = (uint32_t) ((arg1)->id);
+  
+  jresult = result;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_IntFieldKey_1defaultValue_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  FiledKey< int > *arg1 = (FiledKey< int > *) 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(FiledKey< int > **)&jarg1; 
+  result = (int)(int) ((arg1)->defaultValue);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1IntFieldKey(JNIEnv *jenv, jclass jcls, jlong jarg1, jint jarg2) {
+  jlong jresult = 0 ;
+  uint32_t arg1 ;
+  int *arg2 = 0 ;
+  int temp2 ;
+  FiledKey< int > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  arg1 = jarg1;
+  
+  temp2 = (int)jarg2; 
+  arg2 = &temp2; 
+  result = (FiledKey< int > *)new FiledKey< int >(SWIG_STD_MOVE(arg1),(int const &)*arg2);
+  *(FiledKey< int > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1IntFieldKey(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  FiledKey< int > *arg1 = (FiledKey< int > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(FiledKey< int > **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_StringFieldKey_1id_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  FiledKey< std::string > *arg1 = (FiledKey< std::string > *) 0 ;
+  uint32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(FiledKey< std::string > **)&jarg1; 
+  result = (uint32_t) ((arg1)->id);
+  
+  jresult = result;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_StringFieldKey_1defaultValue_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  FiledKey< std::string > *arg1 = (FiledKey< std::string > *) 0 ;
+  std::string *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(FiledKey< std::string > **)&jarg1; 
+  result = (std::string *) & ((arg1)->defaultValue);
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_new_1StringFieldKey(JNIEnv *jenv, jclass jcls, jlong jarg1, jstring jarg2) {
+  jlong jresult = 0 ;
+  uint32_t arg1 ;
+  std::string *arg2 = 0 ;
+  FiledKey< std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  arg1 = jarg1;
+  
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  result = (FiledKey< std::string > *)new FiledKey< std::string >(SWIG_STD_MOVE(arg1),(std::string const &)*arg2);
+  *(FiledKey< std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_delete_1StringFieldKey(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  FiledKey< std::string > *arg1 = (FiledKey< std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(FiledKey< std::string > **)&jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_N2CTestItem_1SWIGSmartPtrUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
     jlong baseptr = 0;
     std::shared_ptr< N2CTestItem > *argp1;
@@ -6527,7 +7540,7 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_swig_1mo
   static struct {
     const char *method;
     const char *signature;
-  } methods[42] = {
+  } methods[46] = {
     {
       "SwigDirector_TestObserverBridge_onCall", "(Lcom/example/jni_test/model/TestObserverBridge;I)V" 
     },
@@ -6653,6 +7666,18 @@ SWIGEXPORT void JNICALL Java_com_example_jni_1test_model_JNIItemTestJNI_swig_1mo
     },
     {
       "SwigDirector_IObserverManager_setTestObserver2List", "(Lcom/example/jni_test/model/IObserverManager;J)V" 
+    },
+    {
+      "SwigDirector_IObserverManager_optionalEnum33", "(Lcom/example/jni_test/model/IObserverManager;)I" 
+    },
+    {
+      "SwigDirector_IObserverManager_optionalEnum4", "(Lcom/example/jni_test/model/IObserverManager;)I" 
+    },
+    {
+      "SwigDirector_IObserverManager_optionalEnum44", "(Lcom/example/jni_test/model/IObserverManager;)J" 
+    },
+    {
+      "SwigDirector_IFINBrokerCapabilityConfig_GetSupportEnableMarkets", "(Lcom/example/jni_test/model/IFINBrokerCapabilityConfig;)J" 
     }
   };
   Swig::jclass_JNIItemTestJNI = (jclass) jenv->NewGlobalRef(jcls);
