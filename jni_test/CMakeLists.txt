@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.10.2)
 project("JNITest")
 
 
+
+
 file(GLOB_RECURSE ANDROID_SDK_CXX_FILES "src/main/cpp/*.cxx")
 file(GLOB_RECURSE ANDROID_SDK_CPP_FILES "src/main/cpp/*.cpp")
 
@@ -14,6 +16,10 @@ add_library(${PROJECT_NAME} SHARED
 target_link_libraries(${PROJECT_NAME}
         android
         log
+)
+
+target_include_directories(${PROJECT_NAME}
+        PRIVATE src/main/cpp
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

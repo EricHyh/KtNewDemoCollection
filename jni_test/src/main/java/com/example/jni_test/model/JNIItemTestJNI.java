@@ -52,6 +52,79 @@ public class JNIItemTestJNI {
   public final static native boolean TestObserverBridge_isEquals(long jarg1, TestObserverBridge jarg1_, long jarg2, TestObserverBridge jarg2_);
   public final static native void TestObserverBridge_director_connect(TestObserverBridge obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void TestObserverBridge_change_ownership(TestObserverBridge obj, long cptr, boolean take_or_release);
+  public final static native long new_TestObserver2Bridge();
+  public final static native void delete_TestObserver2Bridge(long jarg1);
+  public final static native void TestObserver2Bridge_onCall(long jarg1, TestObserver2Bridge jarg1_, long jarg2, TestObserver2Data jarg2_);
+  public final static native int TestObserver2Bridge_calculateHash(long jarg1, TestObserver2Bridge jarg1_);
+  public final static native boolean TestObserver2Bridge_isEquals(long jarg1, TestObserver2Bridge jarg1_, long jarg2, TestObserver2Bridge jarg2_);
+  public final static native void TestObserver2Bridge_director_connect(TestObserver2Bridge obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void TestObserver2Bridge_change_ownership(TestObserver2Bridge obj, long cptr, boolean take_or_release);
+  public final static native long new_TestObserver2Vector__SWIG_0();
+  public final static native long new_TestObserver2Vector__SWIG_1(long jarg1, TestObserver2Vector jarg1_);
+  public final static native boolean TestObserver2Vector_isEmpty(long jarg1, TestObserver2Vector jarg1_);
+  public final static native void TestObserver2Vector_clear(long jarg1, TestObserver2Vector jarg1_);
+  public final static native long new_TestObserver2Vector__SWIG_2(int jarg1, long jarg2, TestObserver2Bridge jarg2_);
+  public final static native int TestObserver2Vector_doCapacity(long jarg1, TestObserver2Vector jarg1_);
+  public final static native void TestObserver2Vector_doReserve(long jarg1, TestObserver2Vector jarg1_, int jarg2);
+  public final static native int TestObserver2Vector_doSize(long jarg1, TestObserver2Vector jarg1_);
+  public final static native void TestObserver2Vector_doAdd__SWIG_0(long jarg1, TestObserver2Vector jarg1_, long jarg2, TestObserver2Bridge jarg2_);
+  public final static native void TestObserver2Vector_doAdd__SWIG_1(long jarg1, TestObserver2Vector jarg1_, int jarg2, long jarg3, TestObserver2Bridge jarg3_);
+  public final static native long TestObserver2Vector_doRemove(long jarg1, TestObserver2Vector jarg1_, int jarg2);
+  public final static native long TestObserver2Vector_doGet(long jarg1, TestObserver2Vector jarg1_, int jarg2);
+  public final static native long TestObserver2Vector_doSet(long jarg1, TestObserver2Vector jarg1_, int jarg2, long jarg3, TestObserver2Bridge jarg3_);
+  public final static native void TestObserver2Vector_doRemoveRange(long jarg1, TestObserver2Vector jarg1_, int jarg2, int jarg3);
+  public final static native void delete_TestObserver2Vector(long jarg1);
+  public final static native long new_IntLiveDataObserver();
+  public final static native void delete_IntLiveDataObserver(long jarg1);
+  public final static native void IntLiveDataObserver_onCall(long jarg1, IntLiveDataObserver jarg1_, int jarg2);
+  public final static native int IntLiveDataObserver_calculateHash(long jarg1, IntLiveDataObserver jarg1_);
+  public final static native boolean IntLiveDataObserver_isEquals(long jarg1, IntLiveDataObserver jarg1_, long jarg2, IntLiveDataObserver jarg2_);
+  public final static native void IntLiveDataObserver_director_connect(IntLiveDataObserver obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void IntLiveDataObserver_change_ownership(IntLiveDataObserver obj, long cptr, boolean take_or_release);
+  public final static native long new_StringLiveDataObserver();
+  public final static native void delete_StringLiveDataObserver(long jarg1);
+  public final static native void StringLiveDataObserver_onCall(long jarg1, StringLiveDataObserver jarg1_, String jarg2);
+  public final static native int StringLiveDataObserver_calculateHash(long jarg1, StringLiveDataObserver jarg1_);
+  public final static native boolean StringLiveDataObserver_isEquals(long jarg1, StringLiveDataObserver jarg1_, long jarg2, StringLiveDataObserver jarg2_);
+  public final static native void StringLiveDataObserver_director_connect(StringLiveDataObserver obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void StringLiveDataObserver_change_ownership(StringLiveDataObserver obj, long cptr, boolean take_or_release);
+  public final static native long new_OptionalStringLiveDataObserver();
+  public final static native void delete_OptionalStringLiveDataObserver(long jarg1);
+  public final static native void OptionalStringLiveDataObserver_onCall(long jarg1, OptionalStringLiveDataObserver jarg1_, String jarg2);
+  public final static native int OptionalStringLiveDataObserver_calculateHash(long jarg1, OptionalStringLiveDataObserver jarg1_);
+  public final static native boolean OptionalStringLiveDataObserver_isEquals(long jarg1, OptionalStringLiveDataObserver jarg1_, long jarg2, OptionalStringLiveDataObserver jarg2_);
+  public final static native void OptionalStringLiveDataObserver_director_connect(OptionalStringLiveDataObserver obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void OptionalStringLiveDataObserver_change_ownership(OptionalStringLiveDataObserver obj, long cptr, boolean take_or_release);
+  public final static native long new_BaseFiledKeyVector__SWIG_0();
+  public final static native long new_BaseFiledKeyVector__SWIG_1(long jarg1, BaseFiledKeyVector jarg1_);
+  public final static native boolean BaseFiledKeyVector_isEmpty(long jarg1, BaseFiledKeyVector jarg1_);
+  public final static native void BaseFiledKeyVector_clear(long jarg1, BaseFiledKeyVector jarg1_);
+  public final static native long new_BaseFiledKeyVector__SWIG_2(int jarg1, long jarg2, BaseFiledKey jarg2_);
+  public final static native int BaseFiledKeyVector_doCapacity(long jarg1, BaseFiledKeyVector jarg1_);
+  public final static native void BaseFiledKeyVector_doReserve(long jarg1, BaseFiledKeyVector jarg1_, int jarg2);
+  public final static native int BaseFiledKeyVector_doSize(long jarg1, BaseFiledKeyVector jarg1_);
+  public final static native void BaseFiledKeyVector_doAdd__SWIG_0(long jarg1, BaseFiledKeyVector jarg1_, long jarg2, BaseFiledKey jarg2_);
+  public final static native void BaseFiledKeyVector_doAdd__SWIG_1(long jarg1, BaseFiledKeyVector jarg1_, int jarg2, long jarg3, BaseFiledKey jarg3_);
+  public final static native long BaseFiledKeyVector_doRemove(long jarg1, BaseFiledKeyVector jarg1_, int jarg2);
+  public final static native long BaseFiledKeyVector_doGet(long jarg1, BaseFiledKeyVector jarg1_, int jarg2);
+  public final static native long BaseFiledKeyVector_doSet(long jarg1, BaseFiledKeyVector jarg1_, int jarg2, long jarg3, BaseFiledKey jarg3_);
+  public final static native void BaseFiledKeyVector_doRemoveRange(long jarg1, BaseFiledKeyVector jarg1_, int jarg2, int jarg3);
+  public final static native void delete_BaseFiledKeyVector(long jarg1);
+  public final static native void delete_BaseFiledKey(long jarg1);
+  public final static native int BaseFiledKey_getKey(long jarg1, BaseFiledKey jarg1_);
+  public final static native long new_FieldDataModel(long jarg1, BaseFiledKeyVector jarg1_);
+  public final static native long FieldDataModel_getIntFiledValue(long jarg1, FieldDataModel jarg1_, long jarg2, IntFiledKey jarg2_);
+  public final static native long FieldDataModel_getStringFiledValue(long jarg1, FieldDataModel jarg1_, long jarg2, StringFiledKey jarg2_);
+  public final static native long FieldDataModel_getOptionalStringFiledValue(long jarg1, FieldDataModel jarg1_, long jarg2, OptionalStringFiledKey jarg2_);
+  public final static native void delete_FieldDataModel(long jarg1);
+  public final static native long new_MutableFieldDataModel(long jarg1, BaseFiledKeyVector jarg1_);
+  public final static native long MutableFieldDataModel_getIntFiledValue(long jarg1, MutableFieldDataModel jarg1_, long jarg2, IntFiledKey jarg2_);
+  public final static native long MutableFieldDataModel_getStringFiledValue(long jarg1, MutableFieldDataModel jarg1_, long jarg2, StringFiledKey jarg2_);
+  public final static native long MutableFieldDataModel_getOptionalStringFiledValue(long jarg1, MutableFieldDataModel jarg1_, long jarg2, OptionalStringFiledKey jarg2_);
+  public final static native void delete_MutableFieldDataModel(long jarg1);
+  public final static native long price_get();
+  public final static native long name_get();
+  public final static native long description_get();
   public final static native void delete_IItemIcon(long jarg1);
   public final static native String IItemIcon_getName(long jarg1, IItemIcon jarg1_);
   public final static native String IItemIcon_getIcon(long jarg1, IItemIcon jarg1_);
@@ -125,6 +198,9 @@ public class JNIItemTestJNI {
   public final static native long TestColorFactory_create();
   public final static native long new_TestColorFactory();
   public final static native void delete_TestColorFactory(long jarg1);
+  public final static native int TestObserver2Data_a_get(long jarg1, TestObserver2Data jarg1_);
+  public final static native long new_TestObserver2Data(int jarg1);
+  public final static native void delete_TestObserver2Data(long jarg1);
   public final static native int TestEnum1_AllTradingTime_get();
   public final static native int TestEnum1_UsPreMarketAfter_get();
   public final static native int TestEnum2_AllTradingTime_get();
@@ -133,6 +209,12 @@ public class JNIItemTestJNI {
   public final static native String TestStruct_groupName_get(long jarg1, TestStruct jarg1_);
   public final static native long new_TestStruct();
   public final static native void delete_TestStruct(long jarg1);
+  public final static native void TestOptionalBridge_enum1_set(long jarg1, TestOptionalBridge jarg1_, int jarg2);
+  public final static native int TestOptionalBridge_enum1_get(long jarg1, TestOptionalBridge jarg1_);
+  public final static native void TestOptionalBridge_enum11_set(long jarg1, TestOptionalBridge jarg1_, int jarg2);
+  public final static native int TestOptionalBridge_enum11_get(long jarg1, TestOptionalBridge jarg1_);
+  public final static native long new_TestOptionalBridge();
+  public final static native void delete_TestOptionalBridge(long jarg1);
   public final static native void delete_ITestObserver2Bridge(long jarg1);
   public final static native void ITestObserver2Bridge_onCall(long jarg1, ITestObserver2Bridge jarg1_, int jarg2);
   public final static native int ITestObserver2Bridge_calculateHash(long jarg1, ITestObserver2Bridge jarg1_);
@@ -154,6 +236,8 @@ public class JNIItemTestJNI {
   public final static native void IObserverManager_byteTest1(long jarg1, IObserverManager jarg1_, byte[] jarg2);
   public final static native void IObserverManager_byteTest2(long jarg1, IObserverManager jarg1_, byte[] jarg2);
   public final static native byte[] IObserverManager_byteTest3(long jarg1, IObserverManager jarg1_);
+  public final static native void IObserverManager_setTestObserver2List(long jarg1, IObserverManager jarg1_, long jarg2, TestObserver2Vector jarg2_);
+  public final static native int IObserverManager_optionalEnum33(long jarg1, IObserverManager jarg1_);
   public final static native long new_IObserverManager();
   public final static native void IObserverManager_director_connect(IObserverManager obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void IObserverManager_change_ownership(IObserverManager obj, long cptr, boolean take_or_release);
@@ -177,12 +261,79 @@ public class JNIItemTestJNI {
   public final static native void JNITestEntrance_testRemoveObserver(int jarg1);
   public final static native long new_JNITestEntrance();
   public final static native void delete_JNITestEntrance(long jarg1);
+  public final static native int IntFiledKey_getKey(long jarg1, IntFiledKey jarg1_);
+  public final static native int IntFiledKey_getDefaultValue(long jarg1, IntFiledKey jarg1_);
+  public final static native void delete_IntFiledKey(long jarg1);
+  public final static native int StringFiledKey_getKey(long jarg1, StringFiledKey jarg1_);
+  public final static native String StringFiledKey_getDefaultValue(long jarg1, StringFiledKey jarg1_);
+  public final static native void delete_StringFiledKey(long jarg1);
+  public final static native int OptionalStringFiledKey_getKey(long jarg1, OptionalStringFiledKey jarg1_);
+  public final static native String OptionalStringFiledKey_getDefaultValue(long jarg1, OptionalStringFiledKey jarg1_);
+  public final static native void delete_OptionalStringFiledKey(long jarg1);
+  public final static native void delete_IntLiveData(long jarg1);
+  public final static native long new_IntLiveData(int jarg1);
+  public final static native int IntLiveData_GetValue(long jarg1, IntLiveData jarg1_);
+  public final static native int IntLiveData_GetValueSwigExplicitIntLiveData(long jarg1, IntLiveData jarg1_);
+  public final static native void IntLiveData_AddObserver(long jarg1, IntLiveData jarg1_, long jarg2, IntLiveDataObserver jarg2_, boolean jarg3);
+  public final static native void IntLiveData_RemoveObserver(long jarg1, IntLiveData jarg1_, long jarg2, IntLiveDataObserver jarg2_);
+  public final static native void IntLiveData_director_connect(IntLiveData obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void IntLiveData_change_ownership(IntLiveData obj, long cptr, boolean take_or_release);
+  public final static native void delete_StringLiveData(long jarg1);
+  public final static native long new_StringLiveData(String jarg1);
+  public final static native String StringLiveData_GetValue(long jarg1, StringLiveData jarg1_);
+  public final static native String StringLiveData_GetValueSwigExplicitStringLiveData(long jarg1, StringLiveData jarg1_);
+  public final static native void StringLiveData_AddObserver(long jarg1, StringLiveData jarg1_, long jarg2, StringLiveDataObserver jarg2_, boolean jarg3);
+  public final static native void StringLiveData_RemoveObserver(long jarg1, StringLiveData jarg1_, long jarg2, StringLiveDataObserver jarg2_);
+  public final static native void StringLiveData_director_connect(StringLiveData obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void StringLiveData_change_ownership(StringLiveData obj, long cptr, boolean take_or_release);
+  public final static native void delete_OptionalStringLiveData(long jarg1);
+  public final static native long new_OptionalStringLiveData(String jarg1);
+  public final static native String OptionalStringLiveData_GetValue(long jarg1, OptionalStringLiveData jarg1_);
+  public final static native String OptionalStringLiveData_GetValueSwigExplicitOptionalStringLiveData(long jarg1, OptionalStringLiveData jarg1_);
+  public final static native void OptionalStringLiveData_AddObserver(long jarg1, OptionalStringLiveData jarg1_, long jarg2, OptionalStringLiveDataObserver jarg2_, boolean jarg3);
+  public final static native void OptionalStringLiveData_RemoveObserver(long jarg1, OptionalStringLiveData jarg1_, long jarg2, OptionalStringLiveDataObserver jarg2_);
+  public final static native void OptionalStringLiveData_director_connect(OptionalStringLiveData obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void OptionalStringLiveData_change_ownership(OptionalStringLiveData obj, long cptr, boolean take_or_release);
+  public final static native long new_MutableIntLiveData(int jarg1);
+  public final static native void MutableIntLiveData_SetValue(long jarg1, MutableIntLiveData jarg1_, int jarg2);
+  public final static native void delete_MutableIntLiveData(long jarg1);
+  public final static native void MutableIntLiveData_director_connect(MutableIntLiveData obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void MutableIntLiveData_change_ownership(MutableIntLiveData obj, long cptr, boolean take_or_release);
+  public final static native long new_MutableStringLiveData(String jarg1);
+  public final static native void MutableStringLiveData_SetValue(long jarg1, MutableStringLiveData jarg1_, String jarg2);
+  public final static native void delete_MutableStringLiveData(long jarg1);
+  public final static native void MutableStringLiveData_director_connect(MutableStringLiveData obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void MutableStringLiveData_change_ownership(MutableStringLiveData obj, long cptr, boolean take_or_release);
+  public final static native long new_MutableOptionalStringLiveData(String jarg1);
+  public final static native void MutableOptionalStringLiveData_SetValue(long jarg1, MutableOptionalStringLiveData jarg1_, String jarg2);
+  public final static native void delete_MutableOptionalStringLiveData(long jarg1);
+  public final static native void MutableOptionalStringLiveData_director_connect(MutableOptionalStringLiveData obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void MutableOptionalStringLiveData_change_ownership(MutableOptionalStringLiveData obj, long cptr, boolean take_or_release);
+  public final static native long MutableFieldDataModel_SWIGUpcast(long jarg1);
   public final static native long N2CTestItem_SWIGSmartPtrUpcast(long jarg1);
   public final static native long N2CItemIcon_SWIGSmartPtrUpcast(long jarg1);
   public final static native long N2CTestColor_SWIGSmartPtrUpcast(long jarg1);
+  public final static native long IntFiledKey_SWIGSmartPtrUpcast(long jarg1);
+  public final static native long StringFiledKey_SWIGSmartPtrUpcast(long jarg1);
+  public final static native long OptionalStringFiledKey_SWIGSmartPtrUpcast(long jarg1);
+  public final static native long MutableIntLiveData_SWIGSmartPtrUpcast(long jarg1);
+  public final static native long MutableStringLiveData_SWIGSmartPtrUpcast(long jarg1);
+  public final static native long MutableOptionalStringLiveData_SWIGSmartPtrUpcast(long jarg1);
 
   public static void SwigDirector_TestObserverBridge_onCall(TestObserverBridge jself, int data) {
     jself.onCall(data);
+  }
+  public static void SwigDirector_TestObserver2Bridge_onCall(TestObserver2Bridge jself, long data) {
+    jself.onCall(new TestObserver2Data(data, false));
+  }
+  public static void SwigDirector_IntLiveDataObserver_onCall(IntLiveDataObserver jself, int value) {
+    jself.onCall(value);
+  }
+  public static void SwigDirector_StringLiveDataObserver_onCall(StringLiveDataObserver jself, String value) {
+    jself.onCall(value);
+  }
+  public static void SwigDirector_OptionalStringLiveDataObserver_onCall(OptionalStringLiveDataObserver jself, String value) {
+    jself.onCall(value);
   }
   public static String SwigDirector_IItemIcon_getName(IItemIcon jself) {
     return jself.getName();
@@ -300,6 +451,30 @@ public class JNIItemTestJNI {
   }
   public static byte[] SwigDirector_IObserverManager_byteTest3(IObserverManager jself) {
     return jself.byteTest3();
+  }
+  public static void SwigDirector_IObserverManager_setTestObserver2List(IObserverManager jself, long arg0) {
+    jself.setTestObserver2List(new TestObserver2Vector(arg0, true));
+  }
+  public static int SwigDirector_IObserverManager_optionalEnum33(IObserverManager jself) {
+    return (jself.optionalEnum33()).swigValue();
+  }
+  public static int SwigDirector_IntLiveData_GetValue(IntLiveData jself) {
+    return jself.GetValue();
+  }
+  public static String SwigDirector_StringLiveData_GetValue(StringLiveData jself) {
+    return jself.GetValue();
+  }
+  public static String SwigDirector_OptionalStringLiveData_GetValue(OptionalStringLiveData jself) {
+    return jself.GetValue();
+  }
+  public static int SwigDirector_MutableIntLiveData_GetValue(MutableIntLiveData jself) {
+    return jself.GetValue();
+  }
+  public static String SwigDirector_MutableStringLiveData_GetValue(MutableStringLiveData jself) {
+    return jself.GetValue();
+  }
+  public static String SwigDirector_MutableOptionalStringLiveData_GetValue(MutableOptionalStringLiveData jself) {
+    return jself.GetValue();
   }
 
   private final static native void swig_module_init();

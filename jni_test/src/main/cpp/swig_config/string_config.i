@@ -24,14 +24,34 @@
 
 //C++层，JNI函数参数，java类型转C++类型
 %typemap(in) std::optional<std::string> %{
-const char* c_result_pstr = jenv->GetStringUTFChars(jarg$argnum, nullptr);
-$1 = std::make_optional<std::string>(c_result_pstr);
-jenv->ReleaseStringUTFChars(jarg$argnum, c_result_pstr);
+if ($input) {
+  const char* c_result_pstr = jenv->GetStringUTFChars($input, nullptr);
+  if (c_result_pstr) {
+    $1 = std::make_optional<std::string>(c_result_pstr);
+  } else {
+    $1 = std::nullopt;
+  }
+  jenv->ReleaseStringUTFChars($input, c_result_pstr);
+} else {
+  $1 = std::nullopt;
+}
+
 %}
 %typemap(in) std::optional<std::string>& %{
-const char* c_result_pstr = jenv->GetStringUTFChars(jarg$argnum, nullptr);
-*$1 = std::make_optional<std::string>(c_result_pstr);
-jenv->ReleaseStringUTFChars(jarg$argnum, c_result_pstr);
+if ($input) {
+  const char* c_result_pstr = jenv->GetStringUTFChars($input, nullptr);
+  if (c_result_pstr) {
+    auto $input_temp = std::make_optional<std::string>(c_result_pstr);
+    $1 = &$input_temp;
+  } else {
+    std::optional<std::string> $input_temp = std::nullopt;
+    $1 = &$input_temp;
+  }
+  jenv->ReleaseStringUTFChars($input, c_result_pstr);
+} else {
+  std::optional<std::string> $input_temp = std::nullopt;
+  $1 = &$input_temp;
+}
 %}
 
 //C++层，JNI函数返回值，C++类型转java类型

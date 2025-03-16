@@ -9,4 +9,16 @@
 package com.example.jni_test.model;
 
 public class JNIItemTest {
+  public static IntFiledKey getPrice() {
+    return new IntFiledKey(JNIItemTestJNI.price_get(), true);
+  }
+
+  public static StringFiledKey getName() {
+    return new StringFiledKey(JNIItemTestJNI.name_get(), true);
+  }
+
+  public static OptionalStringFiledKey getDescription() {
+    return new OptionalStringFiledKey(JNIItemTestJNI.description_get(), true);
+  }
+
 }

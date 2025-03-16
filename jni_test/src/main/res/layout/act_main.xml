@@ -60,4 +60,11 @@
         android:text="通知观察者"
         android:textAllCaps="false" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onTestField"
+        android:text="测试Field"
+        android:textAllCaps="false"/>
+
 </LinearLayout>

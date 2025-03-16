@@ -61,7 +61,7 @@ class IObserverManager {
 public:
     virtual ~IObserverManager() = default;
 
-    virtual void addObserver(std::shared_ptr<const TestObserver> observer) = 0;
+    virtual void addObserver(std::shared_ptr<TestObserver> observer) = 0;
 
     virtual void removeObserver(std::shared_ptr<TestObserver> observer) = 0;
 
@@ -91,32 +91,7 @@ public:
 
     virtual TestEnum1 optionalEnum33() = 0;
 
-    virtual std::optional<TestEnum1> &optionalEnum4() = 0;
-
-    virtual TestEnum1 &optionalEnum44() = 0;
 };
-
-virtual void optionalTest1(std::optional<TestOptional> option) = 0;
-
-virtual void optionalTest2(const std::optional<TestOptional> &option) = 0;
-
-virtual std::optional<TestOptional> optionalTest3() = 0;
-
-virtual std::optional<TestOptional> &optionalTest4() = 0;
-
-virtual TestOptional optionalTest33() = 0;
-
-virtual TestOptional &optionalTest44() = 0;
-
-virtual void optionalEnum1(std::optional<TestEnum1> option) = 0;
-
-virtual void optionalEnum11(TestEnum1 option) = 0;
-
-virtual void optionalEnum2(const std::optional<TestEnum1> &option) = 0;
-
-virtual void optionalEnum22(const TestEnum1 &option) = 0;
-
-virtual std::optional<TestEnum1> optionalEnum3() = 0;
 
 class ObserverManager {
 

@@ -3,7 +3,7 @@
 //
 
 #pragma once
-
+#include <string>
 
 class IItemIcon {
 public:

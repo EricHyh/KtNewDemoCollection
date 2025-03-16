@@ -60,6 +60,7 @@ SWIG_SHARED_PTR_TYPEMAPS_IMPLEMENTATION(public, public, CONST, TYPE)
 
 
 %ignore "private:";     //忽略所有私用成员
+%ignore "protected:";   //忽略所有受保护的成员
 
 %naturalvar;            //一律将成员变量转成 set/get 函数
 

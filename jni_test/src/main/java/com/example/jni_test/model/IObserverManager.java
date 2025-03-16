@@ -115,6 +115,14 @@ public class IObserverManager {
     return JNIItemTestJNI.IObserverManager_byteTest3(swigCPtr, this);
   }
 
+  public void setTestObserver2List(TestObserver2Vector arg0) {
+    JNIItemTestJNI.IObserverManager_setTestObserver2List(swigCPtr, this, TestObserver2Vector.getCPtr(arg0), arg0);
+  }
+
+  public TestEnum1 optionalEnum33() {
+    return TestEnum1.swigToEnum(JNIItemTestJNI.IObserverManager_optionalEnum33(swigCPtr, this));
+  }
+
   public IObserverManager() {
     this(JNIItemTestJNI.new_IObserverManager(), true);
     JNIItemTestJNI.IObserverManager_director_connect(this, swigCPtr, true, true);

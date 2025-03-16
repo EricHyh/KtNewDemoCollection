@@ -10,16 +10,48 @@ import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import com.example.jni_test.fragment.AnimTestFragment
 import com.example.jni_test.fragment.FunctionTestFragment
 import com.example.jni_test.fragment.JNITestTabsFragment
+import com.example.jni_test.model.BaseFiledKeyVector
+import com.example.jni_test.model.FieldDataModel
+import com.example.jni_test.model.IntLiveDataObserver
+import com.example.jni_test.model.JNIItemTest
 import com.example.jni_test.model.JNITestEntrance
+import com.example.jni_test.model.MutableFieldDataModel
 import com.example.jni_test.model.ObserverManager
+import com.example.jni_test.model.OptionalStringLiveDataObserver
+import com.example.jni_test.model.StringLiveDataObserver
 import com.example.jni_test.model.wrapper.DataSource
 import org.json.JSONObject
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
 
+    private val fieldModel = MutableFieldDataModel(BaseFiledKeyVector().apply {
+        this.add(JNIItemTest.getName())
+        this.add(JNIItemTest.getDescription())
+        this.add(JNIItemTest.getPrice())
+    })
+
+    private val intFiledValueObserver = object : IntLiveDataObserver() {
+        override fun onCall(value: Int) {
+            Log.d(TAG, "onCreate: intFiledValueObserver $value")
+        }
+    }
+
+    private val stringLiveDataObserver = object : StringLiveDataObserver() {
+        override fun onCall(value: String) {
+            Log.d(TAG, "onCreate: stringLiveDataObserver $value")
+        }
+    }
+
+    private val optionalStringLiveDataObserver = object : OptionalStringLiveDataObserver() {
+        override fun onCall(value: String?) {
+            Log.d(TAG, "onCreate: optionalStringLiveDataObserver $value")
+        }
+    }
+
     companion object {
-        private const val TAG = "MainActivity"
+        private const val TAG = "MainActivity_"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +88,12 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "onCreate: $json , $optInt")
 
+        val intFiledValue = fieldModel.getIntFiledValue(JNIItemTest.getPrice())
+        val stringFiledValue = fieldModel.getStringFiledValue(JNIItemTest.getName())
+        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(JNIItemTest.getDescription())
+        intFiledValue.AddObserver(intFiledValueObserver, true)
+        stringFiledValue.AddObserver(stringLiveDataObserver, true)
+        optionalStringFiledValue.AddObserver(optionalStringLiveDataObserver, true)
     }
 
     fun onClickNative(view: View) {
@@ -145,5 +183,22 @@ class MainActivity : AppCompatActivity() {
         byteTest3.forEach {
             Log.d(TAG, "onNotifyObservers: byte $it")
         }
+    }
+
+    fun onTestField(view: View) {
+        val intFiledValue = fieldModel.getIntFiledValue(JNIItemTest.getPrice())
+        val stringFiledValue = fieldModel.getStringFiledValue(JNIItemTest.getName())
+        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(JNIItemTest.getDescription())
+
+        intFiledValue.SetValue(Random.nextInt())
+        val uuid = java.util.UUID.randomUUID().toString()
+        stringFiledValue.SetValue(uuid)
+        optionalStringFiledValue.SetValue(
+            if (Random.nextInt() % 2 == 0) {
+                uuid
+            } else {
+                null
+            }
+        )
     }
 }
