@@ -24,7 +24,7 @@ public:
 
     friend FieldDataModel;
 
-protected:
+private:
     virtual std::any createFiledValue() const = 0;
 
 };
@@ -34,7 +34,7 @@ template<class Value>
 class FiledKey;
 
 template<class Value>
-inline FiledKey<Value> makeFiledKey(int32_t, const Value &);
+FiledKey<Value> makeFiledKey(int32_t, const Value &);
 
 
 template<class Value>
@@ -54,22 +54,19 @@ public:
     // 声明特定实例化的 makeFiledKey 为友元
     friend FiledKey<Value> makeFiledKey<Value>(int32_t, const Value &);
 
-protected:
+private:
+    FiledKey(int32_t key, Value value) : m_key(key), m_defaultValue(std::move(value)) {}
     std::any createFiledValue() const override {
         const std::shared_ptr<MutableLiveData<Value>> &ptr = std::make_shared<MutableLiveData<Value>>(m_defaultValue);
         return std::any(std::move(ptr));
     }
-
-private:
-    FiledKey(int32_t key, Value value) : m_key(key), m_defaultValue(std::move(value)) {}
-
     int32_t m_key;
     Value m_defaultValue;
 
 };
 
 template<class Value>
-inline FiledKey<Value> makeFiledKey(int32_t key, const Value &value) {
+FiledKey<Value> makeFiledKey(int32_t key, const Value &value) {
     return FiledKey<Value>(key, value);
 }
 
