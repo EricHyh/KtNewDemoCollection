@@ -163,8 +163,9 @@ def remove_dir_and_contents(path):
 
 
 def compare_dir(src_dir, target_dir, target_dir_pre_path):
+    target_dir_pre_path = os.path.normpath(target_dir_pre_path)
+
     # 获取源目录中的所有文件并添加前缀
-    
     src_files = {os.path.join(target_dir_pre_path, f) if target_dir_pre_path else f for f in get_subfile_relative_path(src_dir)}
 
     # 获取目标目录中的所有文件

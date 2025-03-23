@@ -136,3 +136,8 @@ private:
 
 };
 
+//
+//template<class T = int>
+//struct TemplateTest {
+//    T value;
+//};

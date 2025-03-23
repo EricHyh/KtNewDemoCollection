@@ -37,6 +37,7 @@ SWIG_SHARED_PTR_TYPEMAPS_IMPLEMENTATION(public, public, CONST, TYPE)
 %import "std_unique_ptr.i"
 %import "std_string.i"
 %import "std_vector.i"   //https://github.com/swig/swig/blob/master/Lib/java/std_vector.i
+%import "std_const_vector.i"
 %import "std_map.i"
 %import "std_unordered_map.i"
 

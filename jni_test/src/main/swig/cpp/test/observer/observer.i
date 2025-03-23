@@ -32,6 +32,8 @@
 
 %java_package_import_0(TestStructVariant, test.observer);
 
+%java_package_import_0(std::vector<TestStruct>, test.observer);
+%java_package_import_0(std::vector<TestStruct2>, test.observer);
 
 
 %shared_ptr_wrapper(ITestObserver2);
@@ -53,6 +55,11 @@
 
 %java_hash_equals(ITestObserver2);
 
+%std_const_vector(TestStruct2, TestStruct2Vector);
+%template(TestStruct2Vector) std::vector<TestStruct2>;
+
+%import "std_vector.i"
+%template(TestStructVector) std::vector<TestStruct>;
 
 %optional_type_map(TestOptional);
 %enum_optional_type_map(TestEnum1);
