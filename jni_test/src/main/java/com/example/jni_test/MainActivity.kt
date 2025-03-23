@@ -10,16 +10,15 @@ import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import com.example.jni_test.fragment.AnimTestFragment
 import com.example.jni_test.fragment.FunctionTestFragment
 import com.example.jni_test.fragment.JNITestTabsFragment
-import com.example.jni_test.model.BaseFiledKeyVector
-import com.example.jni_test.model.FieldDataModel
-import com.example.jni_test.model.IntLiveDataObserver
-import com.example.jni_test.model.JNIItemTest
-import com.example.jni_test.model.JNITestEntrance
-import com.example.jni_test.model.MutableFieldDataModel
-import com.example.jni_test.model.ObserverManager
-import com.example.jni_test.model.OptionalStringLiveDataObserver
-import com.example.jni_test.model.StringLiveDataObserver
 import com.example.jni_test.model.wrapper.DataSource
+import com.hyh.jnitest.test.field.BaseFiledKeyVector
+import com.hyh.jnitest.test.field.FieldModule
+import com.hyh.jnitest.test.field.IntLiveDataObserver
+import com.hyh.jnitest.test.field.MutableFieldDataModel
+import com.hyh.jnitest.test.field.OptionalStringLiveDataObserver
+import com.hyh.jnitest.test.field.StringLiveDataObserver
+import com.hyh.jnitest.test.observer.JNITestEntrance
+import com.hyh.jnitest.test.observer.ObserverManager
 import org.json.JSONObject
 import kotlin.random.Random
 
@@ -27,9 +26,9 @@ class MainActivity : AppCompatActivity() {
 
 
     private val fieldModel = MutableFieldDataModel(BaseFiledKeyVector().apply {
-        this.add(JNIItemTest.getName())
-        this.add(JNIItemTest.getDescription())
-        this.add(JNIItemTest.getPrice())
+        this.add(FieldModule.getName())
+        this.add(FieldModule.getDescription())
+        this.add(FieldModule.getPrice())
     })
 
     private val intFiledValueObserver = object : IntLiveDataObserver() {
@@ -88,9 +87,9 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "onCreate: $json , $optInt")
 
-        val intFiledValue = fieldModel.getIntFiledValue(JNIItemTest.getPrice())
-        val stringFiledValue = fieldModel.getStringFiledValue(JNIItemTest.getName())
-        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(JNIItemTest.getDescription())
+        val intFiledValue = fieldModel.getIntFiledValue(FieldModule.getPrice())
+        val stringFiledValue = fieldModel.getStringFiledValue(FieldModule.getName())
+        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(FieldModule.getDescription())
         intFiledValue.AddObserver(intFiledValueObserver, true)
         stringFiledValue.AddObserver(stringLiveDataObserver, true)
         optionalStringFiledValue.AddObserver(optionalStringLiveDataObserver, true)
@@ -186,9 +185,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onTestField(view: View) {
-        val intFiledValue = fieldModel.getIntFiledValue(JNIItemTest.getPrice())
-        val stringFiledValue = fieldModel.getStringFiledValue(JNIItemTest.getName())
-        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(JNIItemTest.getDescription())
+        val intFiledValue = fieldModel.getIntFiledValue(FieldModule.getPrice())
+        val stringFiledValue = fieldModel.getStringFiledValue(FieldModule.getName())
+        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(FieldModule.getDescription())
 
         intFiledValue.SetValue(Random.nextInt())
         val uuid = java.util.UUID.randomUUID().toString()

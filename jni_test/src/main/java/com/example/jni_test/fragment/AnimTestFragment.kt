@@ -17,12 +17,12 @@ import android.widget.RadioGroup
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import com.example.jni_test.R
-import com.example.jni_test.model.ITestColor
-import com.example.jni_test.model.N2CTestColor
-import com.example.jni_test.model.TestColorFactory
 import com.example.jni_test.model.wrapper.NativeTestColor
 import com.example.jni_test.model.wrapper.TestColorWrapper
 import com.example.jni_test.utils.DisplayUtil
+import com.hyh.jnitest.test.color.ITestColor
+import com.hyh.jnitest.test.color.N2CTestColor
+import com.hyh.jnitest.test.color.TestColorFactory
 import java.util.Random
 import kotlin.math.min
 

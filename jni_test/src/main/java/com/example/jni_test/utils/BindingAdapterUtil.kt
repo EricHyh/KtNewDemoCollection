@@ -5,10 +5,6 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.jni_test.R
-import com.example.jni_test.fragment.ui.ItemIconGrid
-import com.example.jni_test.model.IItemIcon
-import com.example.jni_test.widget.horizontal.RecyclerViewScrollLayout
-import com.example.jni_test.fragment.ui.ItemIconTitleGrid
 
 
 /**

@@ -11,12 +11,11 @@
 
 namespace FieldKeys {
 
-    static const  FiledKey<int> price = makeFiledKey(1, 10);
+    extern const FiledKey<int> price;
 
-    extern const FiledKey<std::string> name = makeFiledKey(2, std::string("a"));
+    extern const FiledKey<std::string> name;
 
-    extern const FiledKey<std::optional<std::string>> description = makeFiledKey(3, (std::optional<std::string>) std::nullopt);
-
+    extern const FiledKey<std::optional<std::string>> description;
 };
 
 

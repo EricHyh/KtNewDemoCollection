@@ -7,7 +7,7 @@
 
         <variable
             name="testData"
-            type="com.example.jni_test.model.ITestItem" />
+            type="com.hyh.jnitest.test.item.ITestItem" />
     </data>
 
     <androidx.cardview.widget.CardView

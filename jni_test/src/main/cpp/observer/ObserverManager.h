@@ -39,6 +39,11 @@ struct TestStruct {
     std::string groupName;  // 分组名称
 };
 
+struct TestStruct2 {
+    std::string groupName;  // 分组名称
+};
+
+using TestStructVariant = std::variant<std::monostate, TestStruct, TestStruct2>;
 
 struct TestOptional {
 
@@ -53,6 +58,8 @@ public:
     virtual ~ITestObserver2() = default;
 
     virtual void onCall(const int &data) = 0;
+
+    virtual void onCall2(const TestStructVariant& variant) = 0;
 };
 
 

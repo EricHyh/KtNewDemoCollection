@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.example.jni_test.R
 import com.example.jni_test.databinding.ItemIconBinding
-import com.example.jni_test.model.IItemIcon
 import com.example.jni_test.widget.horizontal.GridHolder
 import com.example.jni_test.widget.horizontal.IGrid
+import com.hyh.jnitest.test.item.IItemIcon
 
 /**
  * TODO

@@ -77,6 +77,13 @@ android {
         }
     }
 
+    sourceSets {
+        named("main") {
+            java.srcDir("src/main/swig/src")
+        }
+    }
+
+
     ndkVersion '21.3.6528147'
 }
 

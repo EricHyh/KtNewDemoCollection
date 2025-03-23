@@ -1,16 +1,16 @@
 package com.example.jni_test
 
 import android.util.Log
-import com.example.jni_test.model.C2NTestItemFactory
-import com.example.jni_test.model.IC2NTestItemFactory
-import com.example.jni_test.model.IObserverManager
-import com.example.jni_test.model.ITestItem
-import com.example.jni_test.model.ITestObserver2Bridge
-import com.example.jni_test.model.ObserverManager
-import com.example.jni_test.model.TestColorFactory
-import com.example.jni_test.model.TestObserverBridge
 import com.example.jni_test.model.wrapper.NativeTestColor
 import com.example.jni_test.model.wrapper.NativeTestItem
+import com.hyh.jnitest.test.color.TestColorFactory
+import com.hyh.jnitest.test.item.C2NTestItemFactory
+import com.hyh.jnitest.test.item.IC2NTestItemFactory
+import com.hyh.jnitest.test.item.ITestItem
+import com.hyh.jnitest.test.observer.IObserverManager
+import com.hyh.jnitest.test.observer.ITestObserver2Bridge
+import com.hyh.jnitest.test.observer.ObserverManager
+import com.hyh.jnitest.test.observer.TestObserverBridge
 
 /**
  * TODO: Add Description

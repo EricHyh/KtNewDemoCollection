@@ -1,6 +1,6 @@
 package com.example.jni_test.model.wrapper
 
-import com.example.jni_test.model.IItemIcon
+import com.hyh.jnitest.test.item.IItemIcon
 
 abstract class ItemIcon : IItemIcon() {
 

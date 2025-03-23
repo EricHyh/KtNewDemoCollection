@@ -1,7 +1,7 @@
 package com.example.jni_test.model.wrapper
 
-import com.example.jni_test.model.ITestColor
 import com.example.jni_test.utils.DisplayUtil
+import com.hyh.jnitest.test.color.ITestColor
 
 /**
  * TODO

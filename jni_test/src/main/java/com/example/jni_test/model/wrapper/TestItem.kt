@@ -1,9 +1,9 @@
 package com.example.jni_test.model.wrapper
 
-import com.example.jni_test.model.IItemIcon
-import com.example.jni_test.model.IItemIconVector
-import com.example.jni_test.model.ITestItem
-import com.example.jni_test.model.StringVector
+import com.hyh.jnitest.basic.infrastructure.StringVector
+import com.hyh.jnitest.test.item.IItemIcon
+import com.hyh.jnitest.test.item.IItemIconVector
+import com.hyh.jnitest.test.item.ITestItem
 
 
 /**

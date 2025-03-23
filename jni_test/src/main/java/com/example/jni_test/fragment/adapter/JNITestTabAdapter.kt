@@ -1,7 +1,6 @@
 package com.example.jni_test.fragment.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import com.example.jni_test.R
 import com.example.jni_test.databinding.ItemTest1Binding
 import com.example.jni_test.fragment.ui.ItemIconGrid
 import com.example.jni_test.fragment.ui.ItemIconTitleGrid
-import com.example.jni_test.model.ITestItem
 import com.example.jni_test.model.wrapper.ItemIcons
 import com.example.jni_test.model.wrapper.ItemTag
 import com.example.jni_test.model.wrapper.ItemTags
@@ -25,6 +23,7 @@ import com.example.jni_test.model.wrapper.TestItemDataWrapper
 import com.example.jni_test.utils.DisplayUtil
 import com.example.jni_test.widget.horizontal.HorizontalScrollSyncHelper
 import com.example.jni_test.widget.horizontal.RecyclerViewScrollLayout
+import com.hyh.jnitest.test.item.ITestItem
 
 
 class JNITestTabAdapter() :

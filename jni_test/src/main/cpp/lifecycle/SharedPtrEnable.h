@@ -14,21 +14,23 @@
     public: \
         template<typename... Args> \
         static std::shared_ptr<ClassName> Create(Args&&... args) { \
-            return SharedPtrEnable::Create<ClassName>(std::forward<Args>(args)...); \
+            return SharedPtrEnable<ClassName>::Create(std::forward<Args>(args)...); \
         }
 
-class SharedPtrEnable : public std::enable_shared_from_this<SharedPtrEnable> {
+
+template<class T>
+class SharedPtrEnable : public std::enable_shared_from_this<T> {
 protected:
     // 保护构造函数，防止直接创建对象
     SharedPtrEnable() = default;
 
 public:
     // 静态工厂方法
-    template<typename T, typename... Args>
+    template<typename... Args>
     static std::shared_ptr<T> Create(Args &&... args) {
         // 使用自定义的创建方法
         struct EnableMakeShared : public T {
-            EnableMakeShared(Args&&... args) : T(std::forward<Args>(args)...) {}
+            EnableMakeShared(Args &&... args) : T(std::forward<Args>(args)...) {}
         };
         return std::make_shared<EnableMakeShared>(std::forward<Args>(args)...);
     }
@@ -46,26 +48,24 @@ public:
     SharedPtrEnable &operator=(SharedPtrEnable &&) = delete;
 
     // 获取 shared_ptr
-    std::shared_ptr<SharedPtrEnable> GetShared() {
+    std::shared_ptr<T> GetShared() {
         return shared_from_this();
     }
 
     // 获取 shared_ptr
-    std::weak_ptr<SharedPtrEnable> GetWeak() {
+    std::weak_ptr<T> GetWeak() {
         return weak_from_this();
     }
 
 private:
-    using std::enable_shared_from_this<SharedPtrEnable>::shared_from_this;
-    using std::enable_shared_from_this<SharedPtrEnable>::weak_from_this;
+    using std::enable_shared_from_this<T>::shared_from_this;
+    using std::enable_shared_from_this<T>::weak_from_this;
 };
 
-class Derived : public SharedPtrEnable {
+class Derived : public SharedPtrEnable<Derived> {
 private:
 
-    explicit Derived(int value) : value_(value) {
-        //auto ptr = GetShared();
-    }
+    explicit Derived(int value) : value_(value) {}
 
     explicit Derived(std::string str) : str_(str) {}
 

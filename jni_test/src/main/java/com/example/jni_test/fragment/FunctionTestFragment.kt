@@ -8,10 +8,10 @@ import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
 import com.example.jni_test.R
-import com.example.jni_test.model.ITestColor
-import com.example.jni_test.model.N2CTestColor
-import com.example.jni_test.model.TestColorFactory
 import com.example.jni_test.model.wrapper.NativeTestColor
+import com.hyh.jnitest.test.color.ITestColor
+import com.hyh.jnitest.test.color.N2CTestColor
+import com.hyh.jnitest.test.color.TestColorFactory
 import kotlin.system.measureTimeMillis
 
 /**
