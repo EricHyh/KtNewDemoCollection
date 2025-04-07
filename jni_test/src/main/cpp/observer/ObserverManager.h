@@ -59,7 +59,7 @@ public:
 
     virtual void onCall(const int &data) = 0;
 
-    virtual void onCall2(const TestStructVariant& variant) = 0;
+    virtual void onCall2(const TestStructVariant &variant) = 0;
 };
 
 
@@ -141,3 +141,21 @@ private:
 //struct TemplateTest {
 //    T value;
 //};
+
+
+struct Test {
+    int &num;
+
+    Test(int &num) : num(num) {}
+};
+
+void test() {
+    int a = 10;
+    Test test1(a);
+    a = 100;
+
+    std::function<void()> func = [test1]() {
+        test1.num = 300;
+    };
+    func();
+}
