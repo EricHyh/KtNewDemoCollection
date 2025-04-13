@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "configurations": [
+    {
+      "name": "C/C++ Debug",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/${workspaceFolderBasename}.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "MIMode": "gdb",
+      "miDebuggerPath": "D:\\cpp\\mingw64\\bin\\gdb.exe"
+    }
+  ]
+}

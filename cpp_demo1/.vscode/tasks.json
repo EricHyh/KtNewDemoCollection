@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build & Run",
+      "type": "shell",
+      "command": "cmake --build build && ${workspaceFolder}/build/${workspaceFolderBasename}.exe",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
