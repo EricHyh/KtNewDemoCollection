@@ -1,6 +1,7 @@
 #ifndef NAMESPACE_CONFIG
 #define NAMESPACE_CONFIG
 
+// 全局搜索，工程配置替换
 
 #define NC_IM1(x) "pre_import com.hyh.jnitest."#x";"
 #define NC_IM2(first, second) ""NC_IM1(first)"\n"NC_IM1(second)""

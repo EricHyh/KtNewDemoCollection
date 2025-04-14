@@ -61,6 +61,8 @@
 %import "std_vector.i"
 %template(TestStructVector) std::vector<TestStruct>;
 
+%ignore TestEnum1::TestEnum1();
+
 %optional_type_map(TestOptional);
 %enum_optional_type_map(TestEnum1);
 

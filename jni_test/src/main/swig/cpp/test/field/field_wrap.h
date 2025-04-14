@@ -61,12 +61,14 @@ public:
     SwigDirector_IntLiveData(JNIEnv *jenv,int value);
     virtual ~SwigDirector_IntLiveData();
     virtual int GetValue() const;
+    virtual void AddObserver(std::shared_ptr< LiveDataObserver< int > > observer,bool immediately);
+    virtual void RemoveObserver(std::shared_ptr< LiveDataObserver< int > > observer);
 public:
     bool swig_overrides(int n) {
-      return (n < 1 ? swig_override[n] : false);
+      return (n < 3 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<1> swig_override;
+    Swig::BoolArray<3> swig_override;
 };
 
 class SwigDirector_StringLiveData : public LiveData< std::string >, public Swig::Director {
@@ -76,12 +78,14 @@ public:
     SwigDirector_StringLiveData(JNIEnv *jenv,std::string value);
     virtual ~SwigDirector_StringLiveData();
     virtual std::string GetValue() const;
+    virtual void AddObserver(std::shared_ptr< LiveDataObserver< std::string > > observer,bool immediately);
+    virtual void RemoveObserver(std::shared_ptr< LiveDataObserver< std::string > > observer);
 public:
     bool swig_overrides(int n) {
-      return (n < 1 ? swig_override[n] : false);
+      return (n < 3 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<1> swig_override;
+    Swig::BoolArray<3> swig_override;
 };
 
 class SwigDirector_OptionalStringLiveData : public LiveData< std::optional< std::string > >, public Swig::Director {
@@ -91,12 +95,14 @@ public:
     SwigDirector_OptionalStringLiveData(JNIEnv *jenv,std::optional< std::string > value);
     virtual ~SwigDirector_OptionalStringLiveData();
     virtual std::optional< std::string > GetValue() const;
+    virtual void AddObserver(std::shared_ptr< LiveDataObserver< std::optional< std::string > > > observer,bool immediately);
+    virtual void RemoveObserver(std::shared_ptr< LiveDataObserver< std::optional< std::string > > > observer);
 public:
     bool swig_overrides(int n) {
-      return (n < 1 ? swig_override[n] : false);
+      return (n < 3 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<1> swig_override;
+    Swig::BoolArray<3> swig_override;
 };
 
 class SwigDirector_MutableIntLiveData : public MutableLiveData< int >, public Swig::Director {
@@ -106,12 +112,14 @@ public:
     SwigDirector_MutableIntLiveData(JNIEnv *jenv,int value);
     virtual ~SwigDirector_MutableIntLiveData();
     virtual int GetValue() const;
+    virtual void AddObserver(std::shared_ptr< LiveDataObserver< int > > observer,bool immediately);
+    virtual void RemoveObserver(std::shared_ptr< LiveDataObserver< int > > observer);
 public:
     bool swig_overrides(int n) {
-      return (n < 1 ? swig_override[n] : false);
+      return (n < 3 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<1> swig_override;
+    Swig::BoolArray<3> swig_override;
 };
 
 class SwigDirector_MutableStringLiveData : public MutableLiveData< std::string >, public Swig::Director {
@@ -121,12 +129,14 @@ public:
     SwigDirector_MutableStringLiveData(JNIEnv *jenv,std::string value);
     virtual ~SwigDirector_MutableStringLiveData();
     virtual std::string GetValue() const;
+    virtual void AddObserver(std::shared_ptr< LiveDataObserver< std::string > > observer,bool immediately);
+    virtual void RemoveObserver(std::shared_ptr< LiveDataObserver< std::string > > observer);
 public:
     bool swig_overrides(int n) {
-      return (n < 1 ? swig_override[n] : false);
+      return (n < 3 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<1> swig_override;
+    Swig::BoolArray<3> swig_override;
 };
 
 class SwigDirector_MutableOptionalStringLiveData : public MutableLiveData< std::optional< std::string > >, public Swig::Director {
@@ -136,12 +146,14 @@ public:
     SwigDirector_MutableOptionalStringLiveData(JNIEnv *jenv,std::optional< std::string > value);
     virtual ~SwigDirector_MutableOptionalStringLiveData();
     virtual std::optional< std::string > GetValue() const;
+    virtual void AddObserver(std::shared_ptr< LiveDataObserver< std::optional< std::string > > > observer,bool immediately);
+    virtual void RemoveObserver(std::shared_ptr< LiveDataObserver< std::optional< std::string > > > observer);
 public:
     bool swig_overrides(int n) {
-      return (n < 1 ? swig_override[n] : false);
+      return (n < 3 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<1> swig_override;
+    Swig::BoolArray<3> swig_override;
 };
 
 

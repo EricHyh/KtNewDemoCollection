@@ -8,20 +8,44 @@
 #include "reference/reference_test.cpp"
 #include "keyword/static_test.cpp"
 #include "keyword/const_test.cpp"
-//#include "keyword/const_template_test.cpp"
-
+// #include "keyword/const_template_test.cpp"
 
 #include <mutex>
 #include <shared_mutex>
+#include <memory>
 
+namespace
+{
 
-
-namespace{
-
-    //const std::shared_mutex& g_mutex = std::shared_mutex();
+    // const std::shared_mutex& g_mutex = std::shared_mutex();
 
 }
 
+class CFINTimer
+{
+
+public:
+    ~CFINTimer(){
+        printf("~CFINTimer\n");
+    }
+    void good() {
+        printf("good\n");
+    }
+
+};
+
+class CFINTimerWrapper
+{
+
+public:
+    std::shared_ptr<CFINTimer> m_timer;
+    ~CFINTimerWrapper(){
+        // if (auto sharedPtr = m_timer.lock()) {
+        //     sharedPtr->good();
+        // }
+        printf("~CFINTimerWrapper\n");
+    }
+};
 
 int main()
 {
@@ -34,7 +58,7 @@ int main()
     // string test = Test::getString();
     // //printf(test.c_str());
     // reference_test::test();
-    //const_template_test::test();
+    // const_template_test::test();
 
     // std::shared_lock<std::shared_mutex> lock1(mutex);
     // printf("after lock1\n");
@@ -47,7 +71,12 @@ int main()
 
     std::lock_guard<std::mutex> lock1(mutex2);
     printf("after lock1\n");
-    std::lock_guard<std::mutex> lock2(mutex2);
+
+    {
+        CFINTimerWrapper timerWrapper;
+        timerWrapper.m_timer = std::make_shared<CFINTimer>();
+    }
+
     printf("after lock2\n");
 
     return 0;

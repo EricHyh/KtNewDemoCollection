@@ -10,17 +10,18 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 scripts_base_dir = os.path.dirname(current_dir)
 
 
+
 # java 源码包路径前面的公共部分
-package_common_pre = "com.hyh.jnitest"
+package_common_pre = "com.hyh.jnitest"  # 全局搜索，工程配置替换
 package_common_pre_path = package_common_pre.replace(".", "/")
 
 
 # 项目根目录
-pro_base_dir = file_utils.get_parent_dir(scripts_base_dir, 4)
+pro_base_dir = file_utils.get_parent_dir(scripts_base_dir, 4)   # 全局搜索，工程配置替换
 
 
 # Android 桥接目录
-bridge_android_sdk_dir = os.path.join(pro_base_dir, 'src', 'main')
+bridge_android_sdk_dir = os.path.join(pro_base_dir, 'src', 'main')  # 全局搜索，工程配置替换
 
 
 # swig 目录
@@ -33,8 +34,8 @@ swig_config_dir = os.path.join(swig_base_dir, 'cpp')
 # swig java代码生成根目录（build）
 java_gen_code_build_dir = os.path.join(pro_base_dir, 'build', 'bridge')
 
-
-java_gen_code_src_dir = os.path.join(swig_base_dir, 'src')
+# java代码生成根目录
+java_gen_code_src_dir = os.path.join(swig_base_dir, 'src')  # 全局搜索，工程配置替换
 
 
 # cpp代码生成存放目录
@@ -44,13 +45,13 @@ cpp_gen_code_dir = os.path.join(swig_base_dir, 'cpp')
 common_swig_config_path = os.path.join(scripts_base_dir, 'config', 'common_swig_config.i')
 
 # 公共的头文件，在sdk目录下
-common_cpp_headers = [
+common_cpp_headers = [  # 全局搜索，工程配置替换
     os.path.join(swig_base_dir, 'cpp', 'swig_gen_common.h'),
     os.path.join(bridge_android_sdk_dir, 'cpp', 'JNIContext.h')
 ]
 
 # cpp源码目录
-cpp_source_code_dir = [
+cpp_source_code_dir = [ # 全局搜索，工程配置替换
     os.path.join(pro_base_dir, 'src', 'main', 'cpp'),
 ]
 

@@ -1,6 +1,8 @@
 #ifndef DIRECTOR_CONFIG
 #define DIRECTOR_CONFIG
 
+// 全局搜索，工程配置替换
+
 %import "shared_ptr_config.i"
 
 %define %director_shared_ptr_wrapper(TYPE)

@@ -18,6 +18,10 @@ public:
         LOGI("AnonymousObserver onCall id=%s, data=%s", std::to_string(id).c_str(), std::to_string(data).c_str());
     }
 
+    void onCall2(const TestStructVariant& variant) override {
+
+    }
+
 private:
     int id;
 };

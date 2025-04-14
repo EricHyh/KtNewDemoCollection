@@ -14,11 +14,6 @@
 %ignore target_type::m_mutex;
 %ignore target_type::obtainOriginal;
 
-%typemap(javapackage) target_type, std::shared_ptr<target_type> "$typemap(javapackage, original_type)";
-%typemap(javaimports) target_type, std::shared_ptr<target_type> %{
-$typemap(javaimports, original_type)
-%}
-
 // 确保这些方法在Java中是私有的
 %javamethodmodifiers target_type::isEquals "private";
 %javamethodmodifiers target_type::calculateHash "private";
@@ -47,7 +42,7 @@ $typemap(javaimports, original_type)
 class target_type {
 
 public:
-    target_type() = default;
+    target_type(): m_func(nullptr) {}
     virtual ~target_type() = default;
 
     virtual return_type onCall##param_type_and_name = 0;
@@ -60,37 +55,52 @@ public:
         return this == &other;
     }
 
-    static std::shared_ptr<original_type> obtainOriginal(JNIEnv *jenv, std::shared_ptr<target_type> *function_bridge, jobject j_function_bridge){
-        std::lock_guard<std::mutex> lock(function_bridge->get()->m_mutex);
-        if (auto original_ptr = function_bridge->get()->m_weakOriginal.lock()) {
-            // 如果原始回调函数还存在，直接返回
-            return original_ptr;
+    static original_type obtainOriginal(JNIEnv *jenv, std::shared_ptr<target_type> *func_bridge, jobject j_func_bridge){
+        using ReturnType = typename original_type::result_type;
+        std::weak_ptr<target_type> weak_func_bridge = *func_bridge;
+        original_type func = [weak_func_bridge, ref = JNIGlobalRef(jenv, j_func_bridge)]##param_type_and_name -> return_type {
+            std::shared_ptr<target_type> func_bridge_ptr = weak_func_bridge.lock();
+            if (func_bridge_ptr) {
+                return func_bridge_ptr->onCall##param_name;
+            } else if (std::is_same_v<ReturnType, void>) {
+                return;
+            } else {
+                return ReturnType();
+            }
+        };
+        return func;
+    }
+
+    static std::shared_ptr<original_type> obtainOriginal(std::shared_ptr<target_type> *func_bridge) {
+        if (!func_bridge || !*func_bridge) return nullptr;
+        if (auto func_ptr = (*func_bridge)->m_func) {
+            return func_ptr;
         }
-
-        // 创建全局引用
-        jobject globalRef = jenv->NewGlobalRef(j_function_bridge);
-        // 创建新的 shared_ptr，使用自定义删除器
-        std::shared_ptr<target_type> new_function_bridge = std::shared_ptr<target_type>(function_bridge->get(), [globalRef](target_type* ptr) {
-            JNIEnv *env = nullptr;
-            JNIContext context(env);
-            // 删除全局引用
-            env->DeleteGlobalRef(globalRef);
+        std::lock_guard<std::mutex> lock((*func_bridge)->m_mutex);
+        if (auto func_ptr = (*func_bridge)->m_func) {
+            return func_ptr;
+        }
+        using ReturnType = typename original_type::result_type;
+        std::weak_ptr<target_type> weak_func_bridge = *func_bridge;
+        std::shared_ptr<original_type> func_ptr = std::make_shared<original_type>([weak_func_bridge]##param_type_and_name -> return_type {
+            std::shared_ptr<target_type> func_bridge_ptr = weak_func_bridge.lock();
+            if (func_bridge_ptr) {
+                return func_bridge_ptr->onCall##param_name;
+            } else if (std::is_same_v<ReturnType, void>) {
+                return;
+            } else {
+                return ReturnType();
+            }
         });
 
-        std::shared_ptr<original_type> p_function = std::make_shared<original_type>([new_function_bridge]##param_type_and_name -> return_type {
-            return new_function_bridge->onCall##param_name;
-        });
+        (*func_bridge)->m_func = func_ptr;
 
-        new_function_bridge->m_weakOriginal = std::weak_ptr< original_type >(p_function);
-
-        return p_function;
+        return func_ptr;
     }
 
 private:
-    std::mutex m_mutex;
-
-    std::weak_ptr<original_type> m_weakOriginal;
-
+    mutable std::mutex m_mutex;
+    std::shared_ptr<original_type> m_func;
 };
 
 %}
@@ -187,24 +197,24 @@ private:
 
 %typemap(in) original_type %{
 std::shared_ptr<target_type> *smartarg$argnum = *(std::shared_ptr<$typemap(jstype, original_type)> **)&jarg$argnum;
-$1 = *target_type::obtainOriginal(jenv, smartarg$argnum, jarg$argnum_);
+$1 = target_type::obtainOriginal(jenv, smartarg$argnum, jarg$argnum_);
 %}
 
 %typemap(in) original_type& %{
 std::shared_ptr<target_type> *smartarg$argnum = *(std::shared_ptr<target_type> **)&jarg$argnum;
 auto original$argnum = target_type::obtainOriginal(jenv, smartarg$argnum, jarg$argnum_);
-$1 = original$argnum.get();
+$1 = &original$argnum;
 %}
 
 %typemap(in) original_type* %{
 std::shared_ptr<target_type> *smartarg$argnum = *(std::shared_ptr<target_type> **)&jarg$argnum;
 auto original$argnum = target_type::obtainOriginal(jenv, smartarg$argnum, jarg$argnum_);
-$1 = original$argnum.get();
+$1 = &original$argnum;
 %}
 
 %typemap(in) std::shared_ptr<original_type> %{
 std::shared_ptr<target_type> *smartarg$argnum = *(std::shared_ptr<target_type> **)&jarg$argnum;
-auto original$argnum = target_type::obtainOriginal(jenv, smartarg$argnum, jarg$argnum_);
+auto original$argnum = target_type::obtainOriginal(smartarg$argnum);
 $1 = original$argnum;
 %}
 
@@ -216,7 +226,6 @@ target_type *function_bridge$argnum = new target_type##4DI($1);
 %typemap(directorin, descriptor="L$packagepath/$typemap(jstype, original_type);") std::shared_ptr<original_type> %{
 target_type *function_bridge$argnum = new SharedPtr##target_type##4DI($1);
 *(std::shared_ptr<target_type> **) &$input = new std::shared_ptr<target_type>(function_bridge$argnum);
-
 %}
 
 %enddef //functional_bridge

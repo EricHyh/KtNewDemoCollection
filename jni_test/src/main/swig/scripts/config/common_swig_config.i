@@ -12,6 +12,8 @@
 #include <functional>
 %}
 
+// 全局搜索，工程配置替换
+
 // https://www.swig.org/Doc4.3/index.html
 
 // java 包名配置

@@ -46,6 +46,7 @@ public class FieldModuleJNI {
   public final static native long BaseFiledKeyVector_doSet(long jarg1, BaseFiledKeyVector jarg1_, int jarg2, long jarg3, BaseFiledKey jarg3_);
   public final static native void BaseFiledKeyVector_doRemoveRange(long jarg1, BaseFiledKeyVector jarg1_, int jarg2, int jarg3);
   public final static native void delete_BaseFiledKeyVector(long jarg1);
+  public final static native void delete_IBaseLiveData(long jarg1);
   public final static native long price_get();
   public final static native long name_get();
   public final static native long description_get();
@@ -75,7 +76,9 @@ public class FieldModuleJNI {
   public final static native int IntLiveData_GetValue(long jarg1, IntLiveData jarg1_);
   public final static native int IntLiveData_GetValueSwigExplicitIntLiveData(long jarg1, IntLiveData jarg1_);
   public final static native void IntLiveData_AddObserver(long jarg1, IntLiveData jarg1_, long jarg2, IntLiveDataObserver jarg2_, boolean jarg3);
+  public final static native void IntLiveData_AddObserverSwigExplicitIntLiveData(long jarg1, IntLiveData jarg1_, long jarg2, IntLiveDataObserver jarg2_, boolean jarg3);
   public final static native void IntLiveData_RemoveObserver(long jarg1, IntLiveData jarg1_, long jarg2, IntLiveDataObserver jarg2_);
+  public final static native void IntLiveData_RemoveObserverSwigExplicitIntLiveData(long jarg1, IntLiveData jarg1_, long jarg2, IntLiveDataObserver jarg2_);
   public final static native void IntLiveData_director_connect(IntLiveData obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void IntLiveData_change_ownership(IntLiveData obj, long cptr, boolean take_or_release);
   public final static native void delete_StringLiveData(long jarg1);
@@ -83,7 +86,9 @@ public class FieldModuleJNI {
   public final static native String StringLiveData_GetValue(long jarg1, StringLiveData jarg1_);
   public final static native String StringLiveData_GetValueSwigExplicitStringLiveData(long jarg1, StringLiveData jarg1_);
   public final static native void StringLiveData_AddObserver(long jarg1, StringLiveData jarg1_, long jarg2, StringLiveDataObserver jarg2_, boolean jarg3);
+  public final static native void StringLiveData_AddObserverSwigExplicitStringLiveData(long jarg1, StringLiveData jarg1_, long jarg2, StringLiveDataObserver jarg2_, boolean jarg3);
   public final static native void StringLiveData_RemoveObserver(long jarg1, StringLiveData jarg1_, long jarg2, StringLiveDataObserver jarg2_);
+  public final static native void StringLiveData_RemoveObserverSwigExplicitStringLiveData(long jarg1, StringLiveData jarg1_, long jarg2, StringLiveDataObserver jarg2_);
   public final static native void StringLiveData_director_connect(StringLiveData obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void StringLiveData_change_ownership(StringLiveData obj, long cptr, boolean take_or_release);
   public final static native void delete_OptionalStringLiveData(long jarg1);
@@ -91,7 +96,9 @@ public class FieldModuleJNI {
   public final static native String OptionalStringLiveData_GetValue(long jarg1, OptionalStringLiveData jarg1_);
   public final static native String OptionalStringLiveData_GetValueSwigExplicitOptionalStringLiveData(long jarg1, OptionalStringLiveData jarg1_);
   public final static native void OptionalStringLiveData_AddObserver(long jarg1, OptionalStringLiveData jarg1_, long jarg2, OptionalStringLiveDataObserver jarg2_, boolean jarg3);
+  public final static native void OptionalStringLiveData_AddObserverSwigExplicitOptionalStringLiveData(long jarg1, OptionalStringLiveData jarg1_, long jarg2, OptionalStringLiveDataObserver jarg2_, boolean jarg3);
   public final static native void OptionalStringLiveData_RemoveObserver(long jarg1, OptionalStringLiveData jarg1_, long jarg2, OptionalStringLiveDataObserver jarg2_);
+  public final static native void OptionalStringLiveData_RemoveObserverSwigExplicitOptionalStringLiveData(long jarg1, OptionalStringLiveData jarg1_, long jarg2, OptionalStringLiveDataObserver jarg2_);
   public final static native void OptionalStringLiveData_director_connect(OptionalStringLiveData obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void OptionalStringLiveData_change_ownership(OptionalStringLiveData obj, long cptr, boolean take_or_release);
   public final static native long new_MutableIntLiveData(int jarg1);
@@ -113,6 +120,9 @@ public class FieldModuleJNI {
   public final static native long IntFiledKey_SWIGSmartPtrUpcast(long jarg1);
   public final static native long StringFiledKey_SWIGSmartPtrUpcast(long jarg1);
   public final static native long OptionalStringFiledKey_SWIGSmartPtrUpcast(long jarg1);
+  public final static native long IntLiveData_SWIGSmartPtrUpcast(long jarg1);
+  public final static native long StringLiveData_SWIGSmartPtrUpcast(long jarg1);
+  public final static native long OptionalStringLiveData_SWIGSmartPtrUpcast(long jarg1);
   public final static native long MutableIntLiveData_SWIGSmartPtrUpcast(long jarg1);
   public final static native long MutableStringLiveData_SWIGSmartPtrUpcast(long jarg1);
   public final static native long MutableOptionalStringLiveData_SWIGSmartPtrUpcast(long jarg1);
@@ -129,20 +139,56 @@ public class FieldModuleJNI {
   public static int SwigDirector_IntLiveData_GetValue(IntLiveData jself) {
     return jself.GetValue();
   }
+  public static void SwigDirector_IntLiveData_AddObserver(IntLiveData jself, long observer, boolean immediately) {
+    jself.AddObserver((observer == 0) ? null : new IntLiveDataObserver(observer, true), immediately);
+  }
+  public static void SwigDirector_IntLiveData_RemoveObserver(IntLiveData jself, long observer) {
+    jself.RemoveObserver((observer == 0) ? null : new IntLiveDataObserver(observer, true));
+  }
   public static String SwigDirector_StringLiveData_GetValue(StringLiveData jself) {
     return jself.GetValue();
+  }
+  public static void SwigDirector_StringLiveData_AddObserver(StringLiveData jself, long observer, boolean immediately) {
+    jself.AddObserver((observer == 0) ? null : new StringLiveDataObserver(observer, true), immediately);
+  }
+  public static void SwigDirector_StringLiveData_RemoveObserver(StringLiveData jself, long observer) {
+    jself.RemoveObserver((observer == 0) ? null : new StringLiveDataObserver(observer, true));
   }
   public static String SwigDirector_OptionalStringLiveData_GetValue(OptionalStringLiveData jself) {
     return jself.GetValue();
   }
+  public static void SwigDirector_OptionalStringLiveData_AddObserver(OptionalStringLiveData jself, long observer, boolean immediately) {
+    jself.AddObserver((observer == 0) ? null : new OptionalStringLiveDataObserver(observer, true), immediately);
+  }
+  public static void SwigDirector_OptionalStringLiveData_RemoveObserver(OptionalStringLiveData jself, long observer) {
+    jself.RemoveObserver((observer == 0) ? null : new OptionalStringLiveDataObserver(observer, true));
+  }
   public static int SwigDirector_MutableIntLiveData_GetValue(MutableIntLiveData jself) {
     return jself.GetValue();
+  }
+  public static void SwigDirector_MutableIntLiveData_AddObserver(MutableIntLiveData jself, long observer, boolean immediately) {
+    jself.AddObserver((observer == 0) ? null : new IntLiveDataObserver(observer, true), immediately);
+  }
+  public static void SwigDirector_MutableIntLiveData_RemoveObserver(MutableIntLiveData jself, long observer) {
+    jself.RemoveObserver((observer == 0) ? null : new IntLiveDataObserver(observer, true));
   }
   public static String SwigDirector_MutableStringLiveData_GetValue(MutableStringLiveData jself) {
     return jself.GetValue();
   }
+  public static void SwigDirector_MutableStringLiveData_AddObserver(MutableStringLiveData jself, long observer, boolean immediately) {
+    jself.AddObserver((observer == 0) ? null : new StringLiveDataObserver(observer, true), immediately);
+  }
+  public static void SwigDirector_MutableStringLiveData_RemoveObserver(MutableStringLiveData jself, long observer) {
+    jself.RemoveObserver((observer == 0) ? null : new StringLiveDataObserver(observer, true));
+  }
   public static String SwigDirector_MutableOptionalStringLiveData_GetValue(MutableOptionalStringLiveData jself) {
     return jself.GetValue();
+  }
+  public static void SwigDirector_MutableOptionalStringLiveData_AddObserver(MutableOptionalStringLiveData jself, long observer, boolean immediately) {
+    jself.AddObserver((observer == 0) ? null : new OptionalStringLiveDataObserver(observer, true), immediately);
+  }
+  public static void SwigDirector_MutableOptionalStringLiveData_RemoveObserver(MutableOptionalStringLiveData jself, long observer) {
+    jself.RemoveObserver((observer == 0) ? null : new OptionalStringLiveDataObserver(observer, true));
   }
 
   private final static native void swig_module_init();

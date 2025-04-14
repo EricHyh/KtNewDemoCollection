@@ -48,9 +48,8 @@ public:
     }
 
     // 移动构造函数
-    JNIGlobalRef(JNIGlobalRef&& other) noexcept : m_ref(other.m_ref) {
-        other.m_ref = nullptr;
-    }
+    JNIGlobalRef(JNIGlobalRef&& other) noexcept
+            : m_ref(std::exchange(other.m_ref, nullptr)) {}
 
     // 移动赋值运算符
     JNIGlobalRef& operator=(JNIGlobalRef&& other) noexcept {
@@ -60,8 +59,7 @@ public:
                 JNIContext context(env);
                 env->DeleteGlobalRef(m_ref);
             }
-            m_ref = other.m_ref;
-            other.m_ref = nullptr;
+            m_ref = std::exchange(other.m_ref, nullptr);
         }
         return *this;
     }

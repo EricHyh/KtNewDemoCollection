@@ -54,6 +54,7 @@
 %feature("nodirector") FiledKey<std::string>;
 %feature("nodirector") FiledKey<std::optional<std::string>>;
 %feature("nodirector") BaseFiledKey;
+%feature("nodirector") IBaseLiveData;
 
 
 %shared_ptr(FiledKey<int>);
@@ -88,6 +89,7 @@
         }
 }
 
+%shared_ptr_wrapper(IBaseLiveData);
 %shared_ptr_wrapper(LiveData<int>);
 %shared_ptr_wrapper(LiveData<std::string>);
 %shared_ptr_wrapper(LiveData<std::optional<std::string>>);

@@ -48,6 +48,36 @@ public class ObserverModuleJNI {
   public final static native long TestObserver2Vector_doSet(long jarg1, TestObserver2Vector jarg1_, int jarg2, long jarg3, TestObserver2Bridge jarg3_);
   public final static native void TestObserver2Vector_doRemoveRange(long jarg1, TestObserver2Vector jarg1_, int jarg2, int jarg3);
   public final static native void delete_TestObserver2Vector(long jarg1);
+  public final static native long new_TestStruct2Vector__SWIG_0();
+  public final static native long new_TestStruct2Vector__SWIG_1(long jarg1, TestStruct2Vector jarg1_);
+  public final static native boolean TestStruct2Vector_isEmpty(long jarg1, TestStruct2Vector jarg1_);
+  public final static native void TestStruct2Vector_clear(long jarg1, TestStruct2Vector jarg1_);
+  public final static native long new_TestStruct2Vector__SWIG_2(int jarg1, long jarg2, TestStruct2 jarg2_);
+  public final static native int TestStruct2Vector_doCapacity(long jarg1, TestStruct2Vector jarg1_);
+  public final static native void TestStruct2Vector_doReserve(long jarg1, TestStruct2Vector jarg1_, int jarg2);
+  public final static native int TestStruct2Vector_doSize(long jarg1, TestStruct2Vector jarg1_);
+  public final static native void TestStruct2Vector_doAdd__SWIG_0(long jarg1, TestStruct2Vector jarg1_, long jarg2, TestStruct2 jarg2_);
+  public final static native void TestStruct2Vector_doAdd__SWIG_1(long jarg1, TestStruct2Vector jarg1_, int jarg2, long jarg3, TestStruct2 jarg3_);
+  public final static native long TestStruct2Vector_doRemove(long jarg1, TestStruct2Vector jarg1_, int jarg2);
+  public final static native long TestStruct2Vector_doGet(long jarg1, TestStruct2Vector jarg1_, int jarg2);
+  public final static native long TestStruct2Vector_doSet(long jarg1, TestStruct2Vector jarg1_, int jarg2, long jarg3, TestStruct2 jarg3_);
+  public final static native void TestStruct2Vector_doRemoveRange(long jarg1, TestStruct2Vector jarg1_, int jarg2, int jarg3);
+  public final static native void delete_TestStruct2Vector(long jarg1);
+  public final static native long new_TestStructVector__SWIG_0();
+  public final static native long new_TestStructVector__SWIG_1(long jarg1, TestStructVector jarg1_);
+  public final static native boolean TestStructVector_isEmpty(long jarg1, TestStructVector jarg1_);
+  public final static native void TestStructVector_clear(long jarg1, TestStructVector jarg1_);
+  public final static native long new_TestStructVector__SWIG_2(int jarg1, long jarg2, TestStruct jarg2_);
+  public final static native int TestStructVector_doCapacity(long jarg1, TestStructVector jarg1_);
+  public final static native void TestStructVector_doReserve(long jarg1, TestStructVector jarg1_, int jarg2);
+  public final static native int TestStructVector_doSize(long jarg1, TestStructVector jarg1_);
+  public final static native void TestStructVector_doAdd__SWIG_0(long jarg1, TestStructVector jarg1_, long jarg2, TestStruct jarg2_);
+  public final static native void TestStructVector_doAdd__SWIG_1(long jarg1, TestStructVector jarg1_, int jarg2, long jarg3, TestStruct jarg3_);
+  public final static native long TestStructVector_doRemove(long jarg1, TestStructVector jarg1_, int jarg2);
+  public final static native long TestStructVector_doGet(long jarg1, TestStructVector jarg1_, int jarg2);
+  public final static native long TestStructVector_doSet(long jarg1, TestStructVector jarg1_, int jarg2, long jarg3, TestStruct jarg3_);
+  public final static native void TestStructVector_doRemoveRange(long jarg1, TestStructVector jarg1_, int jarg2, int jarg3);
+  public final static native void delete_TestStructVector(long jarg1);
   public final static native int TestObserver2Data_a_get(long jarg1, TestObserver2Data jarg1_);
   public final static native long new_TestObserver2Data(int jarg1);
   public final static native void delete_TestObserver2Data(long jarg1);
@@ -82,6 +112,10 @@ public class ObserverModuleJNI {
   public final static native void IObserverManager_removeObserver(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
   public final static native void IObserverManager_addObserver2(long jarg1, IObserverManager jarg1_, long jarg2, ITestObserver2Bridge jarg2_);
   public final static native void IObserverManager_removeObserver2(long jarg1, IObserverManager jarg1_, long jarg2, ITestObserver2Bridge jarg2_);
+  public final static native void IObserverManager_addObserver3(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
+  public final static native void IObserverManager_removeObserver3(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
+  public final static native void IObserverManager_addObserver4(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
+  public final static native void IObserverManager_removeObserver4(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
   public final static native long IObserverManager_add1(long jarg1, IObserverManager jarg1_, long jarg2, long jarg3);
   public final static native long IObserverManager_add11(long jarg1, IObserverManager jarg1_, long jarg2, long jarg3);
   public final static native long IObserverManager_add2(long jarg1, IObserverManager jarg1_, long jarg2, long jarg3);
@@ -112,6 +146,11 @@ public class ObserverModuleJNI {
   public final static native byte[] ObserverManager_byteTest3();
   public final static native long new_ObserverManager();
   public final static native void delete_ObserverManager(long jarg1);
+  public final static native void Test_num_set(long jarg1, Test jarg1_, long jarg2);
+  public final static native long Test_num_get(long jarg1, Test jarg1_);
+  public final static native long new_Test(long jarg1);
+  public final static native void delete_Test(long jarg1);
+  public final static native void test();
   public final static native void JNITestEntrance_testAddObserver(int jarg1);
   public final static native void JNITestEntrance_testRemoveObserver(int jarg1);
   public final static native long new_JNITestEntrance();
@@ -140,6 +179,18 @@ public class ObserverModuleJNI {
   }
   public static void SwigDirector_IObserverManager_removeObserver2(IObserverManager jself, long observer) {
     jself.removeObserver2((observer == 0) ? null : new ITestObserver2Bridge(observer, true));
+  }
+  public static void SwigDirector_IObserverManager_addObserver3(IObserverManager jself, long observer) {
+    jself.addObserver3((observer == 0) ? null : new TestObserverBridge(observer, true));
+  }
+  public static void SwigDirector_IObserverManager_removeObserver3(IObserverManager jself, long observer) {
+    jself.removeObserver3((observer == 0) ? null : new TestObserverBridge(observer, true));
+  }
+  public static void SwigDirector_IObserverManager_addObserver4(IObserverManager jself, long observer) {
+    jself.addObserver4((observer == 0) ? null : new TestObserverBridge(observer, true));
+  }
+  public static void SwigDirector_IObserverManager_removeObserver4(IObserverManager jself, long observer) {
+    jself.removeObserver4((observer == 0) ? null : new TestObserverBridge(observer, true));
   }
   public static long SwigDirector_IObserverManager_add1(IObserverManager jself, long a, long b) {
     return jself.add1(a, b);

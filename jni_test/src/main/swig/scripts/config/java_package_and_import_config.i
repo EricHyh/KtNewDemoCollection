@@ -1,6 +1,7 @@
 #ifndef JAVA_PACKAGE_AND_IMPORT_CONFIG
 #define JAVA_PACKAGE_AND_IMPORT_CONFIG
 
+// 全局搜索，工程配置替换
 
 #define JPAIC_IM(X) import com.hyh.jnitest.##X;
 #define JPAIC_PACKAGE(X) package com.hyh.jnitest.##X;
