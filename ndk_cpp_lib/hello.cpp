@@ -13,6 +13,7 @@
 #include <mutex>
 #include <shared_mutex>
 #include <memory>
+#include <functional>
 
 namespace
 {
@@ -21,36 +22,85 @@ namespace
 
 }
 
-class CFINTimer
+class TestData
 {
-
-public:
-    ~CFINTimer(){
-        printf("~CFINTimer\n");
-    }
-    void good() {
-        printf("good\n");
-    }
-
 };
 
-class CFINTimerWrapper
-{
+// class CFINTimer
+// {
+// public:
+//     ~CFINTimer()
+//     {
+//         printf("~CFINTimer\n");
+//     }
+//     void good()
+//     {
+//         printf("good\n");
+//     }
 
+//     TestData getData()
+//     {
+//         return m_data;
+//     }
+
+// private:
+//     TestData m_data;
+// };
+
+// class CFINTimerWrapper
+// {
+
+// public:
+//     std::shared_ptr<CFINTimer> m_timer;
+//     ~CFINTimerWrapper()
+//     {
+//         // if (auto sharedPtr = m_timer.lock()) {
+//         //     sharedPtr->good();
+//         // }
+//         printf("~CFINTimerWrapper\n");
+//     }
+// };
+
+
+
+class SharedPtrData{
 public:
-    std::shared_ptr<CFINTimer> m_timer;
-    ~CFINTimerWrapper(){
-        // if (auto sharedPtr = m_timer.lock()) {
-        //     sharedPtr->good();
-        // }
-        printf("~CFINTimerWrapper\n");
+    SharedPtrData() = default;
+
+    ~SharedPtrData() = default;
+
+    SharedPtrData(SharedPtrData&& other){
+        cout << "SharedPtrData 移动构造" << endl;
+    }
+    
+    SharedPtrData &operator=(SharedPtrData&& other){
+        cout << "SharedPtrData 移动赋值" << endl;
     }
 };
+
 
 int main()
 {
-    std::shared_mutex mutex1;
-    std::mutex mutex2;
+
+
+    {
+        auto func1 = [data = std::make_shared<SharedPtrData>()](){
+            cout << "func1" << endl;
+        };
+    
+        auto func2 = [func1 = std::move(func1)](){
+            func1();
+            cout << "func2" << endl;
+        };
+    
+        func2();
+    }
+
+
+
+    // std::shared_mutex mutex1;
+    // std::recursive_mutex mutex1;
+    // std::mutex mutex2;
     // Circle c(3);
     // // cout<<"Area="<<c.Area()<<endl;
     // cout << "Area=" << 3.14 << endl;
@@ -69,15 +119,19 @@ int main()
     // std::unique_lock<std::shared_mutex> lock(mutex);
     // printf("after lock3\n");
 
-    std::lock_guard<std::mutex> lock1(mutex2);
-    printf("after lock1\n");
+    // std::lock_guard<std::mutex> lock1(mutex2);
+    // printf("after lock1\n");
 
-    {
-        CFINTimerWrapper timerWrapper;
-        timerWrapper.m_timer = std::make_shared<CFINTimer>();
-    }
+    // {
+    //     CFINTimerWrapper timerWrapper;
+    //     timerWrapper.m_timer = std::make_shared<CFINTimer>();
+    // }
 
-    printf("after lock2\n");
+    // printf("after lock2\n");
+
+    // CFINTimer timer;
+    // TestData data = timer.getData();
+    // const TestData& data = timer.getData();
 
     return 0;
 }
