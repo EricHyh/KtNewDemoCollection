@@ -19,9 +19,21 @@ data class BasicTradeAbility(
     val timeInForce: List<Int>,
     val orderSideType: List<Int>,
     val quantityType: List<Int>,
-
-
 )
+
+enum class PropType(val value: Int) {
+    Category(0),
+    TimeType(1),
+    OrderType(2),
+    TimeInForce(3),
+    OrderSideType(4),
+    QuantityType(5),
+}
+
+data class BasicTradeAbility2(
+    val map: Map<PropType, List<Int>>
+)
+
 
 enum class FilterType(val value: Int) {
     BlackList(0),
@@ -34,15 +46,6 @@ enum class FilterType(val value: Int) {
 //        val margin;
 //        )
 
-
-enum class PropType(val value: Int) {
-    Category(0),
-    TimeType(1),
-    OrderType(2),
-    TimeInForce(3),
-    OrderSideType(4),
-    QuantityType(5),
-}
 
 data class Filter(
     val filterType: FilterType,
@@ -111,5 +114,23 @@ class TradeAbilitySpace(
 
 
 fun combine(abilities: List<BasicTradeAbility>) {
+
+}
+
+
+interface IBizAbility<Param, Ability> {
+
+    fun getSupportedAbilities(param: Param): List<Ability>
+
+    fun isMatched(param: Param): Boolean
+
+
+}
+
+
+
+
+interface BlackList {
+    fun isInList(properties: List<PropType>): Boolean
 
 }
