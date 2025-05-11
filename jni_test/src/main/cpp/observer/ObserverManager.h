@@ -76,14 +76,6 @@ public:
 
     virtual void removeObserver2(std::shared_ptr<ITestObserver2> observer) = 0;
 
-    virtual void addObserver3(TestObserver* observer) = 0;
-
-    virtual void removeObserver3(TestObserver* observer) = 0;
-
-    virtual void addObserver4(TestObserver& observer) = 0;
-
-    virtual void removeObserver4(TestObserver& observer) = 0;
-
     virtual int64_t add1(int64_t a, int64_t b) = 0;
 
     virtual long long add11(long long a, long long b) = 0;
@@ -151,19 +143,19 @@ private:
 //};
 
 
-struct Test {
-    int &num;
+//struct Test {
+//    int &num;
+//
+//    Test(int &num) : num(num) {}
+//};
 
-    Test(int &num) : num(num) {}
-};
-
-void test() {
-    int a = 10;
-    Test test1(a);
-    a = 100;
-
-    std::function<void()> func = [test1]() {
-        test1.num = 300;
-    };
-    func();
-}
+//void test() {
+//    int a = 10;
+//    Test test1(a);
+//    a = 100;
+//
+//    std::function<void()> func = [test1]() {
+//        test1.num = 300;
+//    };
+//    func();
+//}

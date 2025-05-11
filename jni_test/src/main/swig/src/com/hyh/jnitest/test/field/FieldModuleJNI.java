@@ -46,7 +46,6 @@ public class FieldModuleJNI {
   public final static native long BaseFiledKeyVector_doSet(long jarg1, BaseFiledKeyVector jarg1_, int jarg2, long jarg3, BaseFiledKey jarg3_);
   public final static native void BaseFiledKeyVector_doRemoveRange(long jarg1, BaseFiledKeyVector jarg1_, int jarg2, int jarg3);
   public final static native void delete_BaseFiledKeyVector(long jarg1);
-  public final static native void delete_IBaseLiveData(long jarg1);
   public final static native long price_get();
   public final static native long name_get();
   public final static native long description_get();
@@ -120,9 +119,6 @@ public class FieldModuleJNI {
   public final static native long IntFiledKey_SWIGSmartPtrUpcast(long jarg1);
   public final static native long StringFiledKey_SWIGSmartPtrUpcast(long jarg1);
   public final static native long OptionalStringFiledKey_SWIGSmartPtrUpcast(long jarg1);
-  public final static native long IntLiveData_SWIGSmartPtrUpcast(long jarg1);
-  public final static native long StringLiveData_SWIGSmartPtrUpcast(long jarg1);
-  public final static native long OptionalStringLiveData_SWIGSmartPtrUpcast(long jarg1);
   public final static native long MutableIntLiveData_SWIGSmartPtrUpcast(long jarg1);
   public final static native long MutableStringLiveData_SWIGSmartPtrUpcast(long jarg1);
   public final static native long MutableOptionalStringLiveData_SWIGSmartPtrUpcast(long jarg1);

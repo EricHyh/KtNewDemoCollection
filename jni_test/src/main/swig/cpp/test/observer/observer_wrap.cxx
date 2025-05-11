@@ -13,7 +13,7 @@
 namespace Swig {
   namespace {
     jclass jclass_ObserverModuleJNI = NULL;
-    jmethodID director_method_ids[23];
+    jmethodID director_method_ids[19];
   }
 }
 
@@ -845,110 +845,6 @@ void SwigDirector_IObserverManager::removeObserver2(std::shared_ptr< ITestObserv
   if (swigjobj) jenv->DeleteLocalRef(swigjobj);
 }
 
-void SwigDirector_IObserverManager::addObserver3(TestObserver *observer) {
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  jlong jobserver = 0 ;
-  
-  if (!swig_override[4]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::addObserver3.");
-    return;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    *((TestObserver **)&jobserver) = (TestObserver *) observer; 
-    jenv->CallStaticVoidMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[8], swigjobj, jobserver);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::addObserver3 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-}
-
-void SwigDirector_IObserverManager::removeObserver3(TestObserver *observer) {
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  jlong jobserver = 0 ;
-  
-  if (!swig_override[5]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::removeObserver3.");
-    return;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    *((TestObserver **)&jobserver) = (TestObserver *) observer; 
-    jenv->CallStaticVoidMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[9], swigjobj, jobserver);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::removeObserver3 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-}
-
-void SwigDirector_IObserverManager::addObserver4(TestObserver &observer) {
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  jlong jobserver = 0 ;
-  
-  if (!swig_override[6]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::addObserver4.");
-    return;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    TestObserverBridge *function_bridge1 = new TestObserverBridge4DI(observer);
-    *(std::shared_ptr<TestObserverBridge> **) &jobserver = new std::shared_ptr<TestObserverBridge>(function_bridge1);
-    
-    jenv->CallStaticVoidMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[10], swigjobj, jobserver);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::addObserver4 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-}
-
-void SwigDirector_IObserverManager::removeObserver4(TestObserver &observer) {
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  jlong jobserver = 0 ;
-  
-  if (!swig_override[7]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::removeObserver4.");
-    return;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    TestObserverBridge *function_bridge1 = new TestObserverBridge4DI(observer);
-    *(std::shared_ptr<TestObserverBridge> **) &jobserver = new std::shared_ptr<TestObserverBridge>(function_bridge1);
-    
-    jenv->CallStaticVoidMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[11], swigjobj, jobserver);
-    jthrowable swigerror = jenv->ExceptionOccurred();
-    if (swigerror) {
-      Swig::DirectorException::raise(jenv, swigerror);
-    }
-    
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::removeObserver4 ");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-}
-
 int64_t SwigDirector_IObserverManager::add1(int64_t a,int64_t b) {
   int64_t c_result = SwigValueInit< int64_t >() ;
   jlong jresult = 0 ;
@@ -958,7 +854,7 @@ int64_t SwigDirector_IObserverManager::add1(int64_t a,int64_t b) {
   jlong ja  ;
   jlong jb  ;
   
-  if (!swig_override[8]) {
+  if (!swig_override[4]) {
     SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::add1.");
     return c_result;
   }
@@ -969,7 +865,7 @@ int64_t SwigDirector_IObserverManager::add1(int64_t a,int64_t b) {
     
     jb = b;
     
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[12], swigjobj, ja, jb);
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[8], swigjobj, ja, jb);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -994,7 +890,7 @@ long long SwigDirector_IObserverManager::add11(long long a,long long b) {
   jlong ja  ;
   jlong jb  ;
   
-  if (!swig_override[9]) {
+  if (!swig_override[5]) {
     SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::add11.");
     return c_result;
   }
@@ -1002,7 +898,7 @@ long long SwigDirector_IObserverManager::add11(long long a,long long b) {
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
     ja = (jlong) a;
     jb = (jlong) b;
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[13], swigjobj, ja, jb);
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[9], swigjobj, ja, jb);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1025,7 +921,7 @@ int64_t SwigDirector_IObserverManager::add2(int64_t const &a,int64_t const &b) {
   jlong ja = 0 ;
   jlong jb = 0 ;
   
-  if (!swig_override[10]) {
+  if (!swig_override[6]) {
     SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::add2.");
     return c_result;
   }
@@ -1036,7 +932,7 @@ int64_t SwigDirector_IObserverManager::add2(int64_t const &a,int64_t const &b) {
     
     jb = b;
     
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[14], swigjobj, ja, jb);
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[10], swigjobj, ja, jb);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1061,7 +957,7 @@ long long SwigDirector_IObserverManager::add22(long long const &a,long long cons
   jlong ja = 0 ;
   jlong jb = 0 ;
   
-  if (!swig_override[11]) {
+  if (!swig_override[7]) {
     SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::add22.");
     return c_result;
   }
@@ -1069,7 +965,7 @@ long long SwigDirector_IObserverManager::add22(long long const &a,long long cons
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
     ja = (jlong)a;
     jb = (jlong)b;
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[15], swigjobj, ja, jb);
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[11], swigjobj, ja, jb);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1092,7 +988,7 @@ std::optional< int64_t > SwigDirector_IObserverManager::add3(std::optional< int6
   jlong ja  ;
   jlong jb  ;
   
-  if (!swig_override[12]) {
+  if (!swig_override[8]) {
     SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::add3.");
     return c_result;
   }
@@ -1111,7 +1007,7 @@ std::optional< int64_t > SwigDirector_IObserverManager::add3(std::optional< int6
       jb = 0;
     }
     
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[16], swigjobj, ja, jb);
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[12], swigjobj, ja, jb);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1136,7 +1032,7 @@ std::optional< int64_t > SwigDirector_IObserverManager::add33(std::optional< int
   jlong ja = 0 ;
   jlong jb = 0 ;
   
-  if (!swig_override[13]) {
+  if (!swig_override[9]) {
     SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::add33.");
     return c_result;
   }
@@ -1155,7 +1051,7 @@ std::optional< int64_t > SwigDirector_IObserverManager::add33(std::optional< int
       jb = 0;
     }
     
-    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[17], swigjobj, ja, jb);
+    jresult = (jlong) jenv->CallStaticLongMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[13], swigjobj, ja, jb);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1177,7 +1073,7 @@ void SwigDirector_IObserverManager::byteTest1(std::vector< uint8_t > byteArray) 
   jobject swigjobj = (jobject) NULL ;
   jbyteArray jbyteArray  ;
   
-  if (!swig_override[14]) {
+  if (!swig_override[10]) {
     SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::byteTest1.");
     return;
   }
@@ -1187,7 +1083,7 @@ void SwigDirector_IObserverManager::byteTest1(std::vector< uint8_t > byteArray) 
     jbyteArray = jenv->NewByteArray(size);
     jenv->SetByteArrayRegion(jbyteArray, 0, size, (jbyte*)(&byteArray)->data());
     
-    jenv->CallStaticVoidMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[18], swigjobj, jbyteArray);
+    jenv->CallStaticVoidMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[14], swigjobj, jbyteArray);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1205,7 +1101,7 @@ void SwigDirector_IObserverManager::byteTest2(std::vector< uint8_t > const &byte
   jobject swigjobj = (jobject) NULL ;
   jbyteArray jbyteArray = 0 ;
   
-  if (!swig_override[15]) {
+  if (!swig_override[11]) {
     SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::byteTest2.");
     return;
   }
@@ -1215,7 +1111,7 @@ void SwigDirector_IObserverManager::byteTest2(std::vector< uint8_t > const &byte
     jbyteArray = jenv->NewByteArray(size);
     jenv->SetByteArrayRegion(jbyteArray, 0, size, (jbyte*)(&byteArray)->data());
     
-    jenv->CallStaticVoidMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[19], swigjobj, jbyteArray);
+    jenv->CallStaticVoidMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[15], swigjobj, jbyteArray);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1234,13 +1130,13 @@ std::vector< uint8_t > SwigDirector_IObserverManager::byteTest3() {
   JNIEnv * jenv = swigjnienv.getJNIEnv() ;
   jobject swigjobj = (jobject) NULL ;
   
-  if (!swig_override[16]) {
+  if (!swig_override[12]) {
     SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::byteTest3.");
     return c_result;
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jbyteArray) jenv->CallStaticObjectMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[20], swigjobj);
+    jresult = (jbyteArray) jenv->CallStaticObjectMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[16], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1266,7 +1162,7 @@ void SwigDirector_IObserverManager::setTestObserver2List(std::vector< TestObserv
   jobject swigjobj = (jobject) NULL ;
   jlong jarg0  ;
   
-  if (!swig_override[17]) {
+  if (!swig_override[13]) {
     SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::setTestObserver2List.");
     return;
   }
@@ -1274,7 +1170,7 @@ void SwigDirector_IObserverManager::setTestObserver2List(std::vector< TestObserv
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
     jarg0 = 0;
     *((std::vector< TestObserver2 > **)&jarg0) = new std::vector< TestObserver2 >(SWIG_STD_MOVE(arg0)); 
-    jenv->CallStaticVoidMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[21], swigjobj, jarg0);
+    jenv->CallStaticVoidMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[17], swigjobj, jarg0);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1293,13 +1189,13 @@ TestEnum1 SwigDirector_IObserverManager::optionalEnum33() {
   JNIEnv * jenv = swigjnienv.getJNIEnv() ;
   jobject swigjobj = (jobject) NULL ;
   
-  if (!swig_override[18]) {
+  if (!swig_override[14]) {
     SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::optionalEnum33.");
     return c_result;
   }
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[22], swigjobj);
+    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[18], swigjobj);
     jthrowable swigerror = jenv->ExceptionOccurred();
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
@@ -1321,10 +1217,6 @@ void SwigDirector_IObserverManager::swig_connect_director(JNIEnv *jenv, jobject 
     SwigDirectorMethod(jenv, baseclass, "removeObserver", "(Lcom/hyh/jnitest/test/observer/TestObserverBridge;)V"),
     SwigDirectorMethod(jenv, baseclass, "addObserver2", "(Lcom/hyh/jnitest/test/observer/ITestObserver2Bridge;)V"),
     SwigDirectorMethod(jenv, baseclass, "removeObserver2", "(Lcom/hyh/jnitest/test/observer/ITestObserver2Bridge;)V"),
-    SwigDirectorMethod(jenv, baseclass, "addObserver3", "(Lcom/hyh/jnitest/test/observer/SWIGTYPE_p_std__functionT_void_fint_const_RF_t;)V"),
-    SwigDirectorMethod(jenv, baseclass, "removeObserver3", "(Lcom/hyh/jnitest/test/observer/SWIGTYPE_p_std__functionT_void_fint_const_RF_t;)V"),
-    SwigDirectorMethod(jenv, baseclass, "addObserver4", "(Lcom/hyh/jnitest/test/observer/TestObserverBridge;)V"),
-    SwigDirectorMethod(jenv, baseclass, "removeObserver4", "(Lcom/hyh/jnitest/test/observer/TestObserverBridge;)V"),
     SwigDirectorMethod(jenv, baseclass, "add1", "(JJ)J"),
     SwigDirectorMethod(jenv, baseclass, "add11", "(JJ)J"),
     SwigDirectorMethod(jenv, baseclass, "add2", "(JJ)J"),
@@ -1340,7 +1232,7 @@ void SwigDirector_IObserverManager::swig_connect_director(JNIEnv *jenv, jobject 
   
   if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
     bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
-    for (int i = 0; i < 19; ++i) {
+    for (int i = 0; i < 15; ++i) {
       swig_override[i] = false;
       if (derived) {
         jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
@@ -3098,78 +2990,6 @@ SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_IOb
 }
 
 
-SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_IObserverManager_1addObserver3(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  TestObserver *arg2 = (TestObserver *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  
-  std::shared_ptr<TestObserverBridge> *smartarg2 = *(std::shared_ptr<TestObserverBridge> **)&jarg2;
-  auto original2 = TestObserverBridge::obtainOriginal(jenv, smartarg2, jarg2_);
-  arg2 = &original2;
-  
-  (arg1)->addObserver3(arg2);
-}
-
-
-SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_IObserverManager_1removeObserver3(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  TestObserver *arg2 = (TestObserver *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  
-  std::shared_ptr<TestObserverBridge> *smartarg2 = *(std::shared_ptr<TestObserverBridge> **)&jarg2;
-  auto original2 = TestObserverBridge::obtainOriginal(jenv, smartarg2, jarg2_);
-  arg2 = &original2;
-  
-  (arg1)->removeObserver3(arg2);
-}
-
-
-SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_IObserverManager_1addObserver4(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  TestObserver *arg2 = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  
-  std::shared_ptr<TestObserverBridge> *smartarg2 = *(std::shared_ptr<TestObserverBridge> **)&jarg2;
-  auto original2 = TestObserverBridge::obtainOriginal(jenv, smartarg2, jarg2_);
-  arg2 = &original2;
-  
-  (arg1)->addObserver4(*arg2);
-}
-
-
-SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_IObserverManager_1removeObserver4(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  IObserverManager *arg1 = (IObserverManager *) 0 ;
-  TestObserver *arg2 = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(IObserverManager **)&jarg1; 
-  
-  std::shared_ptr<TestObserverBridge> *smartarg2 = *(std::shared_ptr<TestObserverBridge> **)&jarg2;
-  auto original2 = TestObserverBridge::obtainOriginal(jenv, smartarg2, jarg2_);
-  arg2 = &original2;
-  
-  (arg1)->removeObserver4(*arg2);
-}
-
-
 SWIGEXPORT jlong JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_IObserverManager_1add1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jlong jarg3) {
   jlong jresult = 0 ;
   IObserverManager *arg1 = (IObserverManager *) 0 ;
@@ -3739,73 +3559,6 @@ SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_del
 }
 
 
-SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_Test_1num_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
-  Test *arg1 = (Test *) 0 ;
-  int *arg2 = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Test **)&jarg1; 
-  arg2 = *(int **)&jarg2;
-  if (!arg2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "int & is null");
-    return ;
-  } 
-  if (arg1) (arg1)->num = *arg2;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_Test_1num_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  Test *arg1 = (Test *) 0 ;
-  int *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Test **)&jarg1; 
-  result = (int *) &(int &) ((arg1)->num);
-  *(int **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_new_1Test(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  jlong jresult = 0 ;
-  int *arg1 = 0 ;
-  Test *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(int **)&jarg1;
-  if (!arg1) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "int & is null");
-    return 0;
-  } 
-  result = (Test *)new Test(*arg1);
-  *(Test **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_delete_1Test(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  Test *arg1 = (Test *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(Test **)&jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_test(JNIEnv *jenv, jclass jcls) {
-  (void)jenv;
-  (void)jcls;
-  test();
-}
-
-
 SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_JNITestEntrance_1testAddObserver(JNIEnv *jenv, jclass jcls, jint jarg1) {
   int arg1 ;
   
@@ -3854,12 +3607,12 @@ SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_swi
   static struct {
     const char *method;
     const char *signature;
-  } methods[23] = {
+  } methods[19] = {
     {
-      "SwigDirector_TestObserverBridge_onCall", "(LTestObserverBridge;I)V" 
+      "SwigDirector_TestObserverBridge_onCall", "(Lcom/hyh/jnitest/test/observer/TestObserverBridge;I)V" 
     },
     {
-      "SwigDirector_TestObserver2Bridge_onCall", "(LTestObserver2Bridge;J)V" 
+      "SwigDirector_TestObserver2Bridge_onCall", "(Lcom/hyh/jnitest/test/observer/TestObserver2Bridge;J)V" 
     },
     {
       "SwigDirector_ITestObserver2Bridge_onCall", "(Lcom/hyh/jnitest/test/observer/ITestObserver2Bridge;I)V" 
@@ -3878,18 +3631,6 @@ SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_swi
     },
     {
       "SwigDirector_IObserverManager_removeObserver2", "(Lcom/hyh/jnitest/test/observer/IObserverManager;J)V" 
-    },
-    {
-      "SwigDirector_IObserverManager_addObserver3", "(Lcom/hyh/jnitest/test/observer/IObserverManager;J)V" 
-    },
-    {
-      "SwigDirector_IObserverManager_removeObserver3", "(Lcom/hyh/jnitest/test/observer/IObserverManager;J)V" 
-    },
-    {
-      "SwigDirector_IObserverManager_addObserver4", "(Lcom/hyh/jnitest/test/observer/IObserverManager;J)V" 
-    },
-    {
-      "SwigDirector_IObserverManager_removeObserver4", "(Lcom/hyh/jnitest/test/observer/IObserverManager;J)V" 
     },
     {
       "SwigDirector_IObserverManager_add1", "(Lcom/hyh/jnitest/test/observer/IObserverManager;JJ)J" 

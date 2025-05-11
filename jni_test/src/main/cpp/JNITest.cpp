@@ -11,6 +11,7 @@
 #include "TestUtil.h"
 #include "JNIContext.h"
 #include "observer/ObserverManager.h"
+#include "field/MediatorLiveData.h"
 
 
 class Empty1 {
@@ -113,6 +114,7 @@ void RunTest() {
     if(auto data = env.GetData()) { // 正确检查并访问
         data->name;
     }
+//    testMutableLiveData();
 }
 
 

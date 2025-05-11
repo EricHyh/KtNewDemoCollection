@@ -11,6 +11,7 @@
 #include <optional>
 #include <any>
 #include <iostream>
+#include <tuple>
 
 template<class Value>
 using LiveDataObserver = std::function<void(const Value &)>;
@@ -33,28 +34,31 @@ using LiveDataObserver = std::function<void(const Value &)>;
 //};
 
 
-class IBaseLiveData {
-public:
-    virtual ~IBaseLiveData() = default;
-
-private:
-    template<class T>
-    friend class MediatorLiveData;
-
-    virtual std::any GetValueAsAny() = 0;
-
+//class IBaseLiveData {
+//public:
+//    virtual ~IBaseLiveData() = default;
+//
+//private:
+//    template<class T>
+//    friend
+//    class MediatorLiveData;
+//
+//    virtual std::any GetValueAsAny() = 0;
+//
 //    virtual void AddAnyValueObserver(std::shared_ptr<AnyLiveDataObserver> observer) = 0;
 //
 //    virtual void RemoveAnyValueObserver(std::shared_ptr<AnyLiveDataObserver> observer) = 0;
-};
+//};
 
 template<class Value>
-class LiveData : public IBaseLiveData
-        {
+class LiveData {
 public:
+
+    typedef Value value_type;
+
     LiveData() = delete;
 
-    virtual ~LiveData() override = default;
+    virtual ~LiveData() = default;
 
     explicit LiveData(Value value) : m_value(std::move(value)) {}
 
@@ -85,7 +89,7 @@ public:
         std::unique_lock<std::shared_mutex> lock(m_observerMutex);
         m_observers.erase(
                 std::remove_if(m_observers.begin(), m_observers.end(),
-                               [&observer](const auto& weakObs) {
+                               [&observer](const auto &weakObs) {
                                    auto sharedObs = weakObs.lock();
                                    return !sharedObs || sharedObs.get() == observer.get(); // 比较原始指针
                                }),
@@ -94,7 +98,7 @@ public:
     }
 
 protected:
-    void SetValueInternal(const Value& value, bool force = false) {
+    void SetValueInternal(const Value &value, bool force = false) {
         bool updated = false;
         {
             std::unique_lock<std::shared_mutex> lock(m_valueMutex);
@@ -105,7 +109,7 @@ protected:
         }
 
         if (updated) {
-            NotifyObservers( value);
+            NotifyObservers(value);
         }
     }
 
@@ -140,10 +144,10 @@ private:
                 m_observers.end()
         );
     }
-
-    std::any GetValueAsAny() override {
-        return m_value;
-    }
+//
+//    std::any GetValueAsAny() override {
+//        return m_value;
+//    }
 
 //    void AddAnyValueObserver(std::shared_ptr<AnyLiveDataObserver> observer) override{
 //        std::shared_ptr<LiveDataObserver<Value>> binding = std::make_shared<LiveDataObserver<Value>>(
@@ -173,10 +177,11 @@ public:
 
     explicit MutableLiveData(Value value) : LiveData<Value>(value) {}
 
-    void SetValue(const Value& value) {
+    void SetValue(const Value &value) {
         LiveData<Value>::SetValueInternal(value);
     }
 };
+
 //
 //
 //template<class Value>
@@ -256,80 +261,3 @@ public:
 //};
 //
 //
-//template<class T, class... Sources>
-//class NullSafetyMediatorLiveData : public LiveData<T> {
-//public:
-//    NullSafetyMediatorLiveData(
-//            std::tuple<std::shared_ptr<Sources>...> sources, // 接受智能指针
-//            std::function<T(const std::tuple<typename Sources::value_type...> &)> calculate,
-//            bool updateOnlyChanged = true,
-//            std::function<bool(const T &, const T &)> isValueEquals = [](const T &a, const T &b) { return a == b; }
-//    ) : LiveData<T>(calculate(GetValueTupleImpl(sources, std::make_index_sequence<sizeof...(Sources)>{}))),
-//        m_sources(sources),
-//        m_calculate(calculate),
-//        m_updateOnlyChanged(updateOnlyChanged),
-//        m_isValueEquals(isValueEquals) {
-//        AddSourcesImpl(sources, std::make_index_sequence<sizeof...(Sources)>{});
-//    }
-//
-//private:
-//    using SourcesTuple = std::tuple<std::shared_ptr<Sources>...>;
-//    SourcesTuple m_sources;
-//    std::function<T(const std::tuple<typename Sources::value_type...> &)> m_calculate;
-//    bool m_updateOnlyChanged;
-//    std::function<bool(const T &, const T &)> m_isValueEquals;
-//
-//    void UpdateValue() {
-//        auto values = GetValueTuple();
-//        auto newValue = m_calculate(values);
-//
-//        if (m_updateOnlyChanged) {
-//            auto oldValue = this->GetValue();
-//            if (m_isValueEquals(oldValue, newValue)) {
-//                return;
-//            }
-//        }
-//
-//        this->SetValueInternal(newValue);
-//    }
-//
-//    template<size_t... I>
-//    auto GetValueTupleImpl(const SourcesTuple &sources, std::index_sequence<I...>) {
-//        return std::make_tuple(std::get<I>(sources)->GetValue()...);
-//    }
-//
-//    auto GetValueTuple() {
-//        return GetValueTupleImpl(m_sources, std::make_index_sequence<sizeof...(Sources)>{});
-//    }
-//
-//    template<size_t... I>
-//    void AddSourcesImpl(const SourcesTuple &sources, std::index_sequence<I...>) {
-//        (std::get<I>(sources)->AddObserver(
-//                std::make_shared<LiveDataObserver<
-//                        typename std::tuple_element_t<I, SourcesTuple>::element_type::value_type
-//                >>([this](const auto &value) { UpdateValue(); }), false
-//        ), ...);
-//    }
-//};
-//
-//
-//void test() {
-//    auto source1 = std::make_shared<MutableLiveData<int>>(1);
-//    auto source2 = std::make_shared<MutableLiveData<double>>(2.0);
-//
-//    auto mediator = std::shared_ptr<NullSafetyMediatorLiveData<int, MutableLiveData<int>, MutableLiveData<double>>>(
-//            new NullSafetyMediatorLiveData<int, MutableLiveData<int>, MutableLiveData<double>>(
-//                    std::make_tuple(source1, source2), // 直接传递智能指针
-//                    [](const std::tuple<int, double> &values) {
-//                        return static_cast<int>(std::get<0>(values) + std::get<1>(values));
-//                    }
-//            )
-//    );
-//
-//    mediator->AddObserver(std::make_shared<LiveDataObserver<int>>([](const int &value) {
-//        std::cout << "Value updated: " << value << std::endl;
-//    }), true);
-//
-//    source1->SetValue(3);
-//    source2->SetValue(4.0);
-//}

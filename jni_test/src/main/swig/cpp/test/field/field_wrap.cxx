@@ -2083,19 +2083,6 @@ SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_field_FieldModuleJNI_delete_1B
 }
 
 
-SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_field_FieldModuleJNI_delete_1IBaseLiveData(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  IBaseLiveData *arg1 = (IBaseLiveData *) 0 ;
-  std::shared_ptr< IBaseLiveData > *smartarg1 = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  
-  smartarg1 = *(std::shared_ptr<  IBaseLiveData > **)&jarg1;
-  arg1 = (IBaseLiveData *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
-}
-
-
 SWIGEXPORT jlong JNICALL Java_com_hyh_jnitest_test_field_FieldModuleJNI_price_1get(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
   FiledKey< int > *result = 0 ;
@@ -3330,36 +3317,6 @@ SWIGEXPORT jlong JNICALL Java_com_hyh_jnitest_test_field_FieldModuleJNI_Optional
     (void)jcls;
     argp1 = *(std::shared_ptr< FiledKey< std::optional< std::string > > > **)&jarg1;
     *(std::shared_ptr< BaseFiledKey > **)&baseptr = argp1 ? new std::shared_ptr< BaseFiledKey >(*argp1) : 0;
-    return baseptr;
-}
-
-SWIGEXPORT jlong JNICALL Java_com_hyh_jnitest_test_field_FieldModuleJNI_IntLiveData_1SWIGSmartPtrUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-    jlong baseptr = 0;
-    std::shared_ptr< LiveData< int > > *argp1;
-    (void)jenv;
-    (void)jcls;
-    argp1 = *(std::shared_ptr< LiveData< int > > **)&jarg1;
-    *(std::shared_ptr< IBaseLiveData > **)&baseptr = argp1 ? new std::shared_ptr< IBaseLiveData >(*argp1) : 0;
-    return baseptr;
-}
-
-SWIGEXPORT jlong JNICALL Java_com_hyh_jnitest_test_field_FieldModuleJNI_StringLiveData_1SWIGSmartPtrUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-    jlong baseptr = 0;
-    std::shared_ptr< LiveData< std::string > > *argp1;
-    (void)jenv;
-    (void)jcls;
-    argp1 = *(std::shared_ptr< LiveData< std::string > > **)&jarg1;
-    *(std::shared_ptr< IBaseLiveData > **)&baseptr = argp1 ? new std::shared_ptr< IBaseLiveData >(*argp1) : 0;
-    return baseptr;
-}
-
-SWIGEXPORT jlong JNICALL Java_com_hyh_jnitest_test_field_FieldModuleJNI_OptionalStringLiveData_1SWIGSmartPtrUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-    jlong baseptr = 0;
-    std::shared_ptr< LiveData< std::optional< std::string > > > *argp1;
-    (void)jenv;
-    (void)jcls;
-    argp1 = *(std::shared_ptr< LiveData< std::optional< std::string > > > **)&jarg1;
-    *(std::shared_ptr< IBaseLiveData > **)&baseptr = argp1 ? new std::shared_ptr< IBaseLiveData >(*argp1) : 0;
     return baseptr;
 }
 

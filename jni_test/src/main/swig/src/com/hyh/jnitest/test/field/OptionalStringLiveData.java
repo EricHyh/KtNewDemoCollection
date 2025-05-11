@@ -12,13 +12,12 @@ package com.hyh.jnitest.test.field;
 
 
 
-public class OptionalStringLiveData extends IBaseLiveData {
+public class OptionalStringLiveData {
   private transient long swigCPtr;
-  private transient boolean swigCMemOwnDerived;
+  private transient boolean swigCMemOwn;
 
   public OptionalStringLiveData(long cPtr, boolean cMemoryOwn) {
-    super(com.hyh.jnitest.test.field.FieldModuleJNI.OptionalStringLiveData_SWIGSmartPtrUpcast(cPtr), true);
-    swigCMemOwnDerived = cMemoryOwn;
+    swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
   }
 
@@ -27,8 +26,7 @@ public class OptionalStringLiveData extends IBaseLiveData {
   }
 
   public void swigSetCMemOwn(boolean own) {
-    swigCMemOwnDerived = own;
-    super.swigSetCMemOwn(own);
+    swigCMemOwn = own;
   }
 
   @SuppressWarnings({"deprecation", "removal"})
@@ -38,13 +36,12 @@ public class OptionalStringLiveData extends IBaseLiveData {
 
   public synchronized void delete() {
     if (swigCPtr != 0) {
-      if (swigCMemOwnDerived) {
-        swigCMemOwnDerived = false;
+      if (swigCMemOwn) {
+        swigCMemOwn = false;
         com.hyh.jnitest.test.field.FieldModuleJNI.delete_OptionalStringLiveData(swigCPtr);
       }
       swigCPtr = 0;
     }
-    super.delete();
   }
 
   protected void swigDirectorDisconnect() {

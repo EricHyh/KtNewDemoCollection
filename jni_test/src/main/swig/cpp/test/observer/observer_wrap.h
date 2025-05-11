@@ -65,10 +65,6 @@ public:
     virtual void removeObserver(std::shared_ptr< TestObserver > observer);
     virtual void addObserver2(std::shared_ptr< ITestObserver2 > observer);
     virtual void removeObserver2(std::shared_ptr< ITestObserver2 > observer);
-    virtual void addObserver3(TestObserver *observer);
-    virtual void removeObserver3(TestObserver *observer);
-    virtual void addObserver4(TestObserver &observer);
-    virtual void removeObserver4(TestObserver &observer);
     virtual int64_t add1(int64_t a,int64_t b);
     virtual long long add11(long long a,long long b);
     virtual int64_t add2(int64_t const &a,int64_t const &b);
@@ -82,10 +78,10 @@ public:
     virtual TestEnum1 optionalEnum33();
 public:
     bool swig_overrides(int n) {
-      return (n < 19 ? swig_override[n] : false);
+      return (n < 15 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<19> swig_override;
+    Swig::BoolArray<15> swig_override;
 };
 
 

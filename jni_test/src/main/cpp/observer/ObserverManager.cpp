@@ -4,6 +4,7 @@
 
 #include "ObserverManager.h"
 #include "../TestUtil.h"
+#include "field/MediatorLiveData.h"
 
 IObserverManager *ObserverManager::s_manager = nullptr;
 
@@ -66,5 +67,6 @@ void ObserverManager::byteTest2(const std::vector<uint8_t> &byteArray) {
 }
 
 std::vector<uint8_t> ObserverManager::byteTest3() {
+    testMutableLiveData();
     return s_manager->byteTest3();
 }

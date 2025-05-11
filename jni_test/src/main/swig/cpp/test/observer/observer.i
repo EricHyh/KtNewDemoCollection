@@ -14,6 +14,7 @@
 %java_package_import_0(std::vector<TestObserver2>, test.observer);
 
 %java_package_import_0(TestObserver, test.observer);
+%java_package_import_0(TestObserverBridge, test.observer);
 
 %java_package_import_0(TestObserver2, test.observer);
 

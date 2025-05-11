@@ -14,12 +14,20 @@
 %ignore target_type::m_mutex;
 %ignore target_type::obtainOriginal;
 
+%typemap(javapackage) target_type, std::shared_ptr<target_type>, std::shared_ptr<target_type>&  "$typemap(javapackage, original_type)";
+%typemap(javaimports) target_type, std::shared_ptr<target_type>, std::shared_ptr<target_type>& %{
+$typemap(javaimports, original_type)
+%}
+
+
 // 确保这些方法在Java中是私有的
 %javamethodmodifiers target_type::isEquals "private";
 %javamethodmodifiers target_type::calculateHash "private";
 
 %feature("nodirector") target_type::isEquals;
 %feature("nodirector") target_type::calculateHash;
+
+
 
 // Java端的代码
 %typemap(javacode) target_type %{

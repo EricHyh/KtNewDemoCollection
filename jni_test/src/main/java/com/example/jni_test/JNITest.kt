@@ -10,6 +10,8 @@ import com.hyh.jnitest.test.item.ITestItem
 import com.hyh.jnitest.test.observer.IObserverManager
 import com.hyh.jnitest.test.observer.ITestObserver2Bridge
 import com.hyh.jnitest.test.observer.ObserverManager
+import com.hyh.jnitest.test.observer.TestEnum1
+import com.hyh.jnitest.test.observer.TestObserver2Vector
 import com.hyh.jnitest.test.observer.TestObserverBridge
 
 /**
@@ -108,6 +110,14 @@ object ObserverManagerImpl : IObserverManager() {
 
     override fun byteTest3(): ByteArray {
         return byteArrayOf(20, 21, 22, 23)
+    }
+
+    override fun setTestObserver2List(arg0: TestObserver2Vector?) {
+//        super.setTestObserver2List(arg0)
+    }
+
+    override fun optionalEnum33(): TestEnum1 {
+        return TestEnum1.AllTradingTime
     }
 
     fun notifyEvent() {

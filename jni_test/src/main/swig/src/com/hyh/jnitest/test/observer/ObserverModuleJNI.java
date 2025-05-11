@@ -112,10 +112,6 @@ public class ObserverModuleJNI {
   public final static native void IObserverManager_removeObserver(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
   public final static native void IObserverManager_addObserver2(long jarg1, IObserverManager jarg1_, long jarg2, ITestObserver2Bridge jarg2_);
   public final static native void IObserverManager_removeObserver2(long jarg1, IObserverManager jarg1_, long jarg2, ITestObserver2Bridge jarg2_);
-  public final static native void IObserverManager_addObserver3(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
-  public final static native void IObserverManager_removeObserver3(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
-  public final static native void IObserverManager_addObserver4(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
-  public final static native void IObserverManager_removeObserver4(long jarg1, IObserverManager jarg1_, long jarg2, TestObserverBridge jarg2_);
   public final static native long IObserverManager_add1(long jarg1, IObserverManager jarg1_, long jarg2, long jarg3);
   public final static native long IObserverManager_add11(long jarg1, IObserverManager jarg1_, long jarg2, long jarg3);
   public final static native long IObserverManager_add2(long jarg1, IObserverManager jarg1_, long jarg2, long jarg3);
@@ -146,11 +142,6 @@ public class ObserverModuleJNI {
   public final static native byte[] ObserverManager_byteTest3();
   public final static native long new_ObserverManager();
   public final static native void delete_ObserverManager(long jarg1);
-  public final static native void Test_num_set(long jarg1, Test jarg1_, long jarg2);
-  public final static native long Test_num_get(long jarg1, Test jarg1_);
-  public final static native long new_Test(long jarg1);
-  public final static native void delete_Test(long jarg1);
-  public final static native void test();
   public final static native void JNITestEntrance_testAddObserver(int jarg1);
   public final static native void JNITestEntrance_testRemoveObserver(int jarg1);
   public final static native long new_JNITestEntrance();
@@ -179,18 +170,6 @@ public class ObserverModuleJNI {
   }
   public static void SwigDirector_IObserverManager_removeObserver2(IObserverManager jself, long observer) {
     jself.removeObserver2((observer == 0) ? null : new ITestObserver2Bridge(observer, true));
-  }
-  public static void SwigDirector_IObserverManager_addObserver3(IObserverManager jself, long observer) {
-    jself.addObserver3((observer == 0) ? null : new TestObserverBridge(observer, true));
-  }
-  public static void SwigDirector_IObserverManager_removeObserver3(IObserverManager jself, long observer) {
-    jself.removeObserver3((observer == 0) ? null : new TestObserverBridge(observer, true));
-  }
-  public static void SwigDirector_IObserverManager_addObserver4(IObserverManager jself, long observer) {
-    jself.addObserver4((observer == 0) ? null : new TestObserverBridge(observer, true));
-  }
-  public static void SwigDirector_IObserverManager_removeObserver4(IObserverManager jself, long observer) {
-    jself.removeObserver4((observer == 0) ? null : new TestObserverBridge(observer, true));
   }
   public static long SwigDirector_IObserverManager_add1(IObserverManager jself, long a, long b) {
     return jself.add1(a, b);

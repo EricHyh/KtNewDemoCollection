@@ -19,9 +19,6 @@ public class TestStructVector extends java.util.AbstractList<TestStruct> impleme
   public TestStructVector(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
-
-    TestStructVector.class.getEnumConstants();
-
   }
 
   public static long getCPtr(TestStructVector obj) {

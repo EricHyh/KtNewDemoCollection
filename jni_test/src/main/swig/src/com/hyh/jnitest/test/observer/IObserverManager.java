@@ -83,22 +83,6 @@ public class IObserverManager {
     com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_removeObserver2(swigCPtr, this, ITestObserver2Bridge.getCPtr(observer), observer);
   }
 
-  public void addObserver3(TestObserverBridge observer) {
-    com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_addObserver3(swigCPtr, this, TestObserverBridge.getCPtr(observer), observer);
-  }
-
-  public void removeObserver3(TestObserverBridge observer) {
-    com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_removeObserver3(swigCPtr, this, TestObserverBridge.getCPtr(observer), observer);
-  }
-
-  public void addObserver4(TestObserverBridge observer) {
-    com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_addObserver4(swigCPtr, this, TestObserverBridge.getCPtr(observer), observer);
-  }
-
-  public void removeObserver4(TestObserverBridge observer) {
-    com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_removeObserver4(swigCPtr, this, TestObserverBridge.getCPtr(observer), observer);
-  }
-
   public long add1(long a, long b) {
     return com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_add1(swigCPtr, this, a, b);
   }
