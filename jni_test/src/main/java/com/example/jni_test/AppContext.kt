@@ -13,4 +13,21 @@ class AppContext : Application() {
         super.onCreate()
         JNITest.load()
     }
+
+}
+
+class Test {
+    fun test(n: Int) {
+        val a = 10
+        if (a == 10) {
+            val b = 10 // 局部变量 b 在此处声明
+        } // b 的作用域到此结束
+    }
+
+    fun test2(n: Int) {
+        val a = 10
+        if (a == 10) {
+            val b = 10 // 局部变量 b 在此处声明
+        } // b 的作用域到此结束
+    }
 }

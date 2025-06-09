@@ -11,6 +11,9 @@
 #include <mutex>
 #include <string>
 #include <utility> // std::move
+#include <vector> // std::move
+#include <algorithm> // std::remove_if
+
 
 
 class PointerData {
@@ -157,8 +160,70 @@ private:
     // 私有化构造函数
     TaskTest2() = default;
     
-    
     void OnTask(){}
+
+};
+
+
+class ValueTypeData {};
+
+class ValueTypeTest {
+public:
+    ValueTypeTest(const ValueTypeData& data) : m_data(std::move(data)) {} 
+
+private:
+    ValueTypeData m_data; // 成员变量
+};
+
+void Test(){
+    ValueTypeData data;
+    ValueTypeTest test(std::move(data));
+}
+
+
+using TestObserver = std::function<void(int)>; // 定义观察者类型
+
+class WeakPointerTest {
+
+public:
+    WeakPointerTest() = default; // 默认构造函数
+
+    void RegisterObserver(std::shared_ptr<TestObserver> observer) {
+        m_observers.push_back(observer); // 注册观察者
+    }
+
+    void UnregisterObserver(std::shared_ptr<TestObserver> observer) {
+        auto it = std::remove_if(m_observers.begin(), m_observers.end(),
+            [&observer](const std::weak_ptr<TestObserver>& obs) {
+                return obs.lock() == observer; // 移除观察者
+            });
+        m_observers.erase(it, m_observers.end()); // 删除无效观察者
+    }
+
+private:
+    std::vector<std::weak_ptr<TestObserver>> m_observers; // 存储弱指针的容器
+
+};
+
+class WeakPointerTest {
+
+public:
+    WeakPointerTest() = default; // 默认构造函数
+
+    void RegisterObserver(std::shared_ptr<TestObserver> observer) {
+        m_observers.push_back(observer); // 注册观察者
+    }
+
+    void UnregisterObserver(std::shared_ptr<TestObserver> observer) {
+        auto it = std::remove_if(m_observers.begin(), m_observers.end(),
+            [&observer](const std::shared_ptr<TestObserver>& obs) {
+                return obs == observer; // 移除观察者
+            });
+        m_observers.erase(it, m_observers.end()); // 删除无效观察者
+    }
+
+private:
+    std::vector<std::shared_ptr<TestObserver>> m_observers; // 存储弱指针的容器
 
 };
 

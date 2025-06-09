@@ -7,6 +7,7 @@
 #include "LiveData.h"
 #include <tuple>
 #include <memory>
+#include <utility>
 #include "TestUtil.h"
 
 template<class T, class... Sources>
@@ -18,10 +19,10 @@ public:
             bool updateOnlyChanged = true,
             std::function<bool(const T &, const T &)> isValueEquals = [](const T &a, const T &b) { return a == b; }
     ) : LiveData<T>(calculate(GetValueTupleImpl(sources, std::make_index_sequence<sizeof...(Sources)>{}))),
-        m_sources(sources),
-        m_calculate(calculate),
+        m_sources(std::move(sources)),
+        m_calculate(std::move(calculate)),
         m_updateOnlyChanged(updateOnlyChanged),
-        m_isValueEquals(isValueEquals) {
+        m_isValueEquals(std::move(isValueEquals)) {
         AddSourcesImpl(sources, std::make_index_sequence<sizeof...(Sources)>{});
     }
 

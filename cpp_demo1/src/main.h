@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include <stdio.h>
 #include <functional>
 #include <thread>
 #include <unistd.h>
+#include <iostream>
 
 #include "Reference/ReferenceTest2.h"
 
@@ -25,12 +25,4 @@ namespace
 } // namespace
 
 
-int main() {
-
-    
-
-    getchar();       // 等待用户输入[6,8](@ref)
-
-    return 0;
-}
 

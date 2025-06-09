@@ -9,23 +9,23 @@
 class ReferenceData{
 
 public:
-    explicit ReferenceData(int data) : m_data(data) {
+    explicit ReferenceData(int data) : m_int_data(data) {
         printf("Default constructor called\n");
     }
-    ReferenceData(const ReferenceData& other) : m_data(other.m_data) {
+    ReferenceData(const ReferenceData& other) : m_int_data(other.m_int_data) {
         printf("Copy constructor called\n");
     }
-    ReferenceData(ReferenceData&& other) noexcept : m_data(other.m_data) {
+    ReferenceData(ReferenceData&& other) noexcept : m_int_data(other.m_int_data) {
         printf("Move constructor called\n");
     }
 
     int GetData() const {
         // 返回成员变量的值
-        return m_data; // 返回成员变量的值
+        return m_int_data; // 返回成员变量的值
     }   
 
 private:
-    int m_data = 0; // 成员变量
+    int m_int_data = 0; // 成员变量
     
 };
 
@@ -54,7 +54,6 @@ namespace reference {
 
 
     void TestReference(ReferenceData&& data) {
-        int data = data.GetData(); 
     }
 
     void TestReference(const ReferenceData& data) {
