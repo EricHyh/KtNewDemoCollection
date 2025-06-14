@@ -1,8 +1,6 @@
 syntax = "proto3";
 
 
-
-
 enum PropertyType {
   Unknown = 0;
 };
@@ -13,9 +11,8 @@ enum FilterType {
 }
 
 message PropertyValues {
-  repeated string value = 1;
+  repeated string values = 1;
 }
-
 
 message FilterConfig {
   FilterType filter_type = 1;
@@ -29,16 +26,34 @@ message FilterRefConfig {
   optional int32 filter_ref_id = 3;
 }
 
-message BizConfigModel {
+message ProductCollection  {
+  int32 product_id = 1;
+  map<int32, PropertyValues> product_property_values = 2;
+}
+
+message BrokerBizConfig {
   uint32 broker = 1;
-  map<int32, PropertyValues> abilities = 2;
+  repeated ProductCollection  products = 2;
   repeated FilterConfig filter_configs = 3;
   repeated FilterRefConfig filter_ref_configs = 4;
 }
 
-message BizConfigResponse {
-  int32 result = 1;
-  int32 data_version = 2;
-  bytes config_data = 10;
+message ProductAbilityItem {
+  map<int32, PropertyValues> abilities = 1;
 }
 
+message ProductAbility {
+  int32 product_id = 1;
+  repeated ProductAbilityItem product_ability_items = 2;
+}
+
+message BizConfigData {
+  repeated BrokerBizConfig broker_biz_configs = 1;
+  repeated ProductAbility product_abilities = 2;
+}
+
+message BizConfigResponse {
+  int32 result = 1;
+  int32 config_version = 2;
+  bytes config_data = 10;
+}

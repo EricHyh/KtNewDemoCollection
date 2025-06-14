@@ -1,5 +1,8 @@
 package com.hyh.model
 
+import android.view.WindowInsets.Side.all
+import com.hyh.base.RefreshStrategy
+
 
 interface IPredefineFilter {
 
@@ -39,6 +42,8 @@ enum class FilterType(val value: Int) {
     BlackList(0),
     WhiteList(1),
 }
+
+enum class OptionStrategyType {}
 
 //data class (
 //        val stock : bool,
@@ -110,6 +115,7 @@ class TradeAbilitySpace(
 ////        }
 //    }
 
+
 }
 
 
@@ -117,20 +123,103 @@ fun combine(abilities: List<BasicTradeAbility>) {
 
 }
 
+interface MapMidd{
 
-interface IBizAbility<Param, Ability> {
+}
 
-    fun getSupportedAbilities(param: Param): List<Ability>
+interface IBizAbility<Int> {
 
-    fun isMatched(param: Param): Boolean
+    fun getSupportedAbilities(target:Int, params: Map<Int, String>): List<Int>{
+//        val all: list<int> = all();
+//        all.filter{};
+    }
 
+    fun isMatched(params: Map<Int, String>): Boolean // 产品集、行情大类、行情小类
+
+}
+
+fun xx(a:IBizAbility<*>){
+    a.getSupportedAbilities({100000 to 16});
+}
+
+std::vector<FINTradeTimeType> GetTradeTimeTypes(
+    const FINAccount& account,
+    const FINTradeProduct& product,
+    const FINTAbilityPropertyValues relationProperty;
+){
+//    val futuSymbol: String,
+//    val stockId: Long,
+//    val instrument: Int,
+//    val subInstrument: Int,
+//    val instrumentV2: Int,
+//    val subInstrumentV2: Int,
+//    val marketCode: Int
+    val ability: IBizAbility;
+    // account - broker;
+    map[{0 , account.broker}, {100002, product.futuSymbol}...];
+    val result :List<int> = ability.GetSupportedAbilities(100000, map);
+
+    // 综合账户
+    // DVP
+    // JP融资
+    // JP现金
+    result.filter{};
+}
+
+interface IAccountBizAbility<Int> {
+
+    fun getSupportedAbilities(): List<Int>{
+
+    fun isMatched(账户类型, 订单类型): Boolean
+
+    fun isMatched(账户类型, 品类): Boolean
 
 }
 
 
+//data class TradeAbility(
+//    val enableOption: Boolean,
+//    val enableOptionStrategy: Boolean,
+//    val enableMargin: Boolean,
+//    val enableSellShort: Boolean,
+//    val enableLotOrder: Boolean,
+//    val enableAmountOrder: Boolean
+//)
+
+interface ProductData
+
+data class Product(
+    val productId: Int,
+    val productData: ProductData
+)
+
+data class StockProduct(
+    val futuSymbol: String,
+    val stockId: Long,
+    val instrument: Int,
+    val subInstrument: Int,
+    val instrumentV2: Int,
+    val subInstrumentV2: Int,
+    val marketCode: Int
+) : ProductData
+
+data class OptionStrategyProduct(
+    val strategyType: OptionStrategyType
+) : ProductData
+
+
+interface IBrokerProductAbility {
+
+    fun isSupported(product: Product): Boolean
+
+}
 
 
 interface BlackList {
     fun isInList(properties: List<PropType>): Boolean
 
 }
+
+interface Visitor {
+
+};
