@@ -31,6 +31,7 @@ namespace Swig {
 
 
 #include "color/TestColor.h"
+#include "color/Enum.h"
 
 
 struct SWIG_null_deleter {
@@ -558,6 +559,42 @@ SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_color_ColorModuleJNI_delete_1T
   (void)jcls;
   arg1 = *(TestColorFactory **)&jarg1; 
   delete arg1;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_hyh_jnitest_test_color_ColorModuleJNI_FTAPPTargetTypeNN_1get(JNIEnv *jenv, jclass jcls) {
+  jint jresult = 0 ;
+  FTAPPTargetType result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (FTAPPTargetType)FTAPPTargetTypeNN;
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_hyh_jnitest_test_color_ColorModuleJNI_FTAPPTargetTypeMM_1get(JNIEnv *jenv, jclass jcls) {
+  jint jresult = 0 ;
+  FTAPPTargetType result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (FTAPPTargetType)FTAPPTargetTypeMM;
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_hyh_jnitest_test_color_ColorModuleJNI_typeList_1get(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  FTAPPTargetType *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (FTAPPTargetType *)(FTAPPTargetType *)typeList;
+  *(FTAPPTargetType **)&jresult = result; 
+  return jresult;
 }
 
 

@@ -9,12 +9,27 @@
 #include "field/FieldKeys.h"
 #include <variant>
 
+class IModify {
+
+public:
+    virtual ~IModify() = default;
+
+};
+
+
+class IFieldBizModel {
+public:
+    virtual bool IsMatched(std::shared_ptr<IModify> modify) = 0;
+
+    virtual void Apply(std::shared_ptr<IModify> modify) = 0;
+};
+
 template<class Value>
 class CMutableField {
 public:
     CMutableField() = delete;
 
-    CMutableField(FieldDataModel dataModel, FiledKey<Value> key);
+    CMutableField(IFieldBizModel* model, FiledKey<Value> key);
 
     bool SetValue(Value value) {
 
@@ -26,12 +41,6 @@ private:
 };
 
 
-class IModify {
-
-public:
-    virtual ~IModify() = default;
-
-};
 
 
 class XXXModify : IModify {
@@ -51,16 +60,11 @@ class XXXModify3 : XXXModify {
 };
 
 
-class IFieldBizModel {
-public:
-    virtual bool IsMatched(std::shared_ptr<IModify> modify) = 0;
 
-    virtual void Apply(std::shared_ptr<IModify> modify) = 0;
-};
 
 
 template<class Modify, class ...Ts>
-class CFieldBizModel : IFieldBizModel {
+class CFieldBizModel : public IFieldBizModel {
 
     static_assert(std::is_base_of_v<IModify, Modify>, "Modify must derive from IModify");
     static_assert((std::is_base_of_v<Modify, Ts> && ...), "All Ts must be exactly Modify");
@@ -70,9 +74,9 @@ public:
         return (std::dynamic_pointer_cast<Ts>(modify) || ...);
     }
 
-    bool IsMatched(const IModify& modify) override {
-        return ((typeid(modify) == typeid(Ts)) || ...);
-    }
+//    bool IsMatched(const IModify& modify) override {
+//        return ((typeid(modify) == typeid(Ts)) || ...);
+//    }
 
     void Apply(std::shared_ptr<IModify> modify) override {
         std::variant<Ts...> variant = *modify;
@@ -97,6 +101,11 @@ protected:
 //    template<class Value>
 //    CMutableField<Value> Field(FiledKey<Value> key);
 };
+
+
+
+
+
 
 // 1. 定义统一类型别名：基类 + 派生类元组
 template<typename Base, typename... Derives>
@@ -126,6 +135,13 @@ class XXXFieldBizModel : public CFieldBizModelAdapter<XXXModifyFamily>::type  //
 //    void Apply(std::variant<XXXModify1, XXXModify2, XXXModify3> modify) override {
 //        // 实现逻辑...
 //    }
+public:
+    XXXFieldBizModel() : name(CMutableField<std::string>(this, FieldKeys::name)) {
+    }
+
+private:
+    CMutableField<std::string> name;
+
 };
 
 

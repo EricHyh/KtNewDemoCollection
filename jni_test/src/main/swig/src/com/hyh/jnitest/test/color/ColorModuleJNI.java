@@ -29,6 +29,9 @@ public class ColorModuleJNI {
   public final static native long TestColorFactory_create();
   public final static native long new_TestColorFactory();
   public final static native void delete_TestColorFactory(long jarg1);
+  public final static native int FTAPPTargetTypeNN_get();
+  public final static native int FTAPPTargetTypeMM_get();
+  public final static native long typeList_get();
   public final static native long N2CTestColor_SWIGSmartPtrUpcast(long jarg1);
 
   public static int SwigDirector_ITestColor_getRandomColor(ITestColor jself) {
