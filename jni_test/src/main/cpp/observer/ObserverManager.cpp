@@ -67,6 +67,14 @@ void ObserverManager::byteTest2(const std::vector<uint8_t> &byteArray) {
 }
 
 std::vector<uint8_t> ObserverManager::byteTest3() {
-    testMutableLiveData();
+    testGetJavaObj();
     return s_manager->byteTest3();
+}
+
+std::shared_ptr<ITestObserver2> ObserverManager::getObserver2() {
+    return s_manager->getObserver2();
+}
+
+TestEnum1 ObserverManager::optionalEnum33() {
+    return s_manager->optionalEnum33();
 }

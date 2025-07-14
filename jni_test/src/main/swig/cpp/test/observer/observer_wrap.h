@@ -76,12 +76,13 @@ public:
     virtual std::vector< uint8_t > byteTest3();
     virtual void setTestObserver2List(std::vector< TestObserver2 > arg0);
     virtual TestEnum1 optionalEnum33();
+    virtual std::shared_ptr< ITestObserver2 > getObserver2();
 public:
     bool swig_overrides(int n) {
-      return (n < 15 ? swig_override[n] : false);
+      return (n < 16 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<15> swig_override;
+    Swig::BoolArray<16> swig_override;
 };
 
 

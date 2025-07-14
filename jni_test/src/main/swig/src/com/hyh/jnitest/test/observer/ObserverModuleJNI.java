@@ -123,6 +123,7 @@ public class ObserverModuleJNI {
   public final static native byte[] IObserverManager_byteTest3(long jarg1, IObserverManager jarg1_);
   public final static native void IObserverManager_setTestObserver2List(long jarg1, IObserverManager jarg1_, long jarg2, TestObserver2Vector jarg2_);
   public final static native int IObserverManager_optionalEnum33(long jarg1, IObserverManager jarg1_);
+  public final static native long IObserverManager_getObserver2(long jarg1, IObserverManager jarg1_);
   public final static native long new_IObserverManager();
   public final static native void IObserverManager_director_connect(IObserverManager obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void IObserverManager_change_ownership(IObserverManager obj, long cptr, boolean take_or_release);
@@ -140,6 +141,7 @@ public class ObserverModuleJNI {
   public final static native void ObserverManager_byteTest1(byte[] jarg1);
   public final static native void ObserverManager_byteTest2(byte[] jarg1);
   public final static native byte[] ObserverManager_byteTest3();
+  public final static native long ObserverManager_getObserver2();
   public final static native long new_ObserverManager();
   public final static native void delete_ObserverManager(long jarg1);
   public final static native void JNITestEntrance_testAddObserver(int jarg1);
@@ -166,10 +168,10 @@ public class ObserverModuleJNI {
     jself.removeObserver((observer == 0) ? null : new TestObserverBridge(observer, true));
   }
   public static void SwigDirector_IObserverManager_addObserver2(IObserverManager jself, long observer) {
-    jself.addObserver2((observer == 0) ? null : new ITestObserver2Bridge(observer, true));
+    jself.addObserver2((observer == 0) ? null : new com.hyh.jnitest.basic.infrastructure.SwigDirectorWrapper(observer, true).acquire(cPtr -> new ITestObserver2Bridge(cPtr, true)));
   }
   public static void SwigDirector_IObserverManager_removeObserver2(IObserverManager jself, long observer) {
-    jself.removeObserver2((observer == 0) ? null : new ITestObserver2Bridge(observer, true));
+    jself.removeObserver2((observer == 0) ? null : new com.hyh.jnitest.basic.infrastructure.SwigDirectorWrapper(observer, true).acquire(cPtr -> new ITestObserver2Bridge(cPtr, true)));
   }
   public static long SwigDirector_IObserverManager_add1(IObserverManager jself, long a, long b) {
     return jself.add1(a, b);
@@ -203,6 +205,9 @@ public class ObserverModuleJNI {
   }
   public static int SwigDirector_IObserverManager_optionalEnum33(IObserverManager jself) {
     return (jself.optionalEnum33()).swigValue();
+  }
+  public static long SwigDirector_IObserverManager_getObserver2(IObserverManager jself) {
+    return ITestObserver2Bridge.getCPtr(jself.getObserver2());
   }
 
   private final static native void swig_module_init();

@@ -5,6 +5,7 @@
 #pragma once
 
 #include "LiveData.h"
+#include <thread>
 #include <tuple>
 #include <memory>
 #include <utility>
@@ -112,4 +113,14 @@ inline void testMutableLiveData() {
     source2->SetValue(4.0);
 }
 
+
+inline void testGetJavaObj(){
+    std::thread([]{
+        const std::shared_ptr<ITestObserver2> &ptr = ObserverManager::getObserver2();
+        if(ptr){
+            ptr->onCall(1);
+        }
+
+    }).detach();
+}
 

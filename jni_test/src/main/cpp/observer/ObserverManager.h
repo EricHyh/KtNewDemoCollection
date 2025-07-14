@@ -98,6 +98,8 @@ public:
 
     virtual TestEnum1 optionalEnum33() = 0;
 
+    virtual std::shared_ptr<ITestObserver2> getObserver2() = 0;
+
 };
 
 class ObserverManager {
@@ -130,6 +132,10 @@ public:
     static void byteTest2(const std::vector<uint8_t> &byteArray);
 
     static std::vector<uint8_t> byteTest3();
+
+    static TestEnum1 optionalEnum33();
+
+    static std::shared_ptr<ITestObserver2> getObserver2();
 
 private:
     static IObserverManager *s_manager;

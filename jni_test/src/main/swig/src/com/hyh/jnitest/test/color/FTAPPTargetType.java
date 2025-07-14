@@ -53,3 +53,4 @@ public enum FTAPPTargetType {
     private static int next = 0;
   }
 }
+

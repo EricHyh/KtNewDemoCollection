@@ -127,6 +127,16 @@ public class IObserverManager {
     return TestEnum1.swigToEnum(com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_optionalEnum33(swigCPtr, this));
   }
 
+  public ITestObserver2Bridge getObserver2() {
+    long ptr = com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_getObserver2(swigCPtr, this);
+    if (ptr == 0) {
+      return null;
+    } else {
+      com.hyh.jnitest.basic.infrastructure.SwigDirectorWrapper wrapper = new com.hyh.jnitest.basic.infrastructure.SwigDirectorWrapper(ptr, true);
+      return wrapper.acquire(cPtr -> new ITestObserver2Bridge(cPtr, true));
+    }
+  }
+
   public IObserverManager() {
     this(com.hyh.jnitest.test.observer.ObserverModuleJNI.new_IObserverManager(), true);
     com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_director_connect(this, swigCPtr, true, true);

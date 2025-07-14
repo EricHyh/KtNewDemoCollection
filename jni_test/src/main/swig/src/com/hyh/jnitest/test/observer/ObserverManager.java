@@ -108,6 +108,16 @@ public class ObserverManager {
     return com.hyh.jnitest.test.observer.ObserverModuleJNI.ObserverManager_byteTest3();
   }
 
+  public static ITestObserver2Bridge getObserver2() {
+    long ptr = com.hyh.jnitest.test.observer.ObserverModuleJNI.ObserverManager_getObserver2();
+    if (ptr == 0) {
+      return null;
+    } else {
+      com.hyh.jnitest.basic.infrastructure.SwigDirectorWrapper wrapper = new com.hyh.jnitest.basic.infrastructure.SwigDirectorWrapper(ptr, true);
+      return wrapper.acquire(cPtr -> new ITestObserver2Bridge(cPtr, true));
+    }
+  }
+
   public ObserverManager() {
     this(com.hyh.jnitest.test.observer.ObserverModuleJNI.new_ObserverManager(), true);
   }

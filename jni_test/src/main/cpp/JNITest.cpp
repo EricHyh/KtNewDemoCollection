@@ -110,11 +110,7 @@ private:
 };
 
 void RunTest() {
-    TestMultiThreadEnv env;
-    if(auto data = env.GetData()) { // 正确检查并访问
-        data->name;
-    }
-//    testMutableLiveData();
+
 }
 
 

@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 #include <type_traits>
+#include <utility>
 
 // 宏定义：声明 friend class SharedPtrEnable 和创建智能指针的函数
 #define DECLARE_PTR_CREATOR(ClassName) \
@@ -30,7 +31,7 @@ public:
     static std::shared_ptr<T> Create(Args &&... args) {
         // 使用自定义的创建方法
         struct EnableMakeShared : public T {
-            EnableMakeShared(Args &&... args) : T(std::forward<Args>(args)...) {}
+            explicit EnableMakeShared(Args &&... args) : T(std::forward<Args>(args)...) {}
         };
         return std::make_shared<EnableMakeShared>(std::forward<Args>(args)...);
     }
@@ -67,9 +68,9 @@ private:
 
     explicit Derived(int value) : value_(value) {}
 
-    explicit Derived(std::string str) : str_(str) {}
+    explicit Derived(std::string str) : str_(std::move(str)) {}
 
-    Derived(int value, std::string str) : value_(value), str_(str) {}
+    Derived(int value, std::string str) : value_(value), str_(std::move(str)) {}
 
     DECLARE_PTR_CREATOR(Derived)
 
@@ -81,6 +82,6 @@ private:
 
 void test() {
     const std::shared_ptr<Derived> &ptr1 = Derived::Create(1);
-//    const std::shared_ptr<Derived> &ptr2 = Derived::Create("");
-//    const std::shared_ptr<Derived> &ptr3 = Derived::Create(1, "");
+    const std::shared_ptr<Derived> &ptr2 = Derived::Create("");
+    const std::shared_ptr<Derived> &ptr3 = Derived::Create(1, "");
 }

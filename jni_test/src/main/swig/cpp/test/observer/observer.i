@@ -37,7 +37,7 @@
 %java_package_import_0(std::vector<TestStruct2>, test.observer);
 
 
-%shared_ptr_wrapper(ITestObserver2);
+%director_shared_ptr_wrapper(ITestObserver2);
 
 //using TestStructVariant = std::variant<std::monostate, TestStruct, TestStruct2>;
 %variant_with_empty_bridge_2(

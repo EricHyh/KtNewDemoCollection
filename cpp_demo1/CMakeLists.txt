@@ -25,6 +25,8 @@ add_executable(${PROJECT_NAME}
         ${SRC_H_FILES}
         ${SRC_CPP_FILES}
         ${SRC_CC_FILES}
+        src/LiveData/LiveData.cpp
+        src/LiveData/LiveData.h
 )
 
 

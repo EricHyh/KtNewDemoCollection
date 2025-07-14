@@ -13,6 +13,7 @@ import com.hyh.jnitest.test.observer.ObserverManager
 import com.hyh.jnitest.test.observer.TestEnum1
 import com.hyh.jnitest.test.observer.TestObserver2Vector
 import com.hyh.jnitest.test.observer.TestObserverBridge
+import com.hyh.jnitest.test.observer.TestStructVariantBridge
 
 /**
  * TODO: Add Description
@@ -117,7 +118,20 @@ object ObserverManagerImpl : IObserverManager() {
     }
 
     override fun optionalEnum33(): TestEnum1 {
+        System.gc()
+        System.runFinalization()
+//        Thread.sleep(5000)
         return TestEnum1.AllTradingTime
+    }
+
+    override fun getObserver2(): ITestObserver2Bridge {
+        return object : ITestObserver2Bridge() {
+            override fun onCall(data: Int) {
+            }
+
+            override fun onCall2(variant: TestStructVariantBridge?) {
+            }
+        }
     }
 
     fun notifyEvent() {
