@@ -1,6 +1,8 @@
 package com.example.jni_test
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
 
 /**
  * TODO
@@ -8,6 +10,19 @@ import android.app.Application
  * @author eriche 2024/12/22
  */
 class AppContext : Application() {
+
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        lateinit var context: Context;
+    }
+
+    init {
+        context = this;
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+    }
 
     override fun onCreate() {
         super.onCreate()

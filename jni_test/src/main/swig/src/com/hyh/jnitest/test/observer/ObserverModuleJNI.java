@@ -207,7 +207,9 @@ public class ObserverModuleJNI {
     return (jself.optionalEnum33()).swigValue();
   }
   public static long SwigDirector_IObserverManager_getObserver2(IObserverManager jself) {
-    return ITestObserver2Bridge.getCPtr(jself.getObserver2());
+    ITestObserver2Bridge observer2 = jself.getObserver2();
+    observer2.swigReleaseOwnership();
+    return ITestObserver2Bridge.getCPtr(observer2);
   }
 
   private final static native void swig_module_init();

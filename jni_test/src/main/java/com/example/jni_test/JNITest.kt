@@ -1,6 +1,9 @@
 package com.example.jni_test
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import com.example.jni_test.model.wrapper.NativeTestColor
 import com.example.jni_test.model.wrapper.NativeTestItem
 import com.hyh.jnitest.test.color.TestColorFactory
@@ -127,6 +130,9 @@ object ObserverManagerImpl : IObserverManager() {
     override fun getObserver2(): ITestObserver2Bridge {
         return object : ITestObserver2Bridge() {
             override fun onCall(data: Int) {
+                Handler(Looper.getMainLooper()).post {
+                    Toast.makeText(AppContext.context, "$data", Toast.LENGTH_SHORT).show()
+                }
             }
 
             override fun onCall2(variant: TestStructVariantBridge?) {

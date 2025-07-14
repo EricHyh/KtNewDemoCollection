@@ -115,7 +115,9 @@ inline void testMutableLiveData() {
 
 
 inline void testGetJavaObj(){
+    ObserverManager::optionalEnum33();
     std::thread([]{
+        ObserverManager::optionalEnum33();
         const std::shared_ptr<ITestObserver2> &ptr = ObserverManager::getObserver2();
         if(ptr){
             ptr->onCall(1);
