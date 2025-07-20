@@ -141,6 +141,7 @@ public class ObserverModuleJNI {
   public final static native void ObserverManager_byteTest1(byte[] jarg1);
   public final static native void ObserverManager_byteTest2(byte[] jarg1);
   public final static native byte[] ObserverManager_byteTest3();
+  public final static native int ObserverManager_optionalEnum33();
   public final static native long ObserverManager_getObserver2();
   public final static native long new_ObserverManager();
   public final static native void delete_ObserverManager(long jarg1);
@@ -207,9 +208,7 @@ public class ObserverModuleJNI {
     return (jself.optionalEnum33()).swigValue();
   }
   public static long SwigDirector_IObserverManager_getObserver2(IObserverManager jself) {
-    ITestObserver2Bridge observer2 = jself.getObserver2();
-    observer2.swigReleaseOwnership();
-    return ITestObserver2Bridge.getCPtr(observer2);
+    return ITestObserver2Bridge.getCPtr(jself.getObserver2());
   }
 
   private final static native void swig_module_init();

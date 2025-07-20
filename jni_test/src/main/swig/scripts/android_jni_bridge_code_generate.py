@@ -307,7 +307,11 @@ def adjust_bridge_code(config: SwigConfigFileInfo, config_dict: dict[str, list[S
         with open("%s.bak" % class_file, "w", encoding="utf-8") as f2:
             for line, skip in file_utils.read_file_without_commont_keep_original(class_file):
                 if skip:
+                     if code_generate_utils.is_swig_macro_unfold_comments(line):
+                        continue
                      f2.write(line)
+                elif code_generate_utils.is_swig_macro_unfold_comments(line):
+                    continue
                 elif line.startswith("pre_package "):
                     if namespace_class is not None and class_file.endswith(namespace_class):
                         new_line = line.replace("pre_package ", "package ")

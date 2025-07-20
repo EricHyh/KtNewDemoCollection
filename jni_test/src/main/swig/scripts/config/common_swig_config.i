@@ -10,6 +10,7 @@
 #include <list>
 #include <vector>
 #include <functional>
+#include <typeindex>
 %}
 
 // 全局搜索，工程配置替换
@@ -64,6 +65,7 @@ SWIG_SHARED_PTR_TYPEMAPS_IMPLEMENTATION(public, public, CONST, TYPE)
 %import "vector_type_config.i"  //基于 std_vector.i 扩展
 
 %import "java_object_config.i"
+%import "inheritance_class.i"
 
 
 %ignore "private:";     //忽略所有私用成员

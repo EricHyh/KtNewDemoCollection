@@ -13,9 +13,12 @@ import com.example.jni_test.fragment.JNITestTabsFragment
 import com.example.jni_test.model.wrapper.DataSource
 import com.hyh.jnitest.test.field.BaseFiledKeyVector
 import com.hyh.jnitest.test.field.FieldModule
+import com.hyh.jnitest.test.field.IntLiveData
 import com.hyh.jnitest.test.field.IntLiveDataObserver
 import com.hyh.jnitest.test.field.MutableFieldDataModel
+import com.hyh.jnitest.test.field.OptionalStringLiveData
 import com.hyh.jnitest.test.field.OptionalStringLiveDataObserver
+import com.hyh.jnitest.test.field.StringLiveData
 import com.hyh.jnitest.test.field.StringLiveDataObserver
 import com.hyh.jnitest.test.observer.JNITestEntrance
 import com.hyh.jnitest.test.observer.ObserverManager
@@ -87,9 +90,12 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "onCreate: $json , $optInt")
 
-        val intFiledValue = fieldModel.getIntFiledValue(FieldModule.getPrice())
-        val stringFiledValue = fieldModel.getStringFiledValue(FieldModule.getName())
-        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(FieldModule.getDescription())
+//        val intFiledValue = fieldModel.getIntFiledValue(FieldModule.getPrice())
+        val intFiledValue = fieldModel.getBaseFiledValue(FieldModule.getPrice()) as IntLiveData
+//        val stringFiledValue = fieldModel.getStringFiledValue(FieldModule.getName())
+        val stringFiledValue = fieldModel.getStringFiledValue(FieldModule.getName()) as StringLiveData
+//        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(FieldModule.getDescription())
+        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(FieldModule.getDescription()) as OptionalStringLiveData
         intFiledValue.AddObserver(intFiledValueObserver, true)
         stringFiledValue.AddObserver(stringLiveDataObserver, true)
         optionalStringFiledValue.AddObserver(optionalStringLiveDataObserver, true)
@@ -185,20 +191,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onTestField(view: View) {
-//        val intFiledValue = fieldModel.getIntFiledValue(FieldModule.getPrice())
-//        val stringFiledValue = fieldModel.getStringFiledValue(FieldModule.getName())
-//        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(FieldModule.getDescription())
-//
-//        intFiledValue.SetValue(Random.nextInt())
-//        val uuid = java.util.UUID.randomUUID().toString()
-//        stringFiledValue.SetValue(uuid)
-//        optionalStringFiledValue.SetValue(
-//            if (Random.nextInt() % 2 == 0) {
-//                uuid
-//            } else {
-//                null
-//            }
-//        )
-        ObserverManager.byteTest3()
+        val intFiledValue = fieldModel.getIntFiledValue(FieldModule.getPrice())
+        val stringFiledValue = fieldModel.getStringFiledValue(FieldModule.getName())
+        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(FieldModule.getDescription())
+
+        intFiledValue.SetValue(Random.nextInt())
+        val uuid = java.util.UUID.randomUUID().toString()
+        stringFiledValue.SetValue(uuid)
+        optionalStringFiledValue.SetValue(
+            if (Random.nextInt() % 2 == 0) {
+                uuid
+            } else {
+                null
+            }
+        )
+//        ObserverManager.byteTest3()
     }
 }

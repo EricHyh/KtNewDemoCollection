@@ -12,12 +12,13 @@ package com.hyh.jnitest.test.field;
 
 
 
-public class StringLiveData {
+public class StringLiveData extends ILiveData {
   private transient long swigCPtr;
-  private transient boolean swigCMemOwn;
+  private transient boolean swigCMemOwnDerived;
 
   public StringLiveData(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
+    super(com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_SWIGSmartPtrUpcast(cPtr), true);
+    swigCMemOwnDerived = cMemoryOwn;
     swigCPtr = cPtr;
   }
 
@@ -26,7 +27,8 @@ public class StringLiveData {
   }
 
   public void swigSetCMemOwn(boolean own) {
-    swigCMemOwn = own;
+    swigCMemOwnDerived = own;
+    super.swigSetCMemOwn(own);
   }
 
   @SuppressWarnings({"deprecation", "removal"})
@@ -36,44 +38,29 @@ public class StringLiveData {
 
   public synchronized void delete() {
     if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
+      if (swigCMemOwnDerived) {
+        swigCMemOwnDerived = false;
         com.hyh.jnitest.test.field.FieldModuleJNI.delete_StringLiveData(swigCPtr);
       }
       swigCPtr = 0;
     }
-  }
-
-  protected void swigDirectorDisconnect() {
-    swigSetCMemOwn(false);
-    delete();
-  }
-
-  public void swigReleaseOwnership() {
-    swigSetCMemOwn(false);
-    com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_change_ownership(this, swigCPtr, false);
-  }
-
-  public void swigTakeOwnership() {
-    swigSetCMemOwn(true);
-    com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_change_ownership(this, swigCPtr, true);
+    super.delete();
   }
 
   public StringLiveData(String value) {
     this(com.hyh.jnitest.test.field.FieldModuleJNI.new_StringLiveData(value), true);
-    com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_director_connect(this, swigCPtr, true, true);
   }
 
   public String GetValue() {
-    return (getClass() == StringLiveData.class) ? com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_GetValue(swigCPtr, this) : com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_GetValueSwigExplicitStringLiveData(swigCPtr, this);
+    return com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_GetValue(swigCPtr, this);
   }
 
   public void AddObserver(StringLiveDataObserver observer, boolean immediately) {
-    if (getClass() == StringLiveData.class) com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_AddObserver(swigCPtr, this, StringLiveDataObserver.getCPtr(observer), observer, immediately); else com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_AddObserverSwigExplicitStringLiveData(swigCPtr, this, StringLiveDataObserver.getCPtr(observer), observer, immediately);
+    com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_AddObserver(swigCPtr, this, StringLiveDataObserver.getCPtr(observer), observer, immediately);
   }
 
   public void RemoveObserver(StringLiveDataObserver observer) {
-    if (getClass() == StringLiveData.class) com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_RemoveObserver(swigCPtr, this, StringLiveDataObserver.getCPtr(observer), observer); else com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_RemoveObserverSwigExplicitStringLiveData(swigCPtr, this, StringLiveDataObserver.getCPtr(observer), observer);
+    com.hyh.jnitest.test.field.FieldModuleJNI.StringLiveData_RemoveObserver(swigCPtr, this, StringLiveDataObserver.getCPtr(observer), observer);
   }
 
 }

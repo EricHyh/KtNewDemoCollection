@@ -25,12 +25,16 @@
 //C++层，JNI函数参数，java类型转C++类型
 %typemap(in) std::optional<std::string> %{
 const char* c_result_pstr = jenv->GetStringUTFChars(jarg$argnum, nullptr);
-$1 = std::make_optional<std::string>(c_result_pstr);
+if(c_result_pstr){
+    $1 = std::make_optional<std::string>(c_result_pstr);
+} else {
+    $1 = std::nullopt;
+}
 jenv->ReleaseStringUTFChars(jarg$argnum, c_result_pstr);
 %}
 %typemap(in) std::optional<std::string>& %{
 const char* c_result_pstr = jenv->GetStringUTFChars(jarg$argnum, nullptr);
-std::optional< std::string > temp_arg$argnum = std::make_optional<std::string>(c_result_pstr);
+std::optional< std::string > temp_arg$argnum = c_result_pstr ? std::make_optional<std::string>(c_result_pstr) : std::nullopt;
 $1 = &temp_arg$argnum;
 jenv->ReleaseStringUTFChars(jarg$argnum, c_result_pstr);
 %}

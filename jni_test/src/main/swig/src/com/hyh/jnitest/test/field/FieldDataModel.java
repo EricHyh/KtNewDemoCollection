@@ -56,6 +56,24 @@ public class FieldDataModel {
     this(com.hyh.jnitest.test.field.FieldModuleJNI.new_FieldDataModel(BaseFiledKeyVector.getCPtr(keys), keys), true);
   }
 
+  public ILiveData getBaseFiledValue(BaseFiledKey key) {
+    long cPtr = com.hyh.jnitest.test.field.FieldModuleJNI.FieldDataModel_getBaseFiledValue(swigCPtr, this, BaseFiledKey.getCPtr(key), key);
+    if (cPtr == 0) {
+      return null;
+    }
+    int subType = ILiveData.getSubClassType(cPtr);
+    switch (subType) {
+      case 3:
+        return new IntLiveData(cPtr, true);
+      case 2:
+        return new StringLiveData(cPtr, true);
+      case 1:
+        return new OptionalStringLiveData(cPtr, true);
+      default :
+        return new ILiveData(cPtr, true);
+    }
+  }
+
   public IntLiveData getIntFiledValue(IntFiledKey key) {
     long cPtr = com.hyh.jnitest.test.field.FieldModuleJNI.FieldDataModel_getIntFiledValue(swigCPtr, this, IntFiledKey.getCPtr(key), key);
     return (cPtr == 0) ? null : new IntLiveData(cPtr, true);

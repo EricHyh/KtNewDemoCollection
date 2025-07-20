@@ -28,6 +28,7 @@ namespace Swig {
 #include <list>
 #include <vector>
 #include <functional>
+#include <typeindex>
 
 
 #include "color/TestColor.h"

@@ -204,9 +204,18 @@ def parse_swig_new_global_ref(text):
 
     return match.group(1) if match else None
 
+
 def is_swig_macro_unfold_comments(line):
     pattern = r'/\*@SWIG(?::.*?)?@\*/'
     return bool(re.search(pattern, line))
+
+# def is_swig_macro_unfold_comments(line):
+#     pattern = r'/\*@SWIG[\s\S]*?@\*/'  # 关键修改：[\s\S] 匹配任意字符（含换行符）
+#     return bool(re.search(pattern, line))  # 仍只需检测是否存在至少一个匹配
+
+# def is_swig_macro_unfold_comments(line):
+#     pattern = r'/\*@SWIG(?::(?:[^@]|@(?!\*/))*?@\*/'
+#     return bool(re.search(pattern, line, re.DOTALL))
 
 def is_swig_nsp_to_java_format(line):
     return line.strip().startswith('%nsp_2_java')

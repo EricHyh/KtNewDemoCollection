@@ -12,6 +12,8 @@
 #include <any>
 #include <iostream>
 #include <tuple>
+#include <typeindex>
+
 
 template<class Value>
 using LiveDataObserver = std::function<void(const Value &)>;
@@ -50,17 +52,30 @@ using LiveDataObserver = std::function<void(const Value &)>;
 //    virtual void RemoveAnyValueObserver(std::shared_ptr<AnyLiveDataObserver> observer) = 0;
 //};
 
+class ILiveData {
+public:
+    virtual ~ILiveData() = default;
+
+    virtual const std::type_index& GetSubType() = 0;
+};
+
+
 template<class Value>
-class LiveData {
+class LiveData : public ILiveData {
 public:
 
     typedef Value value_type;
 
     LiveData() = delete;
 
-    virtual ~LiveData() = default;
+    ~LiveData() override = default;
 
     explicit LiveData(Value value) : m_value(std::move(value)) {}
+
+    const std::type_index &GetSubType() override final {
+        static std::type_index type = typeid(LiveData<Value>);
+        return type;
+    }
 
     virtual Value GetValue() const {
         std::shared_lock<std::shared_mutex> lock(m_valueMutex);

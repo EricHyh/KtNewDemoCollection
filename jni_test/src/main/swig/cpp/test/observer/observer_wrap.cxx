@@ -28,6 +28,7 @@ namespace Swig {
 #include <list>
 #include <vector>
 #include <functional>
+#include <typeindex>
 
 
 #include "observer/ObserverManager.h"
@@ -1249,27 +1250,15 @@ std::shared_ptr< ITestObserver2 > SwigDirector_IObserverManager::getObserver2() 
     if (swigerror) {
       Swig::DirectorException::raise(jenv, swigerror);
     }
-
-
-
+    
+    
     if (jresult) {
       std::shared_ptr<ITestObserver2> *smartarg = *(std::shared_ptr<ITestObserver2> **)&jresult;
-
-//        smartarg->swap(c_result);
-
       auto *jresult_ptr = dynamic_cast<Swig::Director*>(smartarg->get());
-
       if (jresult_ptr) {
         jobject jobj = jresult_ptr->swig_get_self(jenv);
-          ObserverManager::optionalEnum33();
-          if (!jobj) {
-              SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "空指针");
-              return c_result;
-          }
         // 创建全局引用
         jobject globalRef = jenv->NewGlobalRef(jobj);
-          jenv->DeleteLocalRef(jobj);
-          ObserverManager::optionalEnum33();
         c_result = std::shared_ptr<ITestObserver2>(smartarg->get(), [globalRef](ITestObserver2* ptr) {
           JNIEnv *env = nullptr;
             JNIContext context(env);
@@ -3642,6 +3631,18 @@ SWIGEXPORT jbyteArray JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJ
   jenv->SetByteArrayRegion(jba, 0, size, (jbyte*)(&result)->data());
   jresult = jba;
   
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_ObserverManager_1optionalEnum33(JNIEnv *jenv, jclass jcls) {
+  jint jresult = 0 ;
+  TestEnum1 result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (TestEnum1)ObserverManager::optionalEnum33();
+  jresult = (jint)result; 
   return jresult;
 }
 

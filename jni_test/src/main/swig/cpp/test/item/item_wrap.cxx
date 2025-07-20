@@ -28,6 +28,7 @@ namespace Swig {
 #include <list>
 #include <vector>
 #include <functional>
+#include <typeindex>
 
 
 #include "model/N2CTestItem.h"

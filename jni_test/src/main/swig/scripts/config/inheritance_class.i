@@ -1,0 +1,207 @@
+#ifndef INHERITANCE_CLASS_CONFIG
+#define INHERITANCE_CLASS_CONFIG
+
+// 基础宏定义
+%define FIN_INDEX_TO_TYPE(INDEX, TYPE)
+      case INDEX:
+        return new $typemap(jstype, TYPE)(cPtr, true);
+%enddef
+
+%define FIN_SUB_TYPE_INDEX(INDEX, TYPE)
+        {typeid(TYPE), INDEX},
+%enddef
+
+// 递归处理可变参数的宏（简化版，实际需要扩展到足够数量）
+#define FIN_MACRO_PROCESS_1(func, INDEX, _1) func(INDEX, _1)
+#define FIN_MACRO_PROCESS_2(func, INDEX, _1, _2) func(INDEX, _1) FIN_MACRO_PROCESS_1(func, 1, _2)
+#define FIN_MACRO_PROCESS_3(func, INDEX, _1, _2, _3) func(INDEX, _1) FIN_MACRO_PROCESS_2(func, 2, _2, _3)
+#define FIN_MACRO_PROCESS_4(func, INDEX, _1, _2, _3, _4) func(INDEX, _1) FIN_MACRO_PROCESS_3(func, 3, _2, _3, _4)
+#define FIN_MACRO_PROCESS_5(func, INDEX, _1, _2, _3, _4, _5) func(INDEX, _1) FIN_MACRO_PROCESS_4(func, 4, _2, _3, _4, _5)
+#define FIN_MACRO_PROCESS_6(func, INDEX, _1, _2, _3, _4, _5, _6) func(INDEX, _1) FIN_MACRO_PROCESS_5(func, 5, _2, _3, _4, _5, _6)
+#define FIN_MACRO_PROCESS_7(func, INDEX, _1, _2, _3, _4, _5, _6, _7) func(INDEX, _1) FIN_MACRO_PROCESS_6(func, 6, _2, _3, _4, _5, _6, _7)
+#define FIN_MACRO_PROCESS_8(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_7(func, 7, _2, _3, _4, _5, _6, _7, _8)
+#define FIN_MACRO_PROCESS_9(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_8(func, 8, _2, _3, _4, _5, _6, _7, _8, _9)
+#define FIN_MACRO_PROCESS_10(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_9(func, 9, _2, _3, _4, _5, _6, _7, _8, _9, _10)
+#define FIN_MACRO_PROCESS_11(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_10(func, 10, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11)
+#define FIN_MACRO_PROCESS_12(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_11(func, 11, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12)
+#define FIN_MACRO_PROCESS_13(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_12(func, 12, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13)
+#define FIN_MACRO_PROCESS_14(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_13(func, 13, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14)
+#define FIN_MACRO_PROCESS_15(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_14(func, 14, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15)
+#define FIN_MACRO_PROCESS_16(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_15(func, 15, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16)
+#define FIN_MACRO_PROCESS_17(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_16(func, 16, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17)
+#define FIN_MACRO_PROCESS_18(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_17(func, 17, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18)
+#define FIN_MACRO_PROCESS_19(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_18(func, 18, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19)
+#define FIN_MACRO_PROCESS_20(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20) \
+    func(INDEX, _1) FIN_MACRO_PROCESS_19(func, 19, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20)
+#define FIN_MACRO_PROCESS_21(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21) \
+    func(INDEX, _1)                                                                                                                 \
+        FIN_MACRO_PROCESS_20(func, 20, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21)
+#define FIN_MACRO_PROCESS_22(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22)                                                                                                            \
+    func(INDEX, _1)                                                                                                                 \
+        FIN_MACRO_PROCESS_21(func, 21, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22)
+#define FIN_MACRO_PROCESS_23(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23)                                                                                                        \
+    func(INDEX, _1) FIN_MACRO_PROCESS_22(func, 22, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23)
+#define FIN_MACRO_PROCESS_24(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24)                                                                                                   \
+    func(INDEX, _1) FIN_MACRO_PROCESS_23(func, 23, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24)
+#define FIN_MACRO_PROCESS_25(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25)                                                                                              \
+    func(INDEX, _1) FIN_MACRO_PROCESS_24(func, 24, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25)
+#define FIN_MACRO_PROCESS_26(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26)                                                                                         \
+    func(INDEX, _1) FIN_MACRO_PROCESS_25(func, 25, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26)
+#define FIN_MACRO_PROCESS_27(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27)                                                                                    \
+    func(INDEX, _1) FIN_MACRO_PROCESS_26(func, 26, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27)
+#define FIN_MACRO_PROCESS_28(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27, _28)                                                                               \
+    func(INDEX, _1) FIN_MACRO_PROCESS_27(func, 27, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27, _28)
+#define FIN_MACRO_PROCESS_29(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27, _28, _29)                                                                          \
+    func(INDEX, _1) FIN_MACRO_PROCESS_28(func, 28, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27, _28, _29)
+#define FIN_MACRO_PROCESS_30(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27, _28, _29, _30)                                                                     \
+    func(INDEX, _1) FIN_MACRO_PROCESS_29(func, 29, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30)
+
+#define FIN_MACRO_PROCESS_31(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27, _28, _29, _30, _31)                                                                     \
+    func(INDEX, _1) FIN_MACRO_PROCESS_30(func, 30, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31)
+#define FIN_MACRO_PROCESS_32(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32)                                                                     \
+    func(INDEX, _1) FIN_MACRO_PROCESS_31(func, 31, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32)
+#define FIN_MACRO_PROCESS_33(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33)                                                                     \
+    func(INDEX, _1) FIN_MACRO_PROCESS_32(func, 32, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33)
+#define FIN_MACRO_PROCESS_34(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34)                                                                     \
+    func(INDEX, _1) FIN_MACRO_PROCESS_33(func, 33, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34)
+#define FIN_MACRO_PROCESS_35(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35)                                                                     \
+    func(INDEX, _1) FIN_MACRO_PROCESS_34(func, 34, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35)
+#define FIN_MACRO_PROCESS_36(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36)                                                                     \
+    func(INDEX, _1) FIN_MACRO_PROCESS_35(func, 35, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36)
+#define FIN_MACRO_PROCESS_37(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37)                                                                     \
+    func(INDEX, _1) FIN_MACRO_PROCESS_36(func, 36, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37)
+#define FIN_MACRO_PROCESS_38(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38)                                                                     \
+    func(INDEX, _1) FIN_MACRO_PROCESS_37(func, 37, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38)
+#define FIN_MACRO_PROCESS_39(func, INDEX, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, \
+                       _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39)                                                                     \
+    func(INDEX, _1) FIN_MACRO_PROCESS_38(func, 38, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, \
+                                      _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39)
+
+#define FIN_MACRO_PROCESS_40(func, INDEX, \
+_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20 \
+, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40 \
+)func(INDEX, _1) FIN_MACRO_PROCESS_39(func,\
+39, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20  \
+, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40 \
+)
+// ... 需要继续扩展到足够多的参数 ...
+
+// 参数选择器（简化版）
+#define FIN_SELECT_PROCESSOR(\
+_1, _2, _3, _4, _5, _6, _7, _8, _9, _10,          \
+_11, _12, _13, _14, _15, _16, _17, _18, _19, _20, \
+_21, _22, _23, _24, _25, _26, _27, _28, _29, _30, \
+_31, _32, _33, _34, _35, _36, _37, _38, _39, _40, \
+N, ...) N
+
+// 参数计数器（检测实际参数数量）
+#define INH_SELECT_PROCESSOR( \
+_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, \
+_11, _12, _13, _14, _15, _16, _17, _18, _19, _20, \
+_21, _22, _23, _24, _25, _26, _27, _28, _29, _30, \
+_31, _32, _33, _34, _35, _36, _37, _38, _39, _40, \
+N, ...) N
+#define INH_GET_ARG_COUNT(...) INH_SELECT_PROCESSOR(__VA_ARGS__, \
+40,39,38,37,36,35,34,33,32,31, \
+30,29,28,27,26,25,24,23,22,21, \
+20,19,18,17,16,15,14,13,12,11, \
+10,9,8,7,6,5,4,3,2,1)
+
+
+#define FIN_APPLY_TO_EACH(func, ...)                                                                                \
+FIN_SELECT_PROCESSOR_EXPAND(FIN_SELECT_PROCESSOR(__VA_ARGS__,                                                       \
+FIN_MACRO_PROCESS_40, FIN_MACRO_PROCESS_39, FIN_MACRO_PROCESS_38, FIN_MACRO_PROCESS_37, FIN_MACRO_PROCESS_36,       \
+FIN_MACRO_PROCESS_35, FIN_MACRO_PROCESS_34, FIN_MACRO_PROCESS_33, FIN_MACRO_PROCESS_32, FIN_MACRO_PROCESS_31,       \
+FIN_MACRO_PROCESS_30, FIN_MACRO_PROCESS_29, FIN_MACRO_PROCESS_28, FIN_MACRO_PROCESS_27, FIN_MACRO_PROCESS_26,       \
+FIN_MACRO_PROCESS_25, FIN_MACRO_PROCESS_24, FIN_MACRO_PROCESS_23, FIN_MACRO_PROCESS_22, FIN_MACRO_PROCESS_21,       \
+FIN_MACRO_PROCESS_20, FIN_MACRO_PROCESS_19, FIN_MACRO_PROCESS_18, FIN_MACRO_PROCESS_17, FIN_MACRO_PROCESS_16,       \
+FIN_MACRO_PROCESS_15, FIN_MACRO_PROCESS_14, FIN_MACRO_PROCESS_13, FIN_MACRO_PROCESS_12, FIN_MACRO_PROCESS_11,       \
+FIN_MACRO_PROCESS_10, FIN_MACRO_PROCESS_9, FIN_MACRO_PROCESS_8, FIN_MACRO_PROCESS_7, FIN_MACRO_PROCESS_6,           \
+FIN_MACRO_PROCESS_5, FIN_MACRO_PROCESS_4, FIN_MACRO_PROCESS_3, FIN_MACRO_PROCESS_2, FIN_MACRO_PROCESS_1             \
+)(func, INH_GET_ARG_COUNT(__VA_ARGS__), __VA_ARGS__))
+
+#define FIN_SELECT_PROCESSOR_EXPAND(x) x
+
+
+
+// 主可变参数宏
+%define %inheritance_class(BASE, ...)
+
+%typemap(javaout) std::shared_ptr<BASE> {
+    long cPtr = $jnicall;
+    if (cPtr == 0) {
+      return null;
+    }
+    int subType = $typemap(jstype, BASE).getSubClassType(cPtr);
+    switch (subType) {
+      FIN_APPLY_TO_EACH(FIN_INDEX_TO_TYPE, __VA_ARGS__)
+      default :
+        return new $typemap(jstype, BASE)(cPtr, true);
+    }
+  }
+
+
+%extend BASE {
+static int32_t getSubClassType(uintptr_t ptr) {
+  if (ptr) {
+    auto* base_shared_ptr = reinterpret_cast<std::shared_ptr<BASE>*>(ptr);
+    if (!base_shared_ptr || !(*base_shared_ptr)) {
+      return -1;
+    }
+    static std::unordered_map<std::type_index, int32_t> index_map = {
+            FIN_APPLY_TO_EACH(FIN_SUB_TYPE_INDEX, __VA_ARGS__)
+    };
+    return index_map[(*base_shared_ptr)->GetSubType()];
+  }
+  return -1;
+}
+
+};
+%enddef
+
+#endif

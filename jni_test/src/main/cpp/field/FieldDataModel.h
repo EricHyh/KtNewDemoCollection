@@ -25,8 +25,7 @@ public:
     friend FieldDataModel;
 
 private:
-    virtual std::any createFiledValue() const = 0;
-
+    [[nodiscard]] virtual std::shared_ptr<ILiveData> CreateFieldValue(const FieldDataModel& dataModel) const = 0;
 };
 
 
@@ -55,10 +54,10 @@ public:
     friend FiledKey<Value> makeFiledKey<Value>(int32_t, const Value &);
 
 private:
+    friend FieldDataModel;
     FiledKey(int32_t key, Value value) : m_key(key), m_defaultValue(std::move(value)) {}
-    std::any createFiledValue() const override {
-        const std::shared_ptr<MutableLiveData<Value>> &ptr = std::make_shared<MutableLiveData<Value>>(m_defaultValue);
-        return std::any(std::move(ptr));
+    [[nodiscard]] std::shared_ptr<ILiveData> CreateFieldValue(const FieldDataModel& dataModel) const override {
+        return std::make_shared<MutableLiveData<Value>>(m_defaultValue);
     }
     int32_t m_key;
     Value m_defaultValue;
@@ -74,14 +73,14 @@ FiledKey<Value> makeFiledKey(int32_t key, const Value &value) {
 class FieldDataModel {
 
 public:
-    FieldDataModel(const std::vector<std::shared_ptr<BaseFiledKey>> &keys) {
-        for (auto baseKey: keys) {
+    explicit FieldDataModel(const std::vector<std::shared_ptr<BaseFiledKey>> &keys) {
+        for (const auto& baseKey: keys) {
             if (!baseKey) {
                 continue;  // 跳过空指针
             }
 
             // 直接使用 BaseFiledKey 的 createFiledValue 方法
-            m_valueMap[baseKey->getKey()] = baseKey->createFiledValue();
+            m_valueMap[baseKey->getKey()] = baseKey->CreateFieldValue(*this);
         }
     }
 
@@ -89,20 +88,19 @@ public:
     std::shared_ptr<LiveData<Value>> getFiledValue(const FiledKey<Value> &key) {
         auto it = m_valueMap.find(key.getKey());
         if (it != m_valueMap.end()) {
-            // 如果找到了键，尝试将其转换为正确的类型
-            try {
-                return std::any_cast<std::shared_ptr<MutableLiveData<Value>>>(it->second);
-            } catch (const std::bad_any_cast &) {
-                return std::make_shared<MutableLiveData<Value>>(key.getDefaultValue());
-            }
+            auto ptr = std::dynamic_pointer_cast<MutableLiveData<Value>>(it->second);
+            return ptr;
         }
+        return std::dynamic_pointer_cast<MutableLiveData<Value>>(key.CreateFieldValue(*this));
+    }
 
-        // 如果没有找到或类型不匹配，创建一个新的 MutableLiveData
-        return std::make_shared<MutableLiveData<Value>>(key.getDefaultValue());
+    std::shared_ptr<ILiveData> getBaseFiledValue(const BaseFiledKey &key) {
+        auto it = m_valueMap.find(key.getKey());
+        return it->second;
     }
 
 private:
-    std::map<int32_t, std::any> m_valueMap;
+    std::map<int32_t, std::shared_ptr<ILiveData>> m_valueMap;
 };
 
 class MutableFieldDataModel : public FieldDataModel {

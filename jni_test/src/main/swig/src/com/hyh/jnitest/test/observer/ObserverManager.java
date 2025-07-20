@@ -108,6 +108,10 @@ public class ObserverManager {
     return com.hyh.jnitest.test.observer.ObserverModuleJNI.ObserverManager_byteTest3();
   }
 
+  public static TestEnum1 optionalEnum33() {
+    return TestEnum1.swigToEnum(com.hyh.jnitest.test.observer.ObserverModuleJNI.ObserverManager_optionalEnum33());
+  }
+
   public static ITestObserver2Bridge getObserver2() {
     long ptr = com.hyh.jnitest.test.observer.ObserverModuleJNI.ObserverManager_getObserver2();
     if (ptr == 0) {

@@ -47,24 +47,8 @@ public class MutableStringLiveData extends StringLiveData {
     super.delete();
   }
 
-  protected void swigDirectorDisconnect() {
-    swigSetCMemOwn(false);
-    delete();
-  }
-
-  public void swigReleaseOwnership() {
-    swigSetCMemOwn(false);
-    com.hyh.jnitest.test.field.FieldModuleJNI.MutableStringLiveData_change_ownership(this, swigCPtr, false);
-  }
-
-  public void swigTakeOwnership() {
-    swigSetCMemOwn(true);
-    com.hyh.jnitest.test.field.FieldModuleJNI.MutableStringLiveData_change_ownership(this, swigCPtr, true);
-  }
-
   public MutableStringLiveData(String value) {
     this(com.hyh.jnitest.test.field.FieldModuleJNI.new_MutableStringLiveData(value), true);
-    com.hyh.jnitest.test.field.FieldModuleJNI.MutableStringLiveData_director_connect(this, swigCPtr, true, true);
   }
 
   public void SetValue(String value) {

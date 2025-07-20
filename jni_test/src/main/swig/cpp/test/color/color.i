@@ -10,21 +10,6 @@
 %}
 
 %jni_package_import_0(test.color);
-
-
-%typemap(javacode) FTAPPTargetType %{
-public static FTAPPTargetType swigToEnum(int swigValue) {
-    FTAPPTargetType[] swigValues = FTAPPTargetType.class.getEnumConstants();
-    if (swigValue < swigValues.length && swigValue >= 0 && swigValues[swigValue].swigValue == swigValue)
-        return swigValues[swigValue];
-    for (FTAPPTargetType swigEnum : swigValues)
-        if (swigEnum.swigValue == swigValue)
-            return swigEnum;
-    return swigValues[0];
-}
-%}
-
-
 // region 股票模型
 
 %java_package_import_0(ITestColor, test.color);

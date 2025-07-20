@@ -47,24 +47,8 @@ public class MutableIntLiveData extends IntLiveData {
     super.delete();
   }
 
-  protected void swigDirectorDisconnect() {
-    swigSetCMemOwn(false);
-    delete();
-  }
-
-  public void swigReleaseOwnership() {
-    swigSetCMemOwn(false);
-    com.hyh.jnitest.test.field.FieldModuleJNI.MutableIntLiveData_change_ownership(this, swigCPtr, false);
-  }
-
-  public void swigTakeOwnership() {
-    swigSetCMemOwn(true);
-    com.hyh.jnitest.test.field.FieldModuleJNI.MutableIntLiveData_change_ownership(this, swigCPtr, true);
-  }
-
   public MutableIntLiveData(int value) {
     this(com.hyh.jnitest.test.field.FieldModuleJNI.new_MutableIntLiveData(value), true);
-    com.hyh.jnitest.test.field.FieldModuleJNI.MutableIntLiveData_director_connect(this, swigCPtr, true, true);
   }
 
   public void SetValue(int value) {

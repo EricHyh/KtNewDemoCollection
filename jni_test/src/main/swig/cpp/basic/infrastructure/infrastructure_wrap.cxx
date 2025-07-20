@@ -22,6 +22,7 @@
 #include <list>
 #include <vector>
 #include <functional>
+#include <typeindex>
 
 
 /* Check for overflow converting to Java int (always signed 32-bit) from (unsigned variable-bit) size_t */

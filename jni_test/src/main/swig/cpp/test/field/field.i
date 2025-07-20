@@ -28,6 +28,7 @@
 %java_package_import_0(FieldDataModel, test.field);
 %java_package_import_0(MutableFieldDataModel, test.field);
 
+%java_package_import_0(ILiveData, test.field);
 %java_package_import_0(LiveData<int>, test.field);
 %java_package_import_0(LiveData<std::string>, test.field);
 %java_package_import_0(LiveData<std::optional<std::string>>, test.field);
@@ -38,6 +39,7 @@
 
 %ignore makeFiledKey<Value>;
 %ignore FieldDataModel::getFieldValue;
+%ignore ILiveData::GetSubType;
 
 
 %functional_bridge(LiveDataObserver<int>, IntLiveDataObserver, void, (const int &value), (value));
@@ -50,11 +52,19 @@
 %std_vector_bridge(std::shared_ptr<BaseFiledKey>);
 %template(BaseFiledKeyVector) std::vector<std::shared_ptr<BaseFiledKey>>;
 
+%feature("nodirector") ILiveData;
+%feature("nodirector") LiveData<int>;
+%feature("nodirector") LiveData<std::string>;
+%feature("nodirector") LiveData<std::optional<std::string>>;
+%feature("nodirector") MutableLiveData<int>;
+%feature("nodirector") MutableLiveData<std::string>;
+%feature("nodirector") MutableLiveData<std::optional<std::string>>;
+
 %feature("nodirector") FiledKey<int>;
 %feature("nodirector") FiledKey<std::string>;
 %feature("nodirector") FiledKey<std::optional<std::string>>;
 %feature("nodirector") BaseFiledKey;
-%feature("nodirector") IBaseLiveData;
+
 
 
 %shared_ptr(FiledKey<int>);
@@ -89,7 +99,7 @@
         }
 }
 
-%shared_ptr_wrapper(IBaseLiveData);
+%shared_ptr_wrapper(ILiveData);
 %shared_ptr_wrapper(LiveData<int>);
 %shared_ptr_wrapper(LiveData<std::string>);
 %shared_ptr_wrapper(LiveData<std::optional<std::string>>);
@@ -97,7 +107,7 @@
 %shared_ptr_wrapper(MutableLiveData<std::string>);
 %shared_ptr_wrapper(MutableLiveData<std::optional<std::string>>);
 
-
+%inheritance_class(ILiveData, LiveData<int>, LiveData<std::string>, LiveData<std::optional<std::string>>);
 
 %include "field/LiveData.h"
 %include "field/FieldKeys.h"
