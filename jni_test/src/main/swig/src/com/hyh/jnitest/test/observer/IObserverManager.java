@@ -137,6 +137,16 @@ public class IObserverManager {
     }
   }
 
+  public Double test_double_1(Double d) {
+    double temp = com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_test_double_1(swigCPtr, this, d == null ? Double.NaN : d);
+    return Double.isNaN(temp) ? null : temp;
+  }
+
+  public Double test_double_2(Double d) {
+    double temp = com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_test_double_2(swigCPtr, this, d == null ? Double.NaN : d);
+    return Double.isNaN(temp) ? null : temp;
+  }
+
   public IObserverManager() {
     this(com.hyh.jnitest.test.observer.ObserverModuleJNI.new_IObserverManager(), true);
     com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_director_connect(this, swigCPtr, true, true);

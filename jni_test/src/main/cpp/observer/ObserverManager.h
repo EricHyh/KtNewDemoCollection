@@ -1,3 +1,5 @@
+
+
 //
 // Created by eriche on 2025/2/16.
 //
@@ -99,6 +101,9 @@ public:
     virtual TestEnum1 optionalEnum33() = 0;
 
     virtual std::shared_ptr<ITestObserver2> getObserver2() = 0;
+
+    virtual std::optional<double> test_double_1(std::optional<double> d) = 0;
+    virtual std::optional<double>& test_double_2(const std::optional<double>& d) = 0;
 
 };
 

@@ -77,12 +77,14 @@ public:
     virtual void setTestObserver2List(std::vector< TestObserver2 > arg0);
     virtual TestEnum1 optionalEnum33();
     virtual std::shared_ptr< ITestObserver2 > getObserver2();
+    virtual std::optional< double > test_double_1(std::optional< double > d);
+    virtual std::optional< double > &test_double_2(std::optional< double > const &d);
 public:
     bool swig_overrides(int n) {
-      return (n < 16 ? swig_override[n] : false);
+      return (n < 18 ? swig_override[n] : false);
     }
 protected:
-    Swig::BoolArray<16> swig_override;
+    Swig::BoolArray<18> swig_override;
 };
 
 

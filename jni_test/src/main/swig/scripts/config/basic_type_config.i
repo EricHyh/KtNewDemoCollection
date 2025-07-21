@@ -140,4 +140,78 @@ $1 = std::make_optional<c_type>($input);
 %basic_type_map(int8_t, byte, jbyte, B);
 %optional_basic_type_map(int8_t, byte, jbyte, B);
 
+
+
+%typemap(jstype) std::optional<double>, std::optional<double>& "Double"  //Java层 Java函数类型
+%typemap(jtype) std::optional<double>, std::optional<double>& "double"   //Java层 JNI函数参数类型
+%typemap(jni) std::optional<double>, std::optional<double>& "jdouble"    //C++层  JNI函数参数类型
+
+//Java层，Java调用JNI函数时，对函数参数的转换
+%typemap(javain) std::optional<double>, std::optional<double>& "$javainput == null ? Double.NaN : $javainput"
+
+//Java层，Java调用JNI函数时，对返回值的转换
+%typemap(javaout) std::optional<double>, std::optional<double>& {
+    double temp = $jnicall;
+    return Double.isNaN(temp) ? null : temp;
+  }
+
+//Java层，C++调用Java函数时，对函数参数的转换
+%typemap(javadirectorin) std::optional<double>, std::optional<double>& "Double.isNaN($jniinput) ? null : $jniinput"
+
+//Java层，C++调用Java函数时，对返回值的转换
+%typemap(javadirectorout) std::optional<double>, std::optional<double>& "$javacall == null ? Double.NaN : $javacall"
+
+//C++层，JNI函数参数，java类型转C++类型
+%typemap(in) std::optional<double> %{
+if (std::isnan($input)) {
+  $1 = std::nullopt;
+} else {
+  $1 = std::make_optional<double>($input);
+}
+%}
+
+%typemap(in) std::optional<double>& %{
+auto $1_temp = std::isnan($input) ? std::nullopt : std::make_optional<double>($input);
+$1 = &$1_temp;
+%}
+
+//C++层，JNI函数返回值，C++类型转java类型
+%typemap(out) std::optional<double> %{
+if ($1.has_value()) {
+  $result = $1.value();
+} else {
+  $result = std::numeric_limits<double>::quiet_NaN();
+}
+%}
+%typemap(out) std::optional<double>& %{
+if ($1->has_value()) {
+  $result = $1->value();
+} else {
+  $result = std::numeric_limits<double>::quiet_NaN();
+}
+%}
+
+%typemap(directorin, descriptor="D") std::optional<double>, std::optional<double>& %{
+if ($1.has_value()) {
+  $input = $1.value();
+} else {
+  $input = std::numeric_limits<double>::quiet_NaN();
+}
+%}
+
+%typemap(directorout, descriptor="D") std::optional<double> %{
+if (std::isnan($input)) {
+  $1 = std::nullopt;
+} else {
+  $1 = std::make_optional<double>($input);
+}
+
+%}
+
+%typemap(directorout, descriptor="D") std::optional<double>& %{
+#error "typemaps for $1_type not available"
+%}
+
+
+
 #endif // BASIC_TYPE_CONFIG
