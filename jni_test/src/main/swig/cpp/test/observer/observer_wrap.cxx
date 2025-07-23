@@ -13,7 +13,7 @@
 namespace Swig {
   namespace {
     jclass jclass_ObserverModuleJNI = NULL;
-    jmethodID director_method_ids[22];
+    jmethodID director_method_ids[26];
   }
 }
 
@@ -1357,6 +1357,141 @@ std::optional< double > &SwigDirector_IObserverManager::test_double_2(std::optio
   return *c_result;
 }
 
+void SwigDirector_IObserverManager::test_bool_1(std::optional< bool > d) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jbyte jd  ;
+  
+  if (!swig_override[18]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::test_bool_1.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    if ((&d)->has_value()) {
+      jd = (&d)->value() ? 1 : 0;
+    } else {
+      jd = 2;
+    }
+    
+    jenv->CallStaticVoidMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[22], swigjobj, jd);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::test_bool_1 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+std::optional< bool > SwigDirector_IObserverManager::test_bool_2() {
+  std::optional< bool > c_result = SwigValueInit< std::optional< bool > >() ;
+  jbyte jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  
+  if (!swig_override[19]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::test_bool_2.");
+    return c_result;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jresult = (jbyte) jenv->CallStaticByteMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[23], swigjobj);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    
+    switch (jresult) {
+      0: {
+        c_result = std::make_optional<bool>(false);
+        break;
+      }
+      1: {
+        c_result = std::make_optional<bool>(true);
+        break;
+      }
+      default: {
+        c_result = std::nullopt;
+        break;
+      }
+    }
+    
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::test_bool_2 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return c_result;
+}
+
+void SwigDirector_IObserverManager::test_bool_3(std::optional< bool > const &d) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jbyte jd = 0 ;
+  
+  if (!swig_override[20]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::test_bool_3.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    if ((&d)->has_value()) {
+      jd = (&d)->value() ? 1 : 0;
+    } else {
+      jd = 2;
+    }
+    
+    jenv->CallStaticVoidMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[24], swigjobj, jd);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::test_bool_3 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+std::optional< bool > &SwigDirector_IObserverManager::test_bool_4() {
+  static std::optional< bool > result_default ;
+  std::optional< bool > * c_result ;
+  jbyte jresult = 0 ;
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  
+  result_default = SwigValueInit< std::optional< bool > >();
+  c_result = &result_default;
+  if (!swig_override[21]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IObserverManager::test_bool_4.");
+    return *c_result;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    jresult = (jbyte) jenv->CallStaticByteMethod(Swig::jclass_ObserverModuleJNI, Swig::director_method_ids[25], swigjobj);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+    
+#error "typemaps for std::optional< bool > & not available"
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in IObserverManager::test_bool_4 ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  return *c_result;
+}
+
 void SwigDirector_IObserverManager::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
   static jclass baseclass = swig_new_global_ref(jenv, "com/hyh/jnitest/test/observer/IObserverManager");
   if (!baseclass) return;
@@ -1378,12 +1513,16 @@ void SwigDirector_IObserverManager::swig_connect_director(JNIEnv *jenv, jobject 
     SwigDirectorMethod(jenv, baseclass, "optionalEnum33", "()Lcom/hyh/jnitest/test/observer/TestEnum1;"),
     SwigDirectorMethod(jenv, baseclass, "getObserver2", "()Lcom/hyh/jnitest/test/observer/ITestObserver2Bridge;"),
     SwigDirectorMethod(jenv, baseclass, "test_double_1", "(D)D"),
-    SwigDirectorMethod(jenv, baseclass, "test_double_2", "(D)D")
+    SwigDirectorMethod(jenv, baseclass, "test_double_2", "(D)D"),
+    SwigDirectorMethod(jenv, baseclass, "test_bool_1", "(B)V"),
+    SwigDirectorMethod(jenv, baseclass, "test_bool_2", "()B"),
+    SwigDirectorMethod(jenv, baseclass, "test_bool_3", "(B)V"),
+    SwigDirectorMethod(jenv, baseclass, "test_bool_4", "()B")
   };
   
   if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
     bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
-    for (int i = 0; i < 18; ++i) {
+    for (int i = 0; i < 22; ++i) {
       swig_override[i] = false;
       if (derived) {
         jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
@@ -3470,6 +3609,92 @@ SWIGEXPORT jdouble JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_
 }
 
 
+SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_IObserverManager_1test_1bool_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyte jarg2) {
+  IObserverManager *arg1 = (IObserverManager *) 0 ;
+  std::optional< bool > arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(IObserverManager **)&jarg1; 
+  
+  switch (jarg2) {
+    case 0: {
+      arg2 = std::make_optional<bool>(false);
+      break;
+    }
+    case 1: {
+      arg2 = std::make_optional<bool>(true);
+      break;
+    }
+    default: {
+      arg2 = std::nullopt;
+      break;
+    }
+  }
+  
+  (arg1)->test_bool_1(SWIG_STD_MOVE(arg2));
+}
+
+
+SWIGEXPORT jbyte JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_IObserverManager_1test_1bool_12(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jbyte jresult = 0 ;
+  IObserverManager *arg1 = (IObserverManager *) 0 ;
+  std::optional< bool > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(IObserverManager **)&jarg1; 
+  result = (arg1)->test_bool_2();
+  
+  if ((&result)->has_value()) {
+    jresult = (&result)->value() ? 1 : 0;
+  } else {
+    jresult = 2;
+  }
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_IObserverManager_1test_1bool_13(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyte jarg2) {
+  IObserverManager *arg1 = (IObserverManager *) 0 ;
+  std::optional< bool > *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(IObserverManager **)&jarg1; 
+  
+  auto arg2_temp = jarg2 == 0 ? std::make_optional<bool>(false) : (jarg2 == 0 ? std::make_optional<double>(true) : std::nullopt);
+  arg2 = &arg2_temp;
+  
+  (arg1)->test_bool_3((std::optional< bool > const &)*arg2);
+}
+
+
+SWIGEXPORT jbyte JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_IObserverManager_1test_1bool_14(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jbyte jresult = 0 ;
+  IObserverManager *arg1 = (IObserverManager *) 0 ;
+  std::optional< bool > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(IObserverManager **)&jarg1; 
+  result = (std::optional< bool > *) &(arg1)->test_bool_4();
+  
+  if (result->has_value()) {
+    jresult = result->value() ? 1 : 0;
+  } else {
+    jresult = 2;
+  }
+  
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_new_1IObserverManager(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
   IObserverManager *result = 0 ;
@@ -3880,7 +4105,7 @@ SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_swi
   static struct {
     const char *method;
     const char *signature;
-  } methods[22] = {
+  } methods[26] = {
     {
       "SwigDirector_TestObserverBridge_onCall", "(Lcom/hyh/jnitest/test/observer/TestObserverBridge;I)V" 
     },
@@ -3946,6 +4171,18 @@ SWIGEXPORT void JNICALL Java_com_hyh_jnitest_test_observer_ObserverModuleJNI_swi
     },
     {
       "SwigDirector_IObserverManager_test_double_2", "(Lcom/hyh/jnitest/test/observer/IObserverManager;D)D" 
+    },
+    {
+      "SwigDirector_IObserverManager_test_bool_1", "(Lcom/hyh/jnitest/test/observer/IObserverManager;B)V" 
+    },
+    {
+      "SwigDirector_IObserverManager_test_bool_2", "(Lcom/hyh/jnitest/test/observer/IObserverManager;)B" 
+    },
+    {
+      "SwigDirector_IObserverManager_test_bool_3", "(Lcom/hyh/jnitest/test/observer/IObserverManager;B)V" 
+    },
+    {
+      "SwigDirector_IObserverManager_test_bool_4", "(Lcom/hyh/jnitest/test/observer/IObserverManager;)B" 
     }
   };
   Swig::jclass_ObserverModuleJNI = (jclass) jenv->NewGlobalRef(jcls);

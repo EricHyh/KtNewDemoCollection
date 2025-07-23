@@ -126,6 +126,10 @@ public class ObserverModuleJNI {
   public final static native long IObserverManager_getObserver2(long jarg1, IObserverManager jarg1_);
   public final static native double IObserverManager_test_double_1(long jarg1, IObserverManager jarg1_, double jarg2);
   public final static native double IObserverManager_test_double_2(long jarg1, IObserverManager jarg1_, double jarg2);
+  public final static native void IObserverManager_test_bool_1(long jarg1, IObserverManager jarg1_, byte jarg2);
+  public final static native byte IObserverManager_test_bool_2(long jarg1, IObserverManager jarg1_);
+  public final static native void IObserverManager_test_bool_3(long jarg1, IObserverManager jarg1_, byte jarg2);
+  public final static native byte IObserverManager_test_bool_4(long jarg1, IObserverManager jarg1_);
   public final static native long new_IObserverManager();
   public final static native void IObserverManager_director_connect(IObserverManager obj, long cptr, boolean mem_own, boolean weak_global);
   public final static native void IObserverManager_change_ownership(IObserverManager obj, long cptr, boolean take_or_release);
@@ -217,6 +221,18 @@ public class ObserverModuleJNI {
   }
   public static double SwigDirector_IObserverManager_test_double_2(IObserverManager jself, double d) {
     return jself.test_double_2(Double.isNaN(d) ? null : d) == null ? Double.NaN : jself.test_double_2(Double.isNaN(d) ? null : d);
+  }
+  public static void SwigDirector_IObserverManager_test_bool_1(IObserverManager jself, byte d) {
+    jself.test_bool_1(d == 0 ? Boolean.FALSE : (d == 1 ? Boolean.TRUE : null));
+  }
+  public static byte SwigDirector_IObserverManager_test_bool_2(IObserverManager jself) {
+    return jself.test_bool_2() == null ? (byte) 2 : (jself.test_bool_2() ? (byte) 1 : 0);
+  }
+  public static void SwigDirector_IObserverManager_test_bool_3(IObserverManager jself, byte d) {
+    jself.test_bool_3(d == 0 ? Boolean.FALSE : (d == 1 ? Boolean.TRUE : null));
+  }
+  public static byte SwigDirector_IObserverManager_test_bool_4(IObserverManager jself) {
+    return jself.test_bool_4() == null ? (byte) 2 : (jself.test_bool_4() ? (byte) 1 : 0);
   }
 
   private final static native void swig_module_init();

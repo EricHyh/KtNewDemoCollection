@@ -214,4 +214,106 @@ if (std::isnan($input)) {
 
 
 
+
+
+
+
+%typemap(jstype) std::optional<bool>, std::optional<bool>& "Boolean" //Java层 Java函数类型
+%typemap(jtype) std::optional<bool>, std::optional<bool>& "byte"     //Java层 JNI函数参数类型
+%typemap(jni) std::optional<bool>, std::optional<bool>& "jbyte"      //C++层  JNI函数参数类型
+
+//Java层，Java调用JNI函数时，对函数参数的转换
+%typemap(javain) std::optional<bool>, std::optional<bool>& "$javainput == null ? (byte) 2 : ($javainput ? (byte) 1 : 0)"
+
+//Java层，Java调用JNI函数时，对返回值的转换
+%typemap(javaout) std::optional<bool>, std::optional<bool>& {
+    switch($jnicall){
+      case 0: {
+        return false;
+      }
+      case 1: {
+        return true;
+      }
+      default: {
+        return null;
+      }
+    }
+  }
+
+//Java层，C++调用Java函数时，对函数参数的转换
+%typemap(javadirectorin) std::optional<bool>, std::optional<bool>& "$jniinput == 0 ? Boolean.FALSE : ($jniinput == 1 ? Boolean.TRUE : null)"
+
+//Java层，C++调用Java函数时，对返回值的转换
+%typemap(javadirectorout) std::optional<bool>, std::optional<bool>& "$javacall == null ? (byte) 2 : ($javacall ? (byte) 1 : 0)"
+
+//C++层，JNI函数参数，java类型转C++类型
+%typemap(in) std::optional<bool> %{
+switch ($input) {
+  case 0: {
+    $1 = std::make_optional<bool>(false);
+    break;
+  }
+  case 1: {
+    $1 = std::make_optional<bool>(true);
+    break;
+  }
+  default: {
+    $1 = std::nullopt;
+    break;
+  }
+}
+%}
+
+%typemap(in) std::optional<bool>& %{
+auto $1_temp = $input == 0 ? std::make_optional<bool>(false) : ($input == 0 ? std::make_optional<double>(true) : std::nullopt);
+$1 = &$1_temp;
+%}
+
+//C++层，JNI函数返回值，C++类型转java类型
+%typemap(out) std::optional<bool> %{
+if ($1.has_value()) {
+ $result = $1.value() ? 1 : 0;
+} else {
+ $result = 2;
+}
+%}
+%typemap(out) std::optional<bool>& %{
+if ($1->has_value()) {
+  $result = $1->value() ? 1 : 0;
+} else {
+  $result = 2;
+}
+%}
+
+%typemap(directorin, descriptor="B") std::optional<bool>, std::optional<bool>& %{
+if ($1.has_value()) {
+  $input = $1.value() ? 1 : 0;
+} else {
+  $input = 2;
+}
+%}
+
+%typemap(directorout, descriptor="B") std::optional<bool> %{
+switch ($input) {
+  0: {
+    $1 = std::make_optional<bool>(false);
+    break;
+  }
+  1: {
+    $1 = std::make_optional<bool>(true);
+    break;
+  }
+  default: {
+    $1 = std::nullopt;
+  break;
+}
+}
+
+%}
+
+%typemap(directorout, descriptor="B") std::optional<bool>& %{
+#error "typemaps for $1_type not available"
+%}
+
+
 #endif // BASIC_TYPE_CONFIG

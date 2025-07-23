@@ -105,6 +105,10 @@ public:
     virtual std::optional<double> test_double_1(std::optional<double> d) = 0;
     virtual std::optional<double>& test_double_2(const std::optional<double>& d) = 0;
 
+    virtual void test_bool_1(std::optional<bool> d) = 0;
+    virtual std::optional<bool> test_bool_2() = 0;
+    virtual void test_bool_3(const std::optional<bool>& d) = 0;
+    virtual std::optional<bool>& test_bool_4() = 0;
 };
 
 class ObserverManager {
