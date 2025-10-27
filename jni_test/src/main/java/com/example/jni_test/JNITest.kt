@@ -140,6 +140,22 @@ object ObserverManagerImpl : IObserverManager() {
         }
     }
 
+    override fun test_bool_3(d: Boolean?) {
+        super.test_bool_3(d)
+    }
+
+    override fun test_bool_1(d: Boolean?) {
+        super.test_bool_1(d)
+    }
+
+    override fun test_double_1(d: Double?): Double? {
+        return super.test_double_1(d)
+    }
+
+    override fun test_bool_2(): Boolean? {
+        return super.test_bool_2()
+    }
+
     fun notifyEvent() {
         num++
         observers.forEach {

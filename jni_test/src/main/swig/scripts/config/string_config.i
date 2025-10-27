@@ -173,4 +173,151 @@ if ($input == nullptr) {
 
 //-------------------------------------std::shared_ptr<std::string> 转换适配---------------------------------------------
 
+
+
+%typemap(jstype) FINStringWrapper, FINStringWrapper& "String"  //Java层 Java函数类型
+%typemap(jtype) FINStringWrapper, FINStringWrapper& "String"   //Java层 JNI函数参数类型
+%typemap(jni) FINStringWrapper, FINStringWrapper& "jstring"    //C++层  JNI函数参数类型
+
+//Java层，Java调用JNI函数时，对函数参数的转换
+%typemap(javain) FINStringWrapper, FINStringWrapper& "$javainput"
+
+//Java层，Java调用JNI函数时，对返回值的转换
+%typemap(javaout) FINStringWrapper, FINStringWrapper& {
+    return $jnicall;
+  }
+
+//Java层，C++调用Java函数时，对函数参数的转换
+%typemap(javadirectorin) FINStringWrapper, FINStringWrapper& "$jniinput"
+
+//Java层，C++调用Java函数时，对返回值的转换
+%typemap(javadirectorout) FINStringWrapper, FINStringWrapper& "$javacall"
+
+
+//C++层，JNI函数参数，java类型转C++类型
+%typemap(in) FINStringWrapper %{
+if ($input == nullptr) {
+  $1 = FINStringWrapper();
+} else {
+  const char* $input_cstr = jenv->GetStringUTFChars($input, nullptr);
+  $1 = FINStringWrapper($input_cstr);
+  jenv->ReleaseStringUTFChars($input, $input_cstr);
+}
+%}
+
+%typemap(in) FINStringWrapper& %{
+FINStringWrapper $1_temp;
+if ($input != nullptr) {
+  const char* $input_cstr = jenv->GetStringUTFChars($input, nullptr);
+  $1_temp = FINStringWrapper($input_cstr);
+  jenv->ReleaseStringUTFChars($input, $input_cstr);
+}
+$1 = &$1_temp;
+%}
+
+//C++层，JNI函数返回值，C++类型转java类型
+%typemap(out) FINStringWrapper %{
+$result = jenv->NewStringUTF($1.GetValue().c_str());
+%}
+%typemap(out) FINStringWrapper& %{
+$result = jenv->NewStringUTF($1.GetValue().c_str());
+%}
+
+%typemap(directorin, descriptor="Ljava/lang/String;") FINStringWrapper, FINStringWrapper& %{
+$input = jenv->NewStringUTF($1.GetValue().c_str());
+%}
+
+%typemap(directorout, descriptor="Ljava/lang/String;") FINStringWrapper %{
+const char* $input_cstr = jenv->GetStringUTFChars($input, nullptr);
+$1 = FINStringWrapper($input_cstr);
+jenv->ReleaseStringUTFChars($input, $input_cstr);
+%}
+
+%typemap(directorout, descriptor="Ljava/lang/String;") FINStringWrapper& %{
+#error "typemaps for $1_type not available"
+%}
+
+%typemap(jstype) std::optional<FINStringWrapper>, std::optional<FINStringWrapper>& "String"  //Java层 Java函数类型
+%typemap(jtype) std::optional<FINStringWrapper>, std::optional<FINStringWrapper>& "String"   //Java层 JNI函数参数类型
+%typemap(jni) std::optional<FINStringWrapper>, std::optional<FINStringWrapper>& "jstring"    //C++层  JNI函数参数类型
+
+//Java层，Java调用JNI函数时，对函数参数的转换
+%typemap(javain) std::optional<FINStringWrapper>, std::optional<FINStringWrapper>& "$javainput"
+
+//Java层，Java调用JNI函数时，对返回值的转换
+%typemap(javaout) std::optional<FINStringWrapper>, std::optional<FINStringWrapper>& {
+    return $jnicall;
+  }
+
+//Java层，C++调用Java函数时，对函数参数的转换
+%typemap(javadirectorin) std::optional<FINStringWrapper>, std::optional<FINStringWrapper>& "$jniinput"
+
+//Java层，C++调用Java函数时，对返回值的转换
+%typemap(javadirectorout) std::optional<FINStringWrapper>, std::optional<FINStringWrapper>& "$javacall"
+
+
+//C++层，JNI函数参数，java类型转C++类型
+%typemap(in) std::optional<FINStringWrapper> %{
+if ($input == nullptr) {
+  $1 = std::nullopt;
+} else {
+  const char* $input_cstr = jenv->GetStringUTFChars($input, nullptr);
+  $1 = FINStringWrapper($input_cstr);
+  jenv->ReleaseStringUTFChars($input, $input_cstr);
+}
+%}
+
+%typemap(in) std::optional<FINStringWrapper>& %{
+std::optional<FINStringWrapper> $1_temp = std::nullopt;
+if ($input) {
+  const char* $input_cstr = jenv->GetStringUTFChars($input, nullptr);
+  $1_temp = FINStringWrapper($input_cstr);
+  jenv->ReleaseStringUTFChars($input, $input_cstr);
+}
+$1 = &$1_temp;
+%}
+
+//C++层，JNI函数返回值，C++类型转java类型
+%typemap(out) std::optional<FINStringWrapper> %{
+if($1.has_value()) {
+  $result = jenv->NewStringUTF($1.value().GetValue().c_str());
+} else {
+  $result = nullptr;
+}
+%}
+%typemap(out) std::optional<FINStringWrapper>& %{
+if($1->has_value()) {
+  $result = jenv->NewStringUTF($1->value().GetValue().c_str());
+} else {
+  $result = nullptr;
+}
+%}
+
+%typemap(directorin, descriptor="Ljava/math/BigDecimal;") std::optional<FINStringWrapper>, std::optional<FINStringWrapper>& %{
+if ($1.has_value()) {
+  $input = jenv->NewStringUTF($1.value().GetValue().c_str());
+} else {
+  $input = nullptr;
+}
+Swig::LocalRefGuard str_refguard(jenv, $input);
+%}
+
+%typemap(directorout, descriptor="Ljava/math/BigDecimal;") std::optional<FINStringWrapper> %{
+if ($input == nullptr) {
+  $1 = std::nullopt;
+} else {
+  const char *$input_cstr = (const char *)jenv->GetStringUTFChars($input, nullptr);
+  if (!$input_cstr) return $1;
+  $1 = FINStringWrapper($input_cstr);
+  jenv->ReleaseStringUTFChars($input, $input_cstr);
+}
+%}
+
+%typemap(directorout, descriptor="Ljava/math/BigDecimal;") std::optional<FINStringWrapper>& %{
+#error "typemaps for $1_type not available"
+%}
+
+
+
+
 #endif // STRING_CONFIG

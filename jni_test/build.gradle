@@ -12,20 +12,20 @@ android {
         applicationId "com.example.jni_test"
     }
 
-    signingConfigs {
-        release {
-            storeFile file("../eriche_keystore.jks")
-            storePassword "hyh123147"
-            keyAlias "eriche"
-            keyPassword "hyh123147"
-        }
-    }
+//    signingConfigs {
+//        release {
+//            storeFile file("../eriche_keystore.jks")
+//            storePassword "hyh123147"
+//            keyAlias "eriche"
+//            keyPassword "hyh123147"
+//        }
+//    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
     }
 
@@ -156,3 +156,4 @@ dependencies {
 
     implementation("org.bytedeco:javacpp:1.5.10")
 }
+//./gradlew :jni_test:assembleDebug

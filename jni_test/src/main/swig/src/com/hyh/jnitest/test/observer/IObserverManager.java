@@ -142,11 +142,6 @@ public class IObserverManager {
     return Double.isNaN(temp) ? null : temp;
   }
 
-  public Double test_double_2(Double d) {
-    double temp = com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_test_double_2(swigCPtr, this, d == null ? Double.NaN : d);
-    return Double.isNaN(temp) ? null : temp;
-  }
-
   public void test_bool_1(Boolean d) {
     com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_test_bool_1(swigCPtr, this, d == null ? (byte) 2 : (d ? (byte) 1 : 0));
   }
@@ -167,20 +162,6 @@ public class IObserverManager {
 
   public void test_bool_3(Boolean d) {
     com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_test_bool_3(swigCPtr, this, d == null ? (byte) 2 : (d ? (byte) 1 : 0));
-  }
-
-  public Boolean test_bool_4() {
-    switch(com.hyh.jnitest.test.observer.ObserverModuleJNI.IObserverManager_test_bool_4(swigCPtr, this)){
-      case 0: {
-        return false;
-      }
-      case 1: {
-        return true;
-      }
-      default: {
-        return null;
-      }
-    }
   }
 
   public IObserverManager() {

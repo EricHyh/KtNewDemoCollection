@@ -191,7 +191,7 @@ if ($1->has_value()) {
 }
 %}
 
-%typemap(directorin, descriptor="D") std::optional<double>, std::optional<double>& %{
+%typemap(directorin, descriptor="Ljava/lang/Double;") std::optional<double>, std::optional<double>& %{
 if ($1.has_value()) {
   $input = $1.value();
 } else {
@@ -199,7 +199,7 @@ if ($1.has_value()) {
 }
 %}
 
-%typemap(directorout, descriptor="D") std::optional<double> %{
+%typemap(directorout, descriptor="Ljava/lang/Double;") std::optional<double> %{
 if (std::isnan($input)) {
   $1 = std::nullopt;
 } else {
@@ -265,7 +265,7 @@ switch ($input) {
 %}
 
 %typemap(in) std::optional<bool>& %{
-auto $1_temp = $input == 0 ? std::make_optional<bool>(false) : ($input == 0 ? std::make_optional<double>(true) : std::nullopt);
+auto $1_temp = $input == 0 ? std::make_optional<bool>(false) : ($input == 0 ? std::make_optional<bool>(true) : std::nullopt);
 $1 = &$1_temp;
 %}
 
@@ -285,7 +285,7 @@ if ($1->has_value()) {
 }
 %}
 
-%typemap(directorin, descriptor="B") std::optional<bool>, std::optional<bool>& %{
+%typemap(directorin, descriptor="Ljava/lang/Boolean;") std::optional<bool>, std::optional<bool>& %{
 if ($1.has_value()) {
   $input = $1.value() ? 1 : 0;
 } else {
@@ -293,13 +293,13 @@ if ($1.has_value()) {
 }
 %}
 
-%typemap(directorout, descriptor="B") std::optional<bool> %{
+%typemap(directorout, descriptor="Ljava/lang/Boolean;") std::optional<bool> %{
 switch ($input) {
-  0: {
+  case 0: {
     $1 = std::make_optional<bool>(false);
     break;
   }
-  1: {
+  case 1: {
     $1 = std::make_optional<bool>(true);
     break;
   }
@@ -311,7 +311,7 @@ switch ($input) {
 
 %}
 
-%typemap(directorout, descriptor="B") std::optional<bool>& %{
+%typemap(directorout, descriptor="Ljava/lang/Boolean;") std::optional<bool>& %{
 #error "typemaps for $1_type not available"
 %}
 

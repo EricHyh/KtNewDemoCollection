@@ -191,20 +191,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onTestField(view: View) {
-        val intFiledValue = fieldModel.getIntFiledValue(FieldModule.getPrice())
-        val stringFiledValue = fieldModel.getStringFiledValue(FieldModule.getName())
-        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(FieldModule.getDescription())
-
-        intFiledValue.SetValue(Random.nextInt())
-        val uuid = java.util.UUID.randomUUID().toString()
-        stringFiledValue.SetValue(uuid)
-        optionalStringFiledValue.SetValue(
-            if (Random.nextInt() % 2 == 0) {
-                uuid
-            } else {
-                null
-            }
-        )
-//        ObserverManager.byteTest3()
+//        val intFiledValue = fieldModel.getIntFiledValue(FieldModule.getPrice())
+//        val stringFiledValue = fieldModel.getStringFiledValue(FieldModule.getName())
+//        val optionalStringFiledValue = fieldModel.getOptionalStringFiledValue(FieldModule.getDescription())
+//
+//        intFiledValue.SetValue(Random.nextInt())
+//        val uuid = java.util.UUID.randomUUID().toString()
+//        stringFiledValue.SetValue(uuid)
+//        optionalStringFiledValue.SetValue(
+//            if (Random.nextInt() % 2 == 0) {
+//                uuid
+//            } else {
+//                null
+//            }
+//        )
+        ObserverManager.byteTest3()
     }
 }
